@@ -1,28 +1,28 @@
 # Component APIs
 
-All components are standalone, `OnPush`, generic over the date type (`<TDate = Date>`), and use signal `input()`/`model()`/`output()`. Import them from `@chronora/angular`.
+All components are standalone, `OnPush`, generic over the date type (`<TDate = Date>`), and use signal `input()`/`model()`/`output()`. Import them from `@momentra/angular`.
 
 Two-way bindable members are `model()`s: `[(value)]`, `[(open)]`, `[(view)]`.
 
 ## Inputs shared by every control
 
-Available on `chr-date-input`, `chr-date-picker`, `chr-time-picker`, `chr-datetime-picker`, `chr-date-range-picker`, `chr-calendar`, `chr-month-picker`, `chr-year-picker` and `chr-decade-picker`.
+Available on `mtr-date-input`, `mtr-date-picker`, `mtr-time-picker`, `mtr-datetime-picker`, `mtr-date-range-picker`, `mtr-calendar`, `mtr-month-picker`, `mtr-year-picker` and `mtr-decade-picker`.
 
 | Input | Type | Default | Description |
 | --- | --- | --- | --- |
 | `disabled` | `boolean` | `false` | Disables the control (also set by `control.disable()`). |
 | `readonly` | `boolean` | `false` | Shows the value, blocks editing and opening popups. |
 | `required` | `boolean` | `false` | An empty value reports `required`. |
-| `locale` | `string \| ChronoraLocale` | global | Locale code or object. |
+| `locale` | `string \| MomentraLocale` | global | Locale code or object. |
 | `firstDayOfWeek` | `number` | locale's | 0 = Sunday … 6 = Saturday. |
-| `errorMessages` | `Partial<ChronoraValidationMessages>` | — | Per-control message templates. |
+| `errorMessages` | `Partial<MomentraValidationMessages>` | — | Per-control message templates. |
 | `showErrors` | `boolean` | `true` | Show validation messages once touched. |
 | `ariaLabel` | `string` | — | Accessible name. |
 | `ariaLabelledby` | `string` | — | Id(s) of labelling elements. |
 | `inputId` | `string` | generated | Id of the inner `<input>` so `<label for>` works. |
 | `theme` | `'light' \| 'dark' \| 'auto'` | global | Per-component theme. |
 
-## `chr-date-input`
+## `mtr-date-input`
 
 A text input for a calendar date. Value: `TDate | null` (local start of day).
 
@@ -35,15 +35,15 @@ A text input for a calendar date. Value: `TDate | null` (local start of day).
 | `placeholder` | `string` | Default: global placeholder, else the pattern (`mm/dd/yyyy`). |
 | `showClear` | `boolean` | Clear button; default global (`true`). |
 
-Keyboard: `↑`/`↓` step the day (`Shift` month, `Ctrl` year); `Enter` normalizes the text. Typing an unparsable or impossible date sets `chrInvalidDate` and emits `null`; the text is kept for correction.
+Keyboard: `↑`/`↓` step the day (`Shift` month, `Ctrl` year); `Enter` normalizes the text. Typing an unparsable or impossible date sets `mtrInvalidDate` and emits `null`; the text is kept for correction.
 
-## `chr-date-picker`
+## `mtr-date-picker`
 
-`chr-date-input` plus a calendar popup. In addition:
+`mtr-date-input` plus a calendar popup. In addition:
 
 | Input / Output | Type | Description |
 | --- | --- | --- |
-| `cellTemplate` | `TemplateRef<ChrCellContext<TDate>>` | Custom day content. |
+| `cellTemplate` | `TemplateRef<MtrCellContext<TDate>>` | Custom day content. |
 | `showToday` | `boolean` | *Today* button (default global `true`). |
 | `initialDate` | `TDate` | Month to show when there is no value. |
 | `closeOnSelect` | `boolean` | Close after picking (default global `true`). |
@@ -53,7 +53,7 @@ Keyboard: `↑`/`↓` step the day (`Shift` month, `Ctrl` year); `Enter` normali
 
 Keyboard: `Alt+↓` opens; `Escape` closes and returns focus to the input; arrow keys, `PageUp`/`PageDown`, `Home`/`End` navigate the calendar; `Enter`/`Space` select.
 
-## `chr-time-picker`
+## `mtr-time-picker`
 
 Value: a `TDate` whose **time of day** is the time. Its date part is the previous value's date, or `baseDate`.
 
@@ -68,7 +68,7 @@ Value: a `TDate` whose **time of day** is the time. Its date part is the previou
 
 The popup has `listbox` columns; `↑`/`↓`/`Home`/`End` change *and* select, `←`/`→` move between columns. *Now* snaps the current time to the steps; *Done* closes. Keyboard stepping in the text input moves minutes (`Shift` hours, `Ctrl` seconds). Inherits `open`, `opened`, `closed`, `placeholder`, `showClear`, `openPopup()`, `closePopup()`.
 
-## `chr-datetime-picker`
+## `mtr-datetime-picker`
 
 Calendar and time lists in one popup. Value: local date-time.
 
@@ -82,7 +82,7 @@ Calendar and time lists in one popup. Value: local date-time.
 
 Picking a day keeps the current time; changing the time keeps the day. The popup stays open until *Done*, `Escape` or an outside click (`closeOnSelect` does not apply).
 
-## `chr-calendar`
+## `mtr-calendar`
 
 | Input / Output | Type | Description |
 | --- | --- | --- |
@@ -92,7 +92,7 @@ Picking a day keeps the current time; changing the time keeps the day. The popup
 | `min`, `max` | `TDate` | Bounds; navigation arrows disable at the edges. |
 | `disabledDates` | `(date) => boolean \| TDate[]` | Unselectable days. |
 | `range` | `{ start: TDate \| null; end: TDate \| null }` | Highlighted range (partial ranges allowed). |
-| `cellTemplate` | `TemplateRef<ChrCellContext<TDate>>` | Context: `$implicit: CalendarCell`, `view`. |
+| `cellTemplate` | `TemplateRef<MtrCellContext<TDate>>` | Context: `$implicit: CalendarCell`, `view`. |
 | `initialDate` | `TDate` | Date shown when there is no value. |
 | `showToday`, `fixedWeeks` | `boolean` | Defaults from global config. |
 | `dateSelect` | `TDate` | A date was picked in the selection view. |
@@ -104,11 +104,11 @@ Keyboard (day view): `←→↑↓` day/week, `PageUp`/`PageDown` month (`Shift`
 
 `CalendarCell`: `date`, `label`, `ariaLabel`, `disabled`, `selected`, `active`, `today`, `outside`, `inRange`, `rangeStart`, `rangeEnd`, `key`.
 
-## `chr-month-picker`, `chr-year-picker`, `chr-decade-picker`
+## `mtr-month-picker`, `mtr-year-picker`, `mtr-decade-picker`
 
 A calendar locked to `selectionView` `'month'`, `'year'` or `'decade'`. Value: the **first day of the selected period** (first of the month; 1 January; 1 January of the decade's first year). Inputs: `value` (model), `min`, `max`, `showToday`, plus the shared inputs. A period is disabled when it lies entirely outside `min`/`max`.
 
-## `chr-date-range-picker`
+## `mtr-date-range-picker`
 
 Value: `DateRange<TDate>` = `{ start: TDate | null; end: TDate | null }` (both local start of day). `null` written by a form becomes an empty range.
 
@@ -124,18 +124,18 @@ Value: `DateRange<TDate>` = `{ start: TDate | null; end: TDate | null }` (both l
 | `open` (model), `opened`, `closed` | | Popup state and events. |
 | `openPopup()`, `closePopup(restoreFocus?)`, `focusStart()` | methods | |
 
-Selecting: the first click sets `start` (the value becomes an **incomplete range**, reported as `chrRangeIncomplete`); the second click on or after `start` completes it; a click before `start` restarts it; a click after a complete range starts a new one. Hovering or keyboard-focusing days previews the range. While the end is chosen, days that would break the length limits are disabled.
+Selecting: the first click sets `start` (the value becomes an **incomplete range**, reported as `mtrRangeIncomplete`); the second click on or after `start` completes it; a click before `start` restarts it; a click after a complete range starts a new one. Hovering or keyboard-focusing days previews the range. While the end is chosen, days that would break the length limits are disabled.
 
 Helpers: `pickRangeDate`, `isSameRange`, `createPreset`, `lastDaysRange(adapter, n)`, `thisWeekRange(adapter, firstDayOfWeek)`, `thisMonthRange`, `lastMonthRange`, `resolvePreset`, `emptyRange`, `isCompleteRange`.
 
 ## Global configuration
 
-`provideChronora(config)` — all options are optional.
+`provideMomentra(config)` — all options are optional.
 
 | Option | Type | Default | |
 | --- | --- | --- | --- |
-| `locale` | `string \| ChronoraLocale` | `'en-US'` | Code (built-in, registered or `Intl`) or object. |
-| `locales` | `ChronoraLocale[]` | `[]` | Registers locales addressable by code. |
+| `locale` | `string \| MomentraLocale` | `'en-US'` | Code (built-in, registered or `Intl`) or object. |
+| `locales` | `MomentraLocale[]` | `[]` | Registers locales addressable by code. |
 | `dateFormat`, `timeFormat`, `dateTimeFormat` | `string` | locale's | Override the locale's patterns. |
 | `firstDayOfWeek` | `number` | locale's | |
 | `theme` | `'light' \| 'dark' \| 'auto'` | `'light'` | |
@@ -145,7 +145,7 @@ Helpers: `pickRangeDate`, `isSameRange`, `createPreset`, `lastDaysRange(adapter,
 | `showClearButton` | `boolean` | `true` | |
 | `closeOnSelect` | `boolean` | `true` | Date picker and range picker. |
 | `fixedWeeks` | `boolean` | `false` | Always six weeks in the day view. |
-| `validationMessages` | `Partial<ChronoraValidationMessages>` | — | Message templates. |
+| `validationMessages` | `Partial<MomentraValidationMessages>` | — | Message templates. |
 
 Precedence for the effective locale of a component: component inputs → global config → locale object.
 
@@ -154,9 +154,9 @@ Precedence for the effective locale of a component: component inputs → global 
 | Output | Components |
 | --- | --- |
 | `valueChange` | every control with a `value` model (`[(value)]`) |
-| `viewChange` | `chr-calendar` (`[(view)]`) |
+| `viewChange` | `mtr-calendar` (`[(view)]`) |
 | `openChange` | pickers with a popup (`[(open)]`) |
 | `opened`, `closed` | pickers with a popup |
-| `dateSelect`, `dateHover`, `activeDateChange` | `chr-calendar` |
+| `dateSelect`, `dateHover`, `activeDateChange` | `mtr-calendar` |
 
 Changes to a control's value are also delivered through Angular Forms (`valueChanges`, `ngModelChange`).

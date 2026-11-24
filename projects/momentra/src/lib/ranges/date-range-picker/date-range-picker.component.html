@@ -1,0 +1,159 @@
+<mtr-field
+  [theme]="effectiveTheme()"
+  [invalid]="invalid()"
+  [disabled]="isDisabled()"
+  [readonly]="readonly()"
+  [showClear]="clearVisible()"
+  [clearLabel]="labels().clear"
+  [inputId]="startId()"
+  toggleIcon="calendar"
+  [toggleLabel]="open() ? labels().closeCalendar : labels().openCalendar"
+  [expanded]="open()"
+  [popupId]="popupId"
+  (clear)="clear()"
+  (toggle)="togglePopup()"
+>
+  <div
+    class="mtr-range-inputs"
+    role="group"
+    [attr.aria-label]="ariaLabelledby() ? null : ariaLabel() || labels().dateRange"
+    [attr.aria-labelledby]="ariaLabelledby()"
+  >
+    <input
+      #startField
+      class="mtr-input"
+      type="text"
+      role="combobox"
+      autocomplete="off"
+      aria-haspopup="dialog"
+      aria-autocomplete="none"
+      [id]="startId()"
+      [value]="startText()"
+      [placeholder]="placeholderText()"
+      [disabled]="isDisabled()"
+      [readOnly]="readonly()"
+      [attr.aria-label]="labels().startDate"
+      [attr.aria-expanded]="open()"
+      [attr.aria-controls]="open() ? popupId : null"
+      [attr.aria-invalid]="invalid() ? 'true' : null"
+      [attr.aria-required]="required() ? 'true' : null"
+      [attr.aria-describedby]="errorMessageList().length ? errorsId : null"
+      (input)="onTextInput('start', startField.value)"
+      (keydown)="onInputKeydown($event)"
+      (blur)="onInputBlur()"
+    />
+    <span class="mtr-separator" aria-hidden="true">–</span>
+    <input
+      #endField
+      class="mtr-input"
+      type="text"
+      role="combobox"
+      autocomplete="off"
+      aria-haspopup="dialog"
+      aria-autocomplete="none"
+      [id]="endId"
+      [value]="endText()"
+      [placeholder]="placeholderText()"
+      [disabled]="isDisabled()"
+      [readOnly]="readonly()"
+      [attr.aria-label]="labels().endDate"
+      [attr.aria-expanded]="open()"
+      [attr.aria-controls]="open() ? popupId : null"
+      [attr.aria-invalid]="invalid() ? 'true' : null"
+      [attr.aria-required]="required() ? 'true' : null"
+      [attr.aria-describedby]="errorMessageList().length ? errorsId : null"
+      (input)="onTextInput('end', endField.value)"
+      (keydown)="onInputKeydown($event)"
+      (blur)="onInputBlur()"
+    />
+  </div>
+</mtr-field>
+@if (errorMessageList().length) {
+  <div class="mtr-errors" role="alert" [id]="errorsId">
+    @for (message of errorMessageList(); track $index) {
+      <p>{{ message }}</p>
+    }
+  </div>
+}
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="shell().element"
+  [cdkConnectedOverlayOpen]="open()"
+  [cdkConnectedOverlayPositions]="positions"
+  [cdkConnectedOverlayPush]="true"
+  [cdkConnectedOverlayViewportMargin]="8"
+  (overlayOutsideClick)="onOutsideClick($event)"
+  (overlayKeydown)="onOverlayKeydown($event)"
+  (attach)="onAttach()"
+  (detach)="onDetach()"
+>
+  <div
+    class="mtr-popup"
+    role="dialog"
+    aria-modal="true"
+    cdkTrapFocus
+    [id]="popupId"
+    [attr.aria-label]="labels().dateRange"
+    [attr.data-mtr-theme]="effectiveTheme()"
+  >
+    <div class="mtr-popup-body">
+      @if (presetList().length) {
+        <div class="mtr-presets" role="group" [attr.aria-label]="labels().presets">
+          <span class="mtr-presets-head" aria-hidden="true">{{ labels().presets }}</span>
+          @for (item of presetList(); track item.label) {
+            <button
+              type="button"
+              class="mtr-preset"
+              [class.mtr-active]="item.active"
+              [attr.aria-pressed]="item.active"
+              [disabled]="item.disabled || !isInteractive()"
+              (click)="applyPreset(item.preset)"
+            >
+              {{ item.label }}
+            </button>
+          }
+        </div>
+      }
+      <div class="mtr-popup-main">
+        <div class="mtr-months">
+          <mtr-calendar
+            class="mtr-hide-outside mtr-hide-next"
+            [initialDate]="leftMonth()"
+            [range]="highlight()"
+            [min]="min()"
+            [max]="max()"
+            [disabledDates]="calendarDisabled()"
+            [locale]="effectiveLocale()"
+            [theme]="effectiveTheme()"
+            [cellTemplate]="cellTemplate()"
+            [showToday]="showToday()"
+            [readonly]="readonly()"
+            (dateSelect)="onCalendarSelect($event)"
+            (dateHover)="onHover($event)"
+            (activeDateChange)="onMonthChange($event, 0)"
+          />
+          <mtr-calendar
+            class="mtr-cal-second mtr-hide-outside mtr-hide-prev"
+            [initialDate]="rightMonth()"
+            [range]="highlight()"
+            [min]="min()"
+            [max]="max()"
+            [disabledDates]="calendarDisabled()"
+            [locale]="effectiveLocale()"
+            [theme]="effectiveTheme()"
+            [cellTemplate]="cellTemplate()"
+            [showToday]="false"
+            [readonly]="readonly()"
+            (dateSelect)="onCalendarSelect($event)"
+            (dateHover)="onHover($event)"
+            (activeDateChange)="onMonthChange($event, 1)"
+          />
+        </div>
+        <div class="mtr-range-footer">
+          <p class="mtr-hint" aria-live="polite">{{ hint() || summary() }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

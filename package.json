@@ -1,9 +1,11 @@
 {
-  "name": "chronora",
+  "name": "momentra-workspace",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "build": "ng build",
+    "build": "ng build momentra",
+    "postbuild": "node scripts/build-llms.mjs --copy",
+    "pack:lib": "npm run build && npm pack ./dist/momentra --pack-destination ./dist",
     "build:watch": "ng build --watch --configuration development",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
@@ -42,5 +44,5 @@
     "typescript": "~6.0.2",
     "vitest": "^5.0.0"
   },
-  "description": "Chronora - The Angular Date & Time Toolkit (development workspace for @chronora/angular)"
+  "description": "Momentra - The Angular Date & Time Toolkit (development workspace for momentra)"
 }

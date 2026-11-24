@@ -1,57 +1,57 @@
 import { Component, computed, signal } from '@angular/core';
-import { CalendarComponent, DateInputComponent } from '@chronora/angular';
+import { CalendarComponent, DateInputComponent } from '@momentra/angular';
 import { Demo } from '../demo';
 
 /** [property, light default, dark default, used for] — mirrors theming/_tokens.scss. */
 const COLORS: string[][] = [
-  ['--chr-primary', '#4c5bd4', '#7f8cff', 'Selected day, primary buttons, accents'],
-  ['--chr-primary-contrast', '#ffffff', '#0b0d12', 'Text on --chr-primary'],
-  ['--chr-primary-soft', '#eceefd', '#252a4a', 'Active preset, selected time, soft fills'],
-  ['--chr-primary-text', '#3542ae', '#c3c9ff', 'Text on --chr-primary-soft'],
-  ['--chr-surface', '#ffffff', '#151821', 'Field and popup background'],
-  ['--chr-surface-alt', '#f7f8fa', '#1b1f2a', 'Disabled / read-only fields, side rails'],
-  ['--chr-surface-hover', '#eef0f5', '#232836', 'Hover background'],
-  ['--chr-text', '#151922', '#e9ebf1', 'Body text'],
-  ['--chr-text-muted', '#555d6e', '#a1a8b8', 'Placeholders, secondary text'],
-  ['--chr-text-subtle', '#6f7685', '#8e95a6', 'Weekday headers, captions'],
-  ['--chr-text-disabled', '#a6acb8', '#565d6e', 'Disabled text'],
-  ['--chr-border', '#d5d9e1', '#2c3242', 'Dividers'],
-  ['--chr-border-strong', '#b4bac7', '#454d62', 'Field border'],
-  ['--chr-danger', '#c2342b', '#f2766b', 'Invalid state and error messages'],
-  ['--chr-today', '#b45309', '#f2b544', "Today marker"],
-  ['--chr-range', '#e6e9fc', '#21264a', 'Days inside a selected range'],
-  ['--chr-range-text', '#232a6b', '#d6daff', 'Text on --chr-range'],
-  ['--chr-ring', 'rgba(76,91,212,.32)', 'rgba(127,140,255,.4)', 'Focus halo (3px box-shadow)'],
-  ['--chr-focus-ring', '#4c5bd4', '#7f8cff', 'Keyboard focus outline'],
+  ['--mtr-primary', '#4c5bd4', '#7f8cff', 'Selected day, primary buttons, accents'],
+  ['--mtr-primary-contrast', '#ffffff', '#0b0d12', 'Text on --mtr-primary'],
+  ['--mtr-primary-soft', '#eceefd', '#252a4a', 'Active preset, selected time, soft fills'],
+  ['--mtr-primary-text', '#3542ae', '#c3c9ff', 'Text on --mtr-primary-soft'],
+  ['--mtr-surface', '#ffffff', '#151821', 'Field and popup background'],
+  ['--mtr-surface-alt', '#f7f8fa', '#1b1f2a', 'Disabled / read-only fields, side rails'],
+  ['--mtr-surface-hover', '#eef0f5', '#232836', 'Hover background'],
+  ['--mtr-text', '#151922', '#e9ebf1', 'Body text'],
+  ['--mtr-text-muted', '#555d6e', '#a1a8b8', 'Placeholders, secondary text'],
+  ['--mtr-text-subtle', '#6f7685', '#8e95a6', 'Weekday headers, captions'],
+  ['--mtr-text-disabled', '#a6acb8', '#565d6e', 'Disabled text'],
+  ['--mtr-border', '#d5d9e1', '#2c3242', 'Dividers'],
+  ['--mtr-border-strong', '#b4bac7', '#454d62', 'Field border'],
+  ['--mtr-danger', '#c2342b', '#f2766b', 'Invalid state and error messages'],
+  ['--mtr-today', '#b45309', '#f2b544', "Today marker"],
+  ['--mtr-range', '#e6e9fc', '#21264a', 'Days inside a selected range'],
+  ['--mtr-range-text', '#232a6b', '#d6daff', 'Text on --mtr-range'],
+  ['--mtr-ring', 'rgba(76,91,212,.32)', 'rgba(127,140,255,.4)', 'Focus halo (3px box-shadow)'],
+  ['--mtr-focus-ring', '#4c5bd4', '#7f8cff', 'Keyboard focus outline'],
 ];
 
 /** [property, default, used for] */
 const STRUCTURE: string[][] = [
-  ['--chr-font-family', 'Inter, system-ui, …', 'All text'],
-  ['--chr-font-size', '14px', 'Base text size'],
-  ['--chr-radius', '8px', 'Fields and popups'],
-  ['--chr-radius-sm', '6px', 'Cells and buttons'],
-  ['--chr-spacing', '12px', 'Calendar padding unit'],
-  ['--chr-cell-size', '38px', 'Calendar column width (calendar width = 7 × cell + 2 × spacing)'],
-  ['--chr-cell-height', '34px', 'Calendar cell height'],
-  ['--chr-shadow', 'two-layer soft shadow', 'Popup elevation'],
-  ['--chr-shadow-sm', '0 1px 2px …', 'Field elevation'],
+  ['--mtr-font-family', 'Inter, system-ui, …', 'All text'],
+  ['--mtr-font-size', '14px', 'Base text size'],
+  ['--mtr-radius', '8px', 'Fields and popups'],
+  ['--mtr-radius-sm', '6px', 'Cells and buttons'],
+  ['--mtr-spacing', '12px', 'Calendar padding unit'],
+  ['--mtr-cell-size', '38px', 'Calendar column width (calendar width = 7 × cell + 2 × spacing)'],
+  ['--mtr-cell-height', '34px', 'Calendar cell height'],
+  ['--mtr-shadow', 'two-layer soft shadow', 'Popup elevation'],
+  ['--mtr-shadow-sm', '0 1px 2px …', 'Field elevation'],
 ];
 
 const SIZING: string[][] = [
-  ['--chr-field-width', '14rem · time 12rem · date-time 18rem · range 22rem', 'Field width (capped at 100% of the container)'],
-  ['--chr-spinner-width', '26px', 'Up/down spinner buttons'],
-  ['--chr-infinite-width', 'auto', 'chr-infinite-calendar width'],
-  ['--chr-infinite-height', '300px', 'chr-infinite-calendar scroll height'],
-  ['--chr-infinite-rail-width', '76px', 'chr-infinite-calendar year/month rail'],
-  ['--chr-multiview-gap', '34px', 'Gap between months in chr-multiview-calendar'],
+  ['--mtr-field-width', '14rem · time 12rem · date-time 18rem · range 22rem', 'Field width (capped at 100% of the container)'],
+  ['--mtr-spinner-width', '26px', 'Up/down spinner buttons'],
+  ['--mtr-infinite-width', 'auto', 'mtr-infinite-calendar width'],
+  ['--mtr-infinite-height', '300px', 'mtr-infinite-calendar scroll height'],
+  ['--mtr-infinite-rail-width', '76px', 'mtr-infinite-calendar year/month rail'],
+  ['--mtr-multiview-gap', '34px', 'Gap between months in mtr-multiview-calendar'],
 ];
 
 @Component({
   imports: [CalendarComponent, DateInputComponent, Demo],
   template: `
     <h1>CSS custom properties</h1>
-    <p>Every visual decision is a <code>--chr-*</code> custom property. Override them in plain CSS — no Sass, no <code>::ng-deep</code>, no build step.</p>
+    <p>Every visual decision is a <code>--mtr-*</code> custom property. Override them in plain CSS — no Sass, no <code>::ng-deep</code>, no build step.</p>
 
     <h2>Where to set them</h2>
     <pre><code>{{ whereCode }}</code></pre>
@@ -59,16 +59,16 @@ const SIZING: string[][] = [
 
     <h2>Playground</h2>
     <doc-demo [code]="playCode()">
-      <div class="play" [style.--chr-primary]="primary()" [style.--chr-radius.px]="radius()" [style.--chr-radius-sm.px]="radius() * .75"
-           [style.--chr-cell-size.px]="cell()" [style.--chr-cell-height.px]="cell() - 4" [style.--chr-font-size.px]="font()">
-        <chr-date-input ariaLabel="Playground date" />
-        <chr-calendar ariaLabel="Playground calendar" />
+      <div class="play" [style.--mtr-primary]="primary()" [style.--mtr-radius.px]="radius()" [style.--mtr-radius-sm.px]="radius() * .75"
+           [style.--mtr-cell-size.px]="cell()" [style.--mtr-cell-height.px]="cell() - 4" [style.--mtr-font-size.px]="font()">
+        <mtr-date-input ariaLabel="Playground date" />
+        <mtr-calendar ariaLabel="Playground calendar" />
       </div>
       <div options>
-        <label class="opt">--chr-primary <input type="color" [value]="primary()" (input)="primary.set(val($event))" /></label>
-        <label class="opt">--chr-radius <input type="range" min="0" max="20" [value]="radius()" (input)="radius.set(+val($event))" /> {{ radius() }}px</label>
-        <label class="opt">--chr-cell-size <input type="range" min="30" max="48" [value]="cell()" (input)="cell.set(+val($event))" /> {{ cell() }}px</label>
-        <label class="opt">--chr-font-size <input type="range" min="12" max="18" [value]="font()" (input)="font.set(+val($event))" /> {{ font() }}px</label>
+        <label class="opt">--mtr-primary <input type="color" [value]="primary()" (input)="primary.set(val($event))" /></label>
+        <label class="opt">--mtr-radius <input type="range" min="0" max="20" [value]="radius()" (input)="radius.set(+val($event))" /> {{ radius() }}px</label>
+        <label class="opt">--mtr-cell-size <input type="range" min="30" max="48" [value]="cell()" (input)="cell.set(+val($event))" /> {{ cell() }}px</label>
+        <label class="opt">--mtr-font-size <input type="range" min="12" max="18" [value]="font()" (input)="font.set(+val($event))" /> {{ font() }}px</label>
       </div>
     </doc-demo>
 
@@ -110,25 +110,25 @@ const SIZING: string[][] = [
     <h2>Recipes</h2>
     <h3>Full-width fields</h3>
     <doc-demo [code]="fullWidthCode">
-      <chr-date-input ariaLabel="Full width" style="width:100%" />
+      <mtr-date-input ariaLabel="Full width" style="width:100%" />
     </doc-demo>
 
     <h3>Compact density</h3>
     <doc-demo [code]="compactCode">
-      <chr-calendar ariaLabel="Compact" style="--chr-cell-size:30px;--chr-cell-height:28px;--chr-spacing:8px;--chr-font-size:13px" />
+      <mtr-calendar ariaLabel="Compact" style="--mtr-cell-size:30px;--mtr-cell-height:28px;--mtr-spacing:8px;--mtr-font-size:13px" />
     </doc-demo>
 
     <h3>Square corners and a brand colour</h3>
     <doc-demo [code]="brandCode">
-      <chr-calendar ariaLabel="Brand" style="--chr-primary:#0f766e;--chr-primary-soft:#ccfbf1;--chr-primary-text:#115e59;--chr-range:#ccfbf1;--chr-range-text:#134e4a;--chr-ring:rgba(15,118,110,.3);--chr-focus-ring:#0f766e;--chr-radius:0;--chr-radius-sm:0" />
+      <mtr-calendar ariaLabel="Brand" style="--mtr-primary:#0f766e;--mtr-primary-soft:#ccfbf1;--mtr-primary-text:#115e59;--mtr-range:#ccfbf1;--mtr-range-text:#134e4a;--mtr-ring:rgba(15,118,110,.3);--mtr-focus-ring:#0f766e;--mtr-radius:0;--mtr-radius-sm:0" />
     </doc-demo>
 
     <h3>Custom day content</h3>
-    <p>Internal <code>.chr-*</code> class names are <strong>not</strong> a stable API. To change what a cell shows (badges, prices, events), use the <code>cellTemplate</code> input rather than targeting internal classes.</p>
+    <p>Internal <code>.mtr-*</code> class names are <strong>not</strong> a stable API. To change what a cell shows (badges, prices, events), use the <code>cellTemplate</code> input rather than targeting internal classes.</p>
     <pre><code>{{ cellCode }}</code></pre>
 
     <h3>Contrast</h3>
-    <p>The defaults meet WCAG AA. When you change colours, keep text tokens at 4.5:1 against their background and <code>--chr-focus-ring</code> at 3:1 against <code>--chr-surface</code>. The repo's <code>npm run check:contrast</code> script verifies the defaults.</p>
+    <p>The defaults meet WCAG AA. When you change colours, keep text tokens at 4.5:1 against their background and <code>--mtr-focus-ring</code> at 3:1 against <code>--mtr-surface</code>. The repo's <code>npm run check:contrast</code> script verifies the defaults.</p>
   `,
   styles: `
     .scroll { overflow-x:auto; }
@@ -154,12 +154,12 @@ export class CssVariablesPage {
   readonly font = signal(14);
   readonly playCode = computed(
     () => `:root {
-  --chr-primary: ${this.primary()};
-  --chr-radius: ${this.radius()}px;
-  --chr-radius-sm: ${this.radius() * 0.75}px;
-  --chr-cell-size: ${this.cell()}px;
-  --chr-cell-height: ${this.cell() - 4}px;
-  --chr-font-size: ${this.font()}px;
+  --mtr-primary: ${this.primary()};
+  --mtr-radius: ${this.radius()}px;
+  --mtr-radius-sm: ${this.radius() * 0.75}px;
+  --mtr-cell-size: ${this.cell()}px;
+  --mtr-cell-height: ${this.cell() - 4}px;
+  --mtr-font-size: ${this.font()}px;
 }`,
   );
 
@@ -169,42 +169,42 @@ export class CssVariablesPage {
 
   readonly whereCode = `/* styles.css — applies to every field and every popup */
 :root {
-  --chr-primary: #0f766e;
-  --chr-radius: 12px;
-  --chr-font-family: 'IBM Plex Sans', sans-serif;
+  --mtr-primary: #0f766e;
+  --mtr-radius: 12px;
+  --mtr-font-family: 'IBM Plex Sans', sans-serif;
 }
 
 /* one instance only (the field, not its popup) */
-chr-date-picker.compact { --chr-field-width: 10rem; }`;
-  readonly perThemeCode = `:root { --chr-primary: #0f766e; }
+mtr-date-picker.compact { --mtr-field-width: 10rem; }`;
+  readonly perThemeCode = `:root { --mtr-primary: #0f766e; }
 
 /* dark components: global theme 'dark', or 'auto' on a dark OS */
 @media (prefers-color-scheme: dark) {
-  :root { --chr-primary: #5eead4; --chr-primary-contrast: #042f2e; }
+  :root { --mtr-primary: #5eead4; --mtr-primary-contrast: #042f2e; }
 }
 
 /* or, with a class-based app dark mode */
-:root.dark { --chr-primary: #5eead4; --chr-primary-contrast: #042f2e; }`;
-  readonly fullWidthCode = `<chr-date-input style="width: 100%" />
-/* or: chr-date-input { width: 100%; } */`;
+:root.dark { --mtr-primary: #5eead4; --mtr-primary-contrast: #042f2e; }`;
+  readonly fullWidthCode = `<mtr-date-input style="width: 100%" />
+/* or: mtr-date-input { width: 100%; } */`;
   readonly compactCode = `:root {
-  --chr-cell-size: 30px;
-  --chr-cell-height: 28px;
-  --chr-spacing: 8px;
-  --chr-font-size: 13px;
+  --mtr-cell-size: 30px;
+  --mtr-cell-height: 28px;
+  --mtr-spacing: 8px;
+  --mtr-font-size: 13px;
 }`;
   readonly brandCode = `:root {
-  --chr-primary: #0f766e;
-  --chr-primary-soft: #ccfbf1;
-  --chr-primary-text: #115e59;
-  --chr-range: #ccfbf1;
-  --chr-range-text: #134e4a;
-  --chr-ring: rgba(15, 118, 110, .3);
-  --chr-focus-ring: #0f766e;
-  --chr-radius: 0;
-  --chr-radius-sm: 0;
+  --mtr-primary: #0f766e;
+  --mtr-primary-soft: #ccfbf1;
+  --mtr-primary-text: #115e59;
+  --mtr-range: #ccfbf1;
+  --mtr-range-text: #134e4a;
+  --mtr-ring: rgba(15, 118, 110, .3);
+  --mtr-focus-ring: #0f766e;
+  --mtr-radius: 0;
+  --mtr-radius-sm: 0;
 }`;
-  readonly cellCode = `<chr-calendar [cellTemplate]="cell" />
+  readonly cellCode = `<mtr-calendar [cellTemplate]="cell" />
 <ng-template #cell let-ctx>
   {{ ctx.$implicit.label }}
   @if (hasEvent(ctx.$implicit.date)) { <span class="dot"></span> }

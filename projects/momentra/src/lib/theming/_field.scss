@@ -1,0 +1,187 @@
+@use 'tokens' as mtr;
+
+// The text <input> projected into <mtr-field>. Included by every component that renders one.
+@mixin input-element {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 var(--_mtr-spacing) 0 12px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+  text-overflow: ellipsis;
+
+  &::placeholder {
+    color: var(--_mtr-text-muted);
+    opacity: 1; // browsers dim placeholders by default; keep the full muted colour for contrast
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--_mtr-text-disabled);
+  }
+}
+
+// The floating panel rendered inside the CDK overlay. It lives outside the component host, so it
+// re-declares the theme tokens itself.
+@mixin popup {
+  .mtr-popup {
+    @include mtr.base-tokens;
+    @include mtr.light-tokens;
+    box-sizing: border-box;
+    max-width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+    overflow: auto;
+    background: var(--_mtr-surface);
+    color: var(--_mtr-text);
+    font-family: var(--_mtr-font-family);
+    font-size: var(--_mtr-font-size);
+    border: 1px solid var(--_mtr-border);
+    border-radius: calc(var(--_mtr-radius) + 4px);
+    box-shadow: var(--_mtr-shadow);
+  }
+
+  .mtr-popup[data-mtr-theme='dark'] {
+    @include mtr.dark-tokens;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .mtr-popup[data-mtr-theme='auto'] {
+      @include mtr.dark-tokens;
+    }
+  }
+}
+
+@mixin validation-message {
+  .mtr-errors {
+    margin: 4px 0 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--_mtr-danger);
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+@mixin popup-footer {
+  .mtr-popup-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 10px 12px;
+    border-top: 1px solid var(--_mtr-border);
+    background: var(--_mtr-surface-alt);
+  }
+
+  .mtr-btn {
+    @include mtr.reset-button;
+    height: 30px;
+    padding: 0 12px;
+    border: 1px solid var(--_mtr-border);
+    border-radius: var(--_mtr-radius);
+    background: var(--_mtr-surface);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--_mtr-text);
+
+    &:hover:not(:disabled) {
+      background: var(--_mtr-surface-hover);
+    }
+
+    &:focus-visible {
+      outline: 0;
+      box-shadow: 0 0 0 3px var(--_mtr-ring);
+    }
+
+    &:disabled {
+      background: var(--_mtr-surface-alt);
+      border-color: var(--_mtr-surface-alt);
+      color: var(--_mtr-text-disabled);
+      cursor: not-allowed;
+    }
+
+    // Ghost text action pinned left (Now / Today).
+    &.mtr-btn-ghost {
+      margin-right: auto;
+      padding: 0 10px;
+      border-color: transparent;
+      border-radius: var(--_mtr-radius-sm);
+      background: transparent;
+      color: var(--_mtr-primary-text);
+      font-weight: 600;
+
+      &:hover:not(:disabled) {
+        background: var(--_mtr-primary-soft);
+      }
+    }
+
+    &.mtr-btn-primary {
+      background: var(--_mtr-primary);
+      border-color: var(--_mtr-primary);
+      color: var(--_mtr-primary-contrast);
+
+      &:hover:not(:disabled) {
+        background: var(--_mtr-primary);
+        filter: brightness(1.08);
+      }
+
+      &:disabled {
+        background: var(--_mtr-surface-alt);
+        border-color: var(--_mtr-surface-alt);
+        color: var(--_mtr-text-disabled);
+      }
+    }
+  }
+}
+
+// Up / down buttons rendered after the input when `spinners` is set.
+@mixin spinners {
+  .mtr-spinners {
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    align-self: stretch;
+    width: var(--mtr-spinner-width, 26px);
+    border-left: 1px solid var(--_mtr-border);
+  }
+
+  .mtr-spin {
+    @include mtr.reset-button;
+    flex: 1;
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    color: var(--_mtr-text-muted);
+
+    svg {
+      width: 10px;
+      height: 10px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    &:hover:not(:disabled) {
+      background: var(--_mtr-surface-hover);
+      color: var(--_mtr-text);
+    }
+
+    &:focus-visible {
+      @include mtr.focus-ring;
+      outline-offset: -2px;
+    }
+
+    &:disabled {
+      color: var(--_mtr-text-disabled);
+      cursor: not-allowed;
+    }
+  }
+}

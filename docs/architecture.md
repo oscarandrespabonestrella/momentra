@@ -1,27 +1,27 @@
 # Architecture
 
-Chronora separates **what a date is and how it behaves** (the core) from **how it is presented** (Angular components).
+Momentra separates **what a date is and how it behaves** (the core) from **how it is presented** (Angular components).
 
 ```text
-projects/chronora/src/lib/
+projects/momentra/src/lib/
 ├── core/
 │   ├── adapters/     DateAdapter<TDate> (abstract) and NativeDateAdapter
 │   ├── models/       CalendarDate, DateRange, value-kind documentation
-│   ├── config/       ChronoraConfig, provideChronora()
-│   ├── tokens/       CHRONORA_CONFIG, CHRONORA_DATE_ADAPTER, CHRONORA_LOCALES
-│   ├── services/     ChronoraSettings (resolved config + locale lookup)
-│   ├── validators/   validation rules (pure) + ChronoraValidators (Angular ValidatorFn)
+│   ├── config/       MomentraConfig, provideMomentra()
+│   ├── tokens/       MOMENTRA_CONFIG, MOMENTRA_DATE_ADAPTER, MOMENTRA_LOCALES
+│   ├── services/     MomentraSettings (resolved config + locale lookup)
+│   ├── validators/   validation rules (pure) + MomentraValidators (Angular ValidatorFn)
 │   ├── utils/        calendar-engine, time-engine, range-utils, disabled-dates (pure, no Angular)
-│   └── forms/        ChronoraFormControl: ControlValueAccessor + Validator plumbing
+│   └── forms/        MomentraFormControl: ControlValueAccessor + Validator plumbing
 ├── formatting/       format-pattern: the pattern formatter/parser shared by all adapters
-├── localization/     ChronoraLocale, EN/ES locales, createLocale()
-├── theming/          design tokens (SCSS), ChrThemeDirective
+├── localization/     MomentraLocale, EN/ES locales, createLocale()
+├── theming/          design tokens (SCSS), MtrThemeDirective
 ├── calendar/         CalendarComponent, MonthPicker, YearPicker, DecadePicker
 ├── inputs/           DateInput, DatePicker, TimePicker, DateTimePicker + shared building blocks
 └── ranges/           DateRangePicker
 ```
 
-`projects/chronora/date-fns` and `projects/chronora/luxon` are secondary entry points. They import the primary package; the primary package never imports them, so `date-fns` and `luxon` stay optional.
+`projects/momentra/date-fns` and `projects/momentra/luxon` are secondary entry points. They import the primary package; the primary package never imports them, so `date-fns` and `luxon` stay optional.
 
 ## Layers and dependency direction
 
@@ -50,27 +50,27 @@ A shared contract suite (`testing/adapter-contract.ts`) runs against every adapt
 
 ## Forms integration
 
-`ChronoraFormControl<TDate, TValue>` (an abstract `@Directive()`) is the single implementation of:
+`MomentraFormControl<TDate, TValue>` (an abstract `@Directive()`) is the single implementation of:
 
 - `ControlValueAccessor` (`writeValue`, `registerOnChange/Touched`, `setDisabledState`),
 - `Validator` (including re-validation when rule inputs such as `min` change),
 - the shared inputs (`disabled`, `readonly`, `required`, `locale`, `firstDayOfWeek`, `errorMessages`, `showErrors`, `ariaLabel`, `ariaLabelledby`, `inputId`) and visible error messages.
 
-On top of it, `ChronoraTextControl` adds text ⇄ value synchronisation, and `ChronoraPopupControl` adds the overlay popup. Components register themselves with `provideChronoraControl(() => Component)`, which provides both `NG_VALUE_ACCESSOR` and `NG_VALIDATORS`.
+On top of it, `MomentraTextControl` adds text ⇄ value synchronisation, and `MomentraPopupControl` adds the overlay popup. Components register themselves with `provideMomentraControl(() => Component)`, which provides both `NG_VALUE_ACCESSOR` and `NG_VALIDATORS`.
 
 Decision: the components **provide validators themselves** rather than injecting `NgControl`. Injecting `NgControl` into a value accessor is circular with `NG_VALIDATORS`; providing the validator avoids it, and means validation works identically for `formControl`, `formControlName` and `ngModel`. The trade-off is that a component cannot see validators attached to the *control* (for example `Validators.required` on the `FormControl`) when deciding whether to display an error message; it shows messages for its own rules (`required` input, `min`, `max`, …). Use the `required` input when you want the message displayed.
 
 ## Configuration and state
 
-`provideChronora()` returns `EnvironmentProviders` with a frozen config object. `ChronoraSettings` resolves it, and resolves locales (registered → built-in → `Intl`-derived). Components override any setting through inputs (`locale`, `format`, `firstDayOfWeek`, `theme`, …). All reactive state inside components is signals; there are no module-level mutable singletons (the only module-level state is a monotonically increasing id counter and a pattern-tokenizer cache).
+`provideMomentra()` returns `EnvironmentProviders` with a frozen config object. `MomentraSettings` resolves it, and resolves locales (registered → built-in → `Intl`-derived). Components override any setting through inputs (`locale`, `format`, `firstDayOfWeek`, `theme`, …). All reactive state inside components is signals; there are no module-level mutable singletons (the only module-level state is a monotonically increasing id counter and a pattern-tokenizer cache).
 
 ## Popups
 
-Popups use the Angular CDK `CdkConnectedOverlay`, anchored to the field (`<chr-field>`), with four fallback positions and viewport push. Focus management is explicit: focus moves into the popup (the active day or the first list) when it attaches, `CdkTrapFocus` keeps Tab inside, and Escape or a selection closes it and returns focus to the input. An outside click closes it *without* stealing focus.
+Popups use the Angular CDK `CdkConnectedOverlay`, anchored to the field (`<mtr-field>`), with four fallback positions and viewport push. Focus management is explicit: focus moves into the popup (the active day or the first list) when it attaches, `CdkTrapFocus` keeps Tab inside, and Escape or a selection closes it and returns focus to the input. An outside click closes it *without* stealing focus.
 
 ## Styling
 
-Each component has its own SCSS (view encapsulation). Design tokens live in `theming/_tokens.scss` as `--_chr-*` private custom properties that fall back from public `--chr-*` properties, with separate light and dark defaults. See [Styling and themes](styling-and-themes.md).
+Each component has its own SCSS (view encapsulation). Design tokens live in `theming/_tokens.scss` as `--_mtr-*` private custom properties that fall back from public `--mtr-*` properties, with separate light and dark defaults. See [Styling and themes](styling-and-themes.md).
 
 ## Extension points
 
@@ -80,9 +80,9 @@ Implemented hooks that future features build on:
 | --- | --- |
 | Other calendar systems, timezone-aware workflows | `DateAdapter<TDate>` is generic over the date type; `LuxonDateAdapter({ zone })` is zone-aware |
 | Holiday calendars, date exclusions, business-day restrictions | `disabledDates` (predicate or list) on every date control; `isDisabled` in the validation rules |
-| Custom date templates | `cellTemplate` input on the calendar and pickers (context: `ChrCellContext`) |
+| Custom date templates | `cellTemplate` input on the calendar and pickers (context: `MtrCellContext`) |
 | Presets / shortcuts | `presets` on the range picker, `createPreset`, `lastDaysRange`, … |
 | Custom restrictions | custom `ValidatorFn`s compose with the built-in ones |
-| Custom locale / formatting | `ChronoraLocale` objects, `createLocale()`, per-component `format` |
+| Custom locale / formatting | `MomentraLocale` objects, `createLocale()`, per-component `format` |
 
 **Not implemented:** fiscal calendars, built-in holiday data, week selection, multiple-date selection, recurring selections, business-day arithmetic and custom calendar headers. Adding them would mostly mean new view builders in `calendar-engine.ts` and a new selection model, without changing the adapter or the forms plumbing.

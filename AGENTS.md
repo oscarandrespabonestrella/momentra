@@ -4,9 +4,9 @@ Guidance for AI coding agents (Codex, Copilot, Cursor, Gemini, Claude Code, …)
 
 ## What this is
 
-Chronora (`@chronora/angular`) — an Angular 22 date and time component library. Angular CLI workspace with two projects:
+Momentra (`@momentra/angular`) — an Angular 22 date and time component library. Angular CLI workspace with two projects:
 
-- `projects/chronora` — the library (primary entry plus `date-fns/` and `luxon/` secondary entry points).
+- `projects/momentra` — the library (primary entry plus `date-fns/` and `luxon/` secondary entry points).
 - `projects/docs` — the documentation app (live demos per component). Static files in `projects/docs/public` are served at the site root (`llms.txt`, generated `llms-full.txt`).
 
 Markdown docs live in `docs/`; compiled examples in `examples/`.
@@ -20,6 +20,7 @@ Markdown docs live in `docs/`; compiled examples in `examples/`.
 | `npm run examples:check` | Strict-template compile of `examples/`. |
 | `npm run check` | Tests + examples + library build. Must pass before a PR. |
 | `npm run verify:package` | Pack and install into a fresh app. For public API, packaging or style changes. |
+| `npm run pack:lib` | Build and write the npm tarball to `dist/`. |
 | `npm run docs:serve` | Docs app on a dev server. |
 | `npm run llms` | Regenerate `projects/docs/public/llms-full.txt` from the Markdown docs. |
 
@@ -29,20 +30,21 @@ Markdown docs live in `docs/`; compiled examples in `examples/`.
 2. Components never call `Date` methods; all date logic goes through the injected `DateAdapter` and lives in `core/` with tests.
 3. `core/utils`, `core/validators/validation.ts` and `formatting/` are framework-free: no Angular imports.
 4. Angular style: standalone, `OnPush`, `input()` / `model()` / `output()`, signals, `computed()`, `inject()`.
-5. Forms behaviour lives only in `ChronoraFormControl` / `ChronoraTextControl` / `ChronoraPopupControl`. No per-component CVA code.
+5. Forms behaviour lives only in `MomentraFormControl` / `MomentraTextControl` / `MomentraPopupControl`. No per-component CVA code.
 6. Accessibility is part of every feature: semantic markup, keyboard, focus, and an axe test in `testing/a11y.spec.ts`.
-7. No hard-coded UI strings — add a field to `ChronoraLabels` (English and Spanish sets).
-8. Styles use the tokens in `theming/_tokens.scss`. A new public `--chr-*` property must be documented in `docs/styling-and-themes.md` **and** the docs page `projects/docs/src/app/pages/css-variables.ts`.
-9. Everything exported from `projects/chronora/src/public-api.ts` is semver-governed public API.
+7. No hard-coded UI strings — add a field to `MomentraLabels` (English and Spanish sets).
+8. Styles use the tokens in `theming/_tokens.scss`. A new public `--mtr-*` property must be documented in `docs/styling-and-themes.md` **and** the docs page `projects/docs/src/app/pages/css-variables.ts`.
+9. Everything exported from `projects/momentra/src/public-api.ts` is semver-governed public API.
 10. No new runtime dependencies (only Angular, CDK, `tslib`).
 11. Document only what exists; update `CHANGELOG.md` under *Unreleased*.
+    Never run `npm publish` yourself: releases go through the Release workflow (`docs/release-and-publishing.md`).
 12. Commits: imperative subjects, one logical change per PR.
 
 ## Docs app conventions
 
 - One page per file in `projects/docs/src/app/pages/`, registered in `routes.ts` (pages of a nav group must be contiguous).
 - Live examples use `<doc-demo [code]="...">`; API tables use `<doc-api [rows]="...">`.
-- Docs colours use `--doc-*` variables from `projects/docs/src/styles.css`; components follow `ChronoraSettings.theme`.
+- Docs colours use `--doc-*` variables from `projects/docs/src/styles.css`; components follow `MomentraSettings.theme`.
 
 ## Using the library (for agents writing app code)
 

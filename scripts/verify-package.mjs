@@ -27,11 +27,11 @@ function run(command, args, cwd) {
   }
 }
 
-const work = mkdtempSync(join(tmpdir(), 'chronora-verify-'));
+const work = mkdtempSync(join(tmpdir(), 'momentra-verify-'));
 try {
   // 1. build
-  run('npx', ['ng', 'build'], root);
-  const dist = join(root, 'dist', 'chronora');
+  run('npx', ['ng', 'build', 'momentra'], root);
+  const dist = join(root, 'dist', 'momentra');
 
   // 2. pack
   const packDir = join(work, 'pack');
@@ -72,12 +72,12 @@ try {
   }
   run('npx', ['ng', 'build'], app);
 
-  const installed = join(app, 'node_modules', '@chronora', 'angular');
+  const installed = join(app, 'node_modules', '@momentra', 'angular');
   if (!existsSync(join(installed, 'package.json'))) {
-    throw new Error('@chronora/angular was not installed');
+    throw new Error('momentra was not installed');
   }
   const manifest = JSON.parse(readFileSync(join(installed, 'package.json'), 'utf8'));
-  console.log(`\nVerified @chronora/angular@${manifest.version}: installs, type-checks and builds in a fresh Angular app.`);
+  console.log(`\nVerified @momentra/angular@${manifest.version}: installs, type-checks and builds in a fresh Angular app.`);
   writeFileSync(join(work, 'RESULT.txt'), 'ok');
 } finally {
   if (keep) {

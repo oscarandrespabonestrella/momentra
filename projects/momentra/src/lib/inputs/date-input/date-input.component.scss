@@ -1,0 +1,18 @@
+@use '../../theming/tokens' as mtr;
+@use '../../theming/field';
+
+@include mtr.theme;
+
+:host {
+  display: inline-block;
+  vertical-align: top;
+  width: var(--mtr-field-width, 14rem);
+  max-width: 100%;
+}
+
+.mtr-input {
+  @include field.input-element;
+}
+
+@include field.validation-message;
+@include field.spinners;

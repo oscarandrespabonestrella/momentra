@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CalendarComponent } from '@chronora/angular';
+import { CalendarComponent } from '@momentra/angular';
 
 @Component({
   selector: 'app-custom-cell-template',
@@ -12,7 +12,7 @@ import { CalendarComponent } from '@chronora/angular';
       }
     </ng-template>
 
-    <chr-calendar [cellTemplate]="cell" [disabledDates]="isHoliday" [showToday]="false" />
+    <mtr-calendar [cellTemplate]="cell" [disabledDates]="isHoliday" [showToday]="false" />
   `,
   styles: `
     .weekend {

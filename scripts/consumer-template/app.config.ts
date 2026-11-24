@@ -1,9 +1,9 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideChronora } from '@chronora/angular';
+import { provideMomentra } from '@momentra/angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideChronora({ locale: 'en-US', firstDayOfWeek: 1, theme: 'auto' }),
+    provideMomentra({ locale: 'en-US', firstDayOfWeek: 1, theme: 'auto' }),
   ],
 };

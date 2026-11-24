@@ -1,0 +1,226 @@
+@use 'tokens' as mtr;
+
+// Header buttons, weekday row and day/month cells shared by every calendar component.
+// Mirrors the design artifact: 38×34 cells, 8px radius, amber "today" dot, ring-on-focus.
+@mixin calendar-grid {
+  .mtr-nav,
+  .mtr-title,
+  .mtr-today-btn,
+  .mtr-cell {
+    @include mtr.reset-button;
+    border-radius: var(--_mtr-radius-sm);
+    color: var(--_mtr-text);
+
+    &:focus-visible {
+      outline: 0;
+      box-shadow: 0 0 0 3px var(--_mtr-ring);
+    }
+
+    &:disabled,
+    &[aria-disabled='true'] {
+      cursor: default;
+    }
+  }
+
+  .mtr-nav {
+    display: inline-grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex: none;
+    color: var(--_mtr-text-muted);
+
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    &:hover:not(:disabled) {
+      background: var(--_mtr-surface-hover);
+    }
+
+    &:disabled {
+      color: var(--_mtr-text-disabled);
+    }
+  }
+
+  .mtr-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 30px;
+    padding: 0 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    &:hover:not(:disabled) {
+      background: var(--_mtr-surface-hover);
+    }
+
+    &:disabled {
+      color: var(--_mtr-text);
+    }
+  }
+
+  .mtr-today-btn {
+    height: 30px;
+    padding: 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--_mtr-primary-text);
+
+    &:hover:not(:disabled) {
+      background: var(--_mtr-surface-hover);
+    }
+
+    &:disabled {
+      color: var(--_mtr-text-disabled);
+    }
+  }
+
+  .mtr-grid {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 2px;
+    table-layout: fixed;
+    margin: 0;
+    background: none;
+
+    // Reset anything a host page sets on bare th/td (borders, fills, padding).
+    th,
+    td {
+      padding: 0;
+      border: 0;
+      background: none;
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
+
+  .mtr-weekday {
+    height: 24px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--_mtr-text-subtle);
+    text-align: center;
+  }
+
+  .mtr-cell {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 100%;
+    height: var(--_mtr-cell-height);
+    min-height: var(--_mtr-cell-height);
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: var(--_mtr-radius);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    box-sizing: border-box;
+
+    &:hover:not([aria-disabled='true']) {
+      background: var(--_mtr-surface-hover);
+    }
+
+    &:focus-visible {
+      border-color: var(--_mtr-primary);
+    }
+
+    &.mtr-outside {
+      color: var(--_mtr-text-subtle);
+    }
+
+    &.mtr-today {
+      font-weight: 600;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 4px;
+        width: 4px;
+        height: 4px;
+        margin-left: -2px;
+        border-radius: 2px;
+        background: var(--_mtr-today);
+      }
+    }
+
+    &.mtr-in-range {
+      background: var(--_mtr-range);
+      color: var(--_mtr-range-text);
+      border-radius: 0;
+    }
+
+    &.mtr-range-start {
+      border-radius: var(--_mtr-radius) 0 0 var(--_mtr-radius);
+    }
+
+    &.mtr-range-end {
+      border-radius: 0 var(--_mtr-radius) var(--_mtr-radius) 0;
+    }
+
+    &.mtr-range-start.mtr-range-end {
+      border-radius: var(--_mtr-radius);
+    }
+
+    &.mtr-range-start,
+    &.mtr-range-end,
+    &.mtr-selected {
+      background: var(--_mtr-primary);
+      color: var(--_mtr-primary-contrast);
+      font-weight: 600;
+      opacity: 1;
+
+      &.mtr-today::after {
+        background: var(--_mtr-primary-contrast);
+      }
+    }
+
+    &.mtr-disabled {
+      color: var(--_mtr-text-disabled);
+      text-decoration: line-through;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    &.mtr-disabled:hover {
+      background: transparent;
+    }
+  }
+
+  // Month / year / decade grids use taller cells.
+  .mtr-grid:not(.mtr-grid-day) {
+    border-spacing: 4px;
+    margin: 0 -4px;
+    width: calc(100% + 8px);
+
+    .mtr-cell {
+      height: 58px;
+      min-height: 58px;
+
+      &.mtr-today::after {
+        bottom: 8px;
+      }
+    }
+  }
+}

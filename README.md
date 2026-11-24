@@ -1,56 +1,60 @@
-# Chronora — The Angular Date & Time Toolkit
+# Momentra — The Angular Date & Time Toolkit
 
-Chronora is a modern, extensible Angular date and time component library providing beautiful, accessible, and highly configurable date pickers, calendars, time pickers, date-time pickers, and date range components.
+[![CI](https://github.com/oscarandrespabonestrella/momentra/actions/workflows/ci.yml/badge.svg)](https://github.com/oscarandrespabonestrella/momentra/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/@momentra/angular?label=npm&color=cb3837)](https://www.npmjs.com/package/@momentra/angular)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-- **Package:** `@chronora/angular` · **Selector prefix:** `chr` · **Angular:** 22 (standalone components, signals, OnPush)
-- **No UI framework dependency.** Chronora owns its components and styling. It needs only Angular and the Angular CDK (overlay and a11y utilities).
+Momentra is a modern, extensible Angular date and time component library providing beautiful, accessible, and highly configurable date pickers, calendars, time pickers, date-time pickers, and date range components.
+
+- **Package:** `@momentra/angular` · **Selector prefix:** `mtr` · **Angular:** 22 (standalone components, signals, OnPush)
+- **No UI framework dependency.** Momentra owns its components and styling. It needs only Angular and the Angular CDK (overlay and a11y utilities).
 - **Bring your own date library.** The core talks to a `DateAdapter<TDate>`; native `Date` is the default, with optional date-fns and Luxon adapters in separate entry points.
 
-> **Status: 0.1.0, pre-release.** The library is feature-complete for the scope listed below, is covered by an automated test suite, and builds and installs from the packed tarball. It has been tested in jsdom, not yet in real browsers or with real screen readers — see [Known limitations](#known-limitations) before using it in production.
+> **Status: 0.1.0-alpha.0, pre-release** (published to the `next` dist-tag: `npm i @momentra/angular@next`). The library is feature-complete for the scope listed below, is covered by an automated test suite, and builds and installs from the packed tarball. It has been tested in jsdom, not yet in real browsers or with real screen readers — see [Known limitations](#known-limitations) before using it in production.
 
 ## Features
 
 | Component | Selector | What it does |
 | --- | --- | --- |
-| `DateInputComponent` | `<chr-date-input>` | Text input: configurable format, parsing, validation, clear button, arrow-key stepping |
-| `DatePickerComponent` | `<chr-date-picker>` | Date input + calendar popup, min/max, disabled dates, Today/Clear, custom day templates |
-| `TimePickerComponent` | `<chr-time-picker>` | Hour/minute/(second)/AM-PM lists, 12/24-hour clock, intervals, min/max time |
-| `DateTimePickerComponent` | `<chr-datetime-picker>` | Calendar and time lists in one popup, separate date/time formats |
-| `CalendarComponent` | `<chr-calendar>` | Day, month, year and decade views, keyboard navigation, custom cell templates |
-| `MonthPickerComponent` | `<chr-month-picker>` | Select a month |
-| `YearPickerComponent` | `<chr-year-picker>` | Select a year |
-| `DecadePickerComponent` | `<chr-decade-picker>` | Select a decade |
-| `DateRangePickerComponent` | `<chr-date-range-picker>` | Start/end with live highlighting, presets, min/max length, incomplete ranges |
+| `DateInputComponent` | `<mtr-date-input>` | Text input: configurable format, parsing, validation, clear button, arrow-key stepping |
+| `DatePickerComponent` | `<mtr-date-picker>` | Date input + calendar popup, min/max, disabled dates, Today/Clear, custom day templates |
+| `TimePickerComponent` | `<mtr-time-picker>` | Hour/minute/(second)/AM-PM lists, 12/24-hour clock, intervals, min/max time |
+| `DateTimePickerComponent` | `<mtr-datetime-picker>` | Calendar and time lists in one popup, separate date/time formats |
+| `CalendarComponent` | `<mtr-calendar>` | Day, month, year and decade views, keyboard navigation, custom cell templates |
+| `MonthPickerComponent` | `<mtr-month-picker>` | Select a month |
+| `YearPickerComponent` | `<mtr-year-picker>` | Select a year |
+| `DecadePickerComponent` | `<mtr-decade-picker>` | Select a decade |
+| `DateRangePickerComponent` | `<mtr-date-range-picker>` | Start/end with live highlighting, presets, min/max length, incomplete ranges |
 
 Across the library:
 
 - **Angular Forms**: every input is a `ControlValueAccessor` *and* a `Validator`; works with `formControl`, `formControlName` and `ngModel`; honours disabled/touched/dirty state.
-- **Validation**: `ChronoraValidators` (`minDate`, `maxDate`, `dateRange`, `minTime`, `minRangeLength`, …) plus rules the components apply on their own, with localizable messages.
+- **Validation**: `MomentraValidators` (`minDate`, `maxDate`, `dateRange`, `minTime`, `minRangeLength`, …) plus rules the components apply on their own, with localizable messages.
 - **Localization**: locales for any `Intl` tag, a built-in English and Spanish locale, custom locale objects, per-component overrides.
-- **Theming**: light, dark and `auto` themes driven by documented `--chr-*` CSS custom properties.
+- **Theming**: light, dark and `auto` themes driven by documented `--mtr-*` CSS custom properties.
 - **Accessibility**: ARIA grid/listbox/combobox/dialog patterns, roving tabindex, focus trap and focus return, live regions, checked with axe-core in the test suite.
 - **Time-zone safe**: calendar dates never pass through UTC; see [Dates and time zones](docs/dates-and-time-zones.md).
 
 ## Installation
 
 ```bash
-npm install @chronora/angular @angular/cdk
+npm install @momentra/angular @angular/cdk
 ```
 
-Peer dependencies: `@angular/core`, `@angular/common`, `@angular/forms` and `@angular/cdk` (all `^22.3.0`). `date-fns` and `luxon` are **optional** peers, needed only if you import `@chronora/angular/date-fns` or `@chronora/angular/luxon`.
+Peer dependencies: `@angular/core`, `@angular/common`, `@angular/forms` and `@angular/cdk` (all `^22.3.0`). `date-fns` and `luxon` are **optional** peers, needed only if you import `@momentra/angular/date-fns` or `@momentra/angular/luxon`.
 
 ## Quick start
 
 ```ts
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DatePickerComponent } from '@chronora/angular';
+import { DatePickerComponent } from '@momentra/angular';
 
 @Component({
   selector: 'app-basic-date-picker',
   imports: [FormsModule, DatePickerComponent],
   template: `
-    <chr-date-picker [(ngModel)]="selectedDate" placeholder="Choose a date" ariaLabel="Delivery date" />
+    <mtr-date-picker [(ngModel)]="selectedDate" placeholder="Choose a date" ariaLabel="Delivery date" />
     <p>Selected: {{ selectedDate?.toDateString() ?? 'nothing' }}</p>
   `,
 })
@@ -63,24 +67,24 @@ Reactive forms, with validators (`examples/reactive-form.ts`):
 
 ```ts
 readonly form = new FormGroup({
-  birthday: new FormControl<Date | null>(null, [Validators.required, ChronoraValidators.maxDate(() => new Date())]),
-  dueDate: new FormControl<Date | null>(null, ChronoraValidators.minDate(() => new Date())),
+  birthday: new FormControl<Date | null>(null, [Validators.required, MomentraValidators.maxDate(() => new Date())]),
+  dueDate: new FormControl<Date | null>(null, MomentraValidators.minDate(() => new Date())),
   startTime: new FormControl<Date | null>(null),
   appointment: new FormControl<Date | null>(null, Validators.required),
 });
 ```
 
 ```html
-<chr-date-input inputId="birthday" formControlName="birthday" format="dd/MM/yyyy" />
-<chr-date-picker ariaLabel="Due date" formControlName="dueDate" [min]="today" />
-<chr-time-picker ariaLabel="Start time" formControlName="startTime" [hourFormat]="24" [minuteStep]="15" />
-<chr-datetime-picker ariaLabel="Appointment" formControlName="appointment" [minuteStep]="30" />
+<mtr-date-input inputId="birthday" formControlName="birthday" format="dd/MM/yyyy" />
+<mtr-date-picker ariaLabel="Due date" formControlName="dueDate" [min]="today" />
+<mtr-time-picker ariaLabel="Start time" formControlName="startTime" [hourFormat]="24" [minuteStep]="15" />
+<mtr-datetime-picker ariaLabel="Appointment" formControlName="appointment" [minuteStep]="30" />
 ```
 
 A date range with presets (`examples/date-range-with-presets.ts`):
 
 ```html
-<chr-date-range-picker ariaLabel="Stay" [formControl]="stay" [presets]="presets"
+<mtr-date-range-picker ariaLabel="Stay" [formControl]="stay" [presets]="presets"
                        [minRangeLength]="2" [maxRangeLength]="30" [min]="today" />
 ```
 
@@ -91,11 +95,11 @@ All examples in [`examples/`](examples) are compiled with the Angular compiler i
 ## Configuration
 
 ```ts
-import { provideChronora } from '@chronora/angular';
+import { provideMomentra } from '@momentra/angular';
 
 bootstrapApplication(App, {
   providers: [
-    provideChronora({
+    provideMomentra({
       locale: 'es-ES',      // any Intl tag, 'en-US' (default), 'es-ES', or a registered/custom locale
       firstDayOfWeek: 1,    // 0 = Sunday … 6 = Saturday; defaults to the locale's
       theme: 'auto',        // 'light' | 'dark' | 'auto'
@@ -109,12 +113,12 @@ Every option, and how components override them, is in [Component APIs](docs/comp
 
 ## Theming
 
-Components read `--chr-*` CSS custom properties with light/dark defaults:
+Components read `--mtr-*` CSS custom properties with light/dark defaults:
 
 ```css
 :root {
-  --chr-primary: #0f766e;
-  --chr-radius: 12px;
+  --mtr-primary: #0f766e;
+  --mtr-radius: 12px;
 }
 ```
 
@@ -123,9 +127,9 @@ Set theme variables on `:root` (or `body`), because popups render in the CDK ove
 ## Date adapters
 
 ```ts
-import { provideChronoraLuxon } from '@chronora/angular/luxon';
+import { provideMomentraLuxon } from '@momentra/angular/luxon';
 
-providers: [provideChronoraLuxon({ locale: 'es-ES' }, { zone: 'Europe/Madrid' })];
+providers: [provideMomentraLuxon({ locale: 'es-ES' }, { zone: 'Europe/Madrid' })];
 ```
 
 See [Date adapters](docs/date-adapters.md) for the native, date-fns and Luxon adapters and for writing your own.
@@ -144,7 +148,7 @@ See [Date adapters](docs/date-adapters.md) for the native, date-fns and Luxon ad
 
 ## Browser compatibility
 
-Chronora targets the evergreen browsers supported by Angular 22 (current Chrome, Edge, Firefox and Safari). Its styles use CSS custom properties, `:focus-visible`, `color-mix()`, `prefers-color-scheme` and `forced-colors` media queries. The test suite runs in jsdom; real-browser verification is listed under [Known limitations](#known-limitations).
+Momentra targets the evergreen browsers supported by Angular 22 (current Chrome, Edge, Firefox and Safari). Its styles use CSS custom properties, `:focus-visible`, `color-mix()`, `prefers-color-scheme` and `forced-colors` media queries. The test suite runs in jsdom; real-browser verification is listed under [Known limitations](#known-limitations).
 
 ## Development
 
@@ -153,7 +157,7 @@ npm install
 npm test                # unit tests (Vitest, jsdom)
 npm run test:tz         # unit tests in 8 time zones
 npm run examples:check  # compile the examples with the Angular compiler (strict templates)
-npm run build           # production library build -> dist/chronora
+npm run build           # production library build -> dist/momentra
 npm run verify:package  # build, npm pack, install into a fresh Angular app, build that app
 npm run check           # tests + examples + build
 ```
@@ -161,11 +165,19 @@ npm run check           # tests + examples + build
 Workspace layout:
 
 ```text
-projects/chronora/src/lib/   core/ inputs/ calendar/ ranges/ formatting/ localization/ theming/ testing/
-projects/chronora/date-fns/  optional date-fns entry point (@chronora/angular/date-fns)
-projects/chronora/luxon/     optional Luxon entry point (@chronora/angular/luxon)
+projects/momentra/src/lib/   core/ inputs/ calendar/ ranges/ formatting/ localization/ theming/ testing/
+projects/momentra/date-fns/  optional date-fns entry point (momentra/date-fns)
+projects/momentra/luxon/     optional Luxon entry point (momentra/luxon)
 docs/  examples/  scripts/
 ```
+
+## Release
+
+1. Bump `version` in `projects/momentra/package.json` and update [CHANGELOG.md](CHANGELOG.md).
+2. Merge to `main`, then tag it: `git tag vX.Y.Z && git push origin vX.Y.Z`.
+3. Run the **Release** workflow from the tag: `gh workflow run release.yml --ref vX.Y.Z`.
+
+The workflow publishes with npm [trusted publishing](https://docs.npmjs.com/trusted-publishers) and provenance, no token needed. Versions with a pre-release suffix (`-alpha.1`) go to the `next` dist-tag; the rest go to `latest`. See [Release and publishing](docs/release-and-publishing.md), including the one-time first publish.
 
 ## Known limitations
 

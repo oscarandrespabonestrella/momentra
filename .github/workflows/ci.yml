@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Unit tests, strict-template compile of examples/, library build (+ LLM docs and LICENSE in dist).
+      - name: Tests, examples and library build
+        run: npm run check
+
+      - name: Tests in eight time zones
+        run: npm run test:tz
+
+      - name: Default palette contrast
+        run: npm run check:contrast
+
+      - name: Pack library
+        run: npm pack ./dist/momentra --pack-destination ./dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: momentra-package
+          path: dist/*.tgz
+
+      - name: Build docs app
+        run: npm run docs:build

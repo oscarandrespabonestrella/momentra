@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
-  ChronoraValidators,
+  MomentraValidators,
   DateRangePickerComponent,
   NativeDateAdapter,
   createPreset,
@@ -9,7 +9,7 @@ import {
   thisMonthRange,
   type DateRange,
   type DateRangePreset,
-} from '@chronora/angular';
+} from '@momentra/angular';
 
 const adapter = new NativeDateAdapter();
 
@@ -17,7 +17,7 @@ const adapter = new NativeDateAdapter();
   selector: 'app-date-range-with-presets',
   imports: [ReactiveFormsModule, DateRangePickerComponent],
   template: `
-    <chr-date-range-picker
+    <mtr-date-range-picker
       ariaLabel="Stay"
       [formControl]="stay"
       [presets]="presets"
@@ -36,5 +36,5 @@ export class DateRangeWithPresetsExample {
     createPreset('This month', () => thisMonthRange(adapter)),
   ];
 
-  readonly stay = new FormControl<DateRange<Date> | null>(null, ChronoraValidators.dateRange({ required: true }));
+  readonly stay = new FormControl<DateRange<Date> | null>(null, MomentraValidators.dateRange({ required: true }));
 }

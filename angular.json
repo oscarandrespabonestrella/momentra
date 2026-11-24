@@ -6,16 +6,16 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "chronora": {
+    "momentra": {
       "projectType": "library",
-      "root": "projects/chronora",
-      "sourceRoot": "projects/chronora",
-      "prefix": "chr",
+      "root": "projects/momentra",
+      "sourceRoot": "projects/momentra",
+      "prefix": "mtr",
       "architect": {
         "build": {
           "builder": "@angular/build:library",
           "options": {
-            "tsConfig": "projects/chronora/tsconfig.lib.json"
+            "tsConfig": "projects/momentra/tsconfig.lib.json"
           },
           "configurations": {
             "production": {},
@@ -29,7 +29,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/chronora/tsconfig.spec.json"
+            "tsConfig": "projects/momentra/tsconfig.spec.json"
           }
         }
       }

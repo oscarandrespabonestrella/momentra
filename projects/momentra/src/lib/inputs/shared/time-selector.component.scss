@@ -1,0 +1,108 @@
+@use '../../theming/tokens' as mtr;
+
+@include mtr.theme;
+
+:host {
+  display: block;
+  background: var(--_mtr-surface);
+  color: var(--_mtr-text);
+}
+
+.mtr-time {
+  display: flex;
+  gap: 4px;
+  padding: var(--_mtr-spacing);
+}
+
+.mtr-time-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.mtr-time-head {
+  height: 24px;
+  line-height: 24px;
+  overflow: hidden;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--_mtr-text-subtle);
+}
+
+.mtr-time-col {
+  position: relative;
+  box-sizing: border-box;
+  width: 64px;
+  height: 232px;
+  overflow-y: auto;
+  padding: 2px;
+  border: 0;
+  scrollbar-width: none;
+}
+
+.mtr-time-opt {
+  display: grid;
+  place-items: center;
+  height: 34px;
+  border-radius: var(--_mtr-radius);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+
+  &:hover:not(.mtr-disabled) {
+    background: var(--_mtr-surface-hover);
+  }
+
+  &:focus-visible {
+    @include mtr.focus-ring;
+    outline-offset: -2px;
+  }
+
+  &.mtr-selected {
+    background: var(--_mtr-primary-soft);
+    color: var(--_mtr-primary-text);
+    font-weight: 600;
+  }
+
+  &.mtr-disabled {
+    color: var(--_mtr-text-disabled);
+    cursor: default;
+    text-decoration: line-through;
+  }
+}
+
+:host(.mtr-disabled) {
+  opacity: 0.6;
+}
+
+@media (max-width: 420px) {
+  .mtr-time {
+    justify-content: center;
+  }
+
+  .mtr-time-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.mtr-time-head {
+  height: 24px;
+  line-height: 24px;
+  overflow: hidden;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--_mtr-text-subtle);
+}
+
+.mtr-time-col {
+    flex: 1;
+    max-width: 88px;
+  }
+}

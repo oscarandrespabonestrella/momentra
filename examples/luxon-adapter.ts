@@ -1,20 +1,20 @@
 import { ApplicationConfig, Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { DatePickerComponent, DateTimePickerComponent } from '@chronora/angular';
-import { provideChronoraLuxon } from '@chronora/angular/luxon';
+import { DatePickerComponent, DateTimePickerComponent } from '@momentra/angular';
+import { provideMomentraLuxon } from '@momentra/angular/luxon';
 import { DateTime } from 'luxon';
 
 export const appConfig: ApplicationConfig = {
   // Calendar fields are read and written in Madrid, whatever the user's system zone is.
-  providers: [provideChronoraLuxon({ locale: 'es-ES' }, { zone: 'Europe/Madrid' })],
+  providers: [provideMomentraLuxon({ locale: 'es-ES' }, { zone: 'Europe/Madrid' })],
 };
 
 @Component({
   selector: 'app-luxon-example',
   imports: [ReactiveFormsModule, DatePickerComponent, DateTimePickerComponent],
   template: `
-    <chr-date-picker ariaLabel="Date" [formControl]="date" />
-    <chr-datetime-picker ariaLabel="Meeting" [formControl]="meeting" />
+    <mtr-date-picker ariaLabel="Date" [formControl]="date" />
+    <mtr-datetime-picker ariaLabel="Meeting" [formControl]="meeting" />
   `,
 })
 export class LuxonExample {

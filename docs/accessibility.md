@@ -4,7 +4,7 @@ Accessibility is built into the components rather than added on top. This page l
 
 ## Verification status
 
-- **Automated**: the test suite runs [axe-core](https://github.com/dequelabs/axe-core) over every component at rest, with validation errors, with each popup open, and in the month/year/decade views, and asserts keyboard and focus behaviour (`projects/chronora/src/lib/testing/a11y.spec.ts` and the per-component specs). axe found and we fixed one real problem during development (`role="alert"` on a list).
+- **Automated**: the test suite runs [axe-core](https://github.com/dequelabs/axe-core) over every component at rest, with validation errors, with each popup open, and in the month/year/decade views, and asserts keyboard and focus behaviour (`projects/momentra/src/lib/testing/a11y.spec.ts` and the per-component specs). axe found and we fixed one real problem during development (`role="alert"` on a list).
 - **Contrast of the default palette**: `npm run check:contrast` computes WCAG 2.x ratios for the default light and dark colour pairs (text ≥ 4.5:1, input borders, focus ring and today ring ≥ 3:1). All pass; the script found three failures during development (input borders in both themes, the active preset in dark) that were fixed. This checks the *token values*, not rendered pixels, and custom palettes are yours to check.
 - **Not verified**: axe's `color-contrast` rule is disabled in the tests (jsdom has no rendering), and **no testing with real screen readers** (NVDA, JAWS, VoiceOver, TalkBack) or in real browsers has been done yet. Treat the markup as following the WAI-ARIA Authoring Practices patterns, not as certified.
 
@@ -14,10 +14,10 @@ Every control needs an accessible name. Use one of:
 
 ```html
 <label for="due">Due date</label>
-<chr-date-picker inputId="due" />
+<mtr-date-picker inputId="due" />
 
-<chr-date-picker ariaLabel="Due date" />
-<chr-date-picker ariaLabelledby="heading-id" />
+<mtr-date-picker ariaLabel="Due date" />
+<mtr-date-picker ariaLabelledby="heading-id" />
 ```
 
 The range picker exposes a `group` named "Date range" (or your `ariaLabel`) containing inputs named "Start date" and "End date" (localized).

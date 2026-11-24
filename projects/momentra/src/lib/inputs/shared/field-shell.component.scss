@@ -1,0 +1,127 @@
+@use '../../theming/tokens' as mtr;
+
+@include mtr.theme;
+
+:host {
+  display: block;
+}
+
+.mtr-box {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 36px;
+  min-width: 0;
+  gap: 4px;
+  padding-right: 4px;
+  background: var(--_mtr-surface);
+  border: 1px solid var(--_mtr-border);
+  box-shadow: var(--_mtr-shadow-sm);
+  border-radius: var(--_mtr-radius);
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+
+  &:hover:not(.mtr-disabled) {
+    border-color: var(--_mtr-border-strong);
+  }
+
+  &:focus-within {
+    border-color: var(--_mtr-primary);
+    box-shadow: 0 0 0 3px var(--_mtr-ring);
+    outline: 2px solid transparent; // keeps a visible indicator in forced-colors mode
+  }
+
+  &.mtr-invalid {
+    border-color: var(--_mtr-danger);
+
+    &:focus-within {
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--_mtr-danger) 25%, transparent);
+    }
+  }
+
+  &.mtr-disabled {
+    background: var(--_mtr-surface-alt);
+    border-color: var(--_mtr-surface-alt);
+    box-shadow: none;
+    color: var(--_mtr-text-disabled);
+  }
+
+  &.mtr-readonly {
+    background: var(--_mtr-surface-alt);
+  }
+}
+
+.mtr-icon-btn {
+  @include mtr.reset-button;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--_mtr-radius-sm);
+  color: var(--_mtr-text-muted);
+
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--_mtr-surface-hover);
+    color: var(--_mtr-text);
+  }
+
+  &:focus-visible {
+    @include mtr.focus-ring;
+    outline-offset: -2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--_mtr-text-disabled);
+  }
+}
+
+// Clear: small neutral chip (artifact "Text input" focus/filled state).
+.mtr-clear {
+  width: 24px;
+  height: 24px;
+  background: var(--_mtr-surface-hover);
+
+  svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 1.75;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--_mtr-border);
+  }
+}
+
+// Toggle: soft-primary icon button (artifact "Icon" button row).
+.mtr-toggle {
+  background: var(--_mtr-primary-soft);
+  color: var(--_mtr-primary-text);
+
+  &:hover:not(:disabled) {
+    background: var(--_mtr-surface-hover);
+    color: var(--_mtr-primary-text);
+  }
+
+  &:disabled {
+    background: transparent;
+  }
+}
+
+@media (forced-colors: active) {
+  .mtr-box:focus-within {
+    outline: 2px solid Highlight;
+  }
+}

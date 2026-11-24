@@ -1,0 +1,146 @@
+@use '../../theming/tokens' as mtr;
+@use '../../theming/field';
+
+@include mtr.theme;
+
+:host {
+  display: inline-block;
+  vertical-align: top;
+  width: var(--mtr-field-width, 22rem);
+  max-width: 100%;
+}
+
+.mtr-range-inputs {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+}
+
+.mtr-input {
+  @include field.input-element;
+  padding-right: 0;
+}
+
+.mtr-separator {
+  flex: none;
+  padding: 0 4px;
+  color: var(--_mtr-text-muted);
+}
+
+@include field.validation-message;
+@include field.popup;
+
+.mtr-popup {
+  width: max-content;
+}
+
+.mtr-popup-body {
+  display: flex;
+  align-items: stretch;
+}
+
+.mtr-presets {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 156px;
+  box-sizing: border-box;
+  padding: 10px 8px;
+  background: var(--_mtr-surface-alt);
+  border-right: 1px solid var(--_mtr-border);
+}
+
+.mtr-presets-head {
+  padding: 4px 10px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--_mtr-text-subtle);
+}
+
+.mtr-preset {
+  @include mtr.reset-button;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: var(--_mtr-radius-sm);
+  font-size: 13px;
+  text-align: left;
+
+  &:hover:not(:disabled) {
+    background: var(--_mtr-surface-hover);
+  }
+
+  &:focus-visible {
+    @include mtr.focus-ring;
+    outline-offset: -2px;
+  }
+
+  &.mtr-active {
+    background: var(--_mtr-primary-soft);
+    color: var(--_mtr-primary-text);
+    font-weight: 600;
+  }
+
+  &:disabled {
+    color: var(--_mtr-text-disabled);
+    cursor: default;
+  }
+}
+
+.mtr-popup-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.mtr-months {
+  display: flex;
+  gap: 12px;
+  padding: 0 4px;
+
+  mtr-calendar {
+    background: transparent;
+  }
+}
+
+.mtr-range-footer {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 10px 16px;
+  border-top: 1px solid var(--_mtr-border);
+  background: var(--_mtr-surface-alt);
+}
+
+.mtr-hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--_mtr-text-muted);
+}
+
+@media (max-width: 640px) {
+  .mtr-cal-second {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .mtr-popup {
+    width: calc(100vw - 16px);
+  }
+
+  .mtr-popup-body {
+    flex-direction: column;
+  }
+
+  .mtr-presets {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--_mtr-border);
+  }
+}

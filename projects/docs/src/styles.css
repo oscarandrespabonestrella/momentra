@@ -1,4 +1,4 @@
-/* Docs look from the "Documentation" page of the Chronora design artifact. */
+/* Docs look from the "Documentation" page of the Momentra design artifact. */
 :root {
   color-scheme:light;
   --doc-canvas:#ffffff; --doc-surface:#ffffff; --doc-surface2:#f7f8fa; --doc-panel:#f4f5f8; --doc-hover:#eef0f5;
@@ -9,7 +9,7 @@
   --doc-shadow-sm:0 1px 2px rgba(16,24,40,.06);
   --doc-mono:'JetBrains Mono',ui-monospace,monospace;
 }
-/* Set by the header toggle (app.ts), which also switches ChronoraSettings.theme for the components. */
+/* Set by the header toggle (app.ts), which also switches MomentraSettings.theme for the components. */
 :root[data-theme=dark] {
   color-scheme:dark;
   --doc-canvas:#0b0d12; --doc-surface:#11141b; --doc-surface2:#1b1f2a; --doc-panel:#151821; --doc-hover:#232836;
@@ -50,6 +50,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible, pre:focus-visible,
 @media (prefers-reduced-motion:reduce) { * { transition:none !important; animation:none !important; } }
 
 /* Inline calendars sit on a card like in the design artifact. */
-doc-demo chr-calendar, doc-demo chr-infinite-calendar, doc-demo chr-multiview-calendar {
+doc-demo mtr-calendar, doc-demo mtr-infinite-calendar, doc-demo mtr-multiview-calendar {
   border:1px solid var(--doc-line); box-shadow:var(--doc-shadow-sm);
 }
