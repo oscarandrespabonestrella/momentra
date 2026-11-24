@@ -1,0 +1,214 @@
+@use '../../theming/tokens' as chr;
+
+@include chr.theme;
+
+// Fixed width: a table with `width: 100%` would otherwise stretch to its container.
+:host {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(var(--_chr-cell-size) * 7 + var(--_chr-spacing) * 2);
+  max-width: 100%;
+  background: var(--_chr-surface);
+  color: var(--_chr-text);
+  border-radius: var(--_chr-radius);
+}
+
+.chr-cal {
+  padding: var(--_chr-spacing);
+  box-sizing: border-box;
+}
+
+.chr-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  margin-bottom: var(--_chr-spacing);
+}
+
+.chr-nav,
+.chr-title,
+.chr-today-btn,
+.chr-cell {
+  @include chr.reset-button;
+  border-radius: var(--_chr-radius-sm);
+  color: var(--_chr-text);
+
+  &:focus-visible {
+    @include chr.focus-ring;
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    cursor: default;
+  }
+}
+
+.chr-nav {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--_chr-surface-hover);
+  }
+
+  &:disabled {
+    color: var(--_chr-text-disabled);
+  }
+}
+
+.chr-title {
+  flex: 1;
+  height: 32px;
+  font-weight: 600;
+  text-align: center;
+
+  &:hover:not(:disabled) {
+    background: var(--_chr-surface-hover);
+  }
+
+  &:disabled {
+    color: var(--_chr-text);
+  }
+}
+
+.chr-grid {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 2px;
+  table-layout: fixed;
+
+  td {
+    padding: 0;
+    text-align: center;
+  }
+}
+
+.chr-weekday {
+  height: 28px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--_chr-text-muted);
+  text-align: center;
+}
+
+.chr-cell {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 100%;
+  min-height: var(--_chr-cell-size);
+  padding: 0 4px;
+  font-variant-numeric: tabular-nums;
+  box-sizing: border-box;
+
+  &:hover:not([aria-disabled='true']) {
+    background: var(--_chr-surface-hover);
+  }
+
+  &.chr-outside {
+    color: var(--_chr-text-muted);
+  }
+
+  &.chr-today {
+    box-shadow: inset 0 0 0 1px var(--_chr-primary);
+    font-weight: 600;
+  }
+
+  &.chr-in-range {
+    background: var(--_chr-primary-soft);
+    border-radius: 0;
+  }
+
+  &.chr-range-start {
+    border-radius: var(--_chr-radius-sm) 0 0 var(--_chr-radius-sm);
+  }
+
+  &.chr-range-end {
+    border-radius: 0 var(--_chr-radius-sm) var(--_chr-radius-sm) 0;
+  }
+
+  &.chr-range-start.chr-range-end {
+    border-radius: var(--_chr-radius-sm);
+  }
+
+  &.chr-range-start,
+  &.chr-range-end,
+  &.chr-selected {
+    background: var(--_chr-primary);
+    color: var(--_chr-primary-contrast);
+    opacity: 1;
+  }
+
+  &.chr-disabled {
+    color: var(--_chr-text-disabled);
+    text-decoration: line-through;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  &.chr-disabled:hover {
+    background: transparent;
+  }
+}
+
+// Month / year / decade grids use wider cells.
+.chr-grid:not(.chr-grid-day) .chr-cell {
+  min-height: calc(var(--_chr-cell-size) * 1.4);
+  border-radius: var(--_chr-radius);
+}
+
+.chr-cal-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--_chr-spacing);
+  padding-top: var(--_chr-spacing);
+  border-top: 1px solid var(--_chr-border);
+}
+
+.chr-today-btn {
+  padding: 6px 16px;
+  font-weight: 600;
+  color: var(--_chr-primary);
+
+  &:hover:not(:disabled) {
+    background: var(--_chr-primary-soft);
+  }
+
+  &:disabled {
+    color: var(--_chr-text-disabled);
+  }
+}
+
+:host(.chr-disabled) {
+  opacity: 0.6;
+}
+
+@media (max-width: 420px) {
+  :host {
+    --_chr-cell-size: 40px;
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (forced-colors: active) {
+  .chr-cell.chr-selected,
+  .chr-cell.chr-range-start,
+  .chr-cell.chr-range-end {
+    outline: 2px solid Highlight;
+  }
+}

@@ -1,0 +1,28 @@
+@use '../../theming/tokens' as chr;
+@use '../../theming/field';
+
+@include chr.theme;
+
+:host {
+  display: inline-block;
+  vertical-align: top;
+  width: var(--chr-field-width, 14rem);
+  max-width: 100%;
+}
+
+.chr-input {
+  @include field.input-element;
+}
+
+@include field.validation-message;
+@include field.popup;
+
+.chr-popup {
+  width: max-content;
+}
+
+@media (max-width: 420px) {
+  .chr-popup {
+    width: calc(100vw - 16px);
+  }
+}

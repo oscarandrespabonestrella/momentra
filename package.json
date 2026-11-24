@@ -1,0 +1,43 @@
+{
+  "name": "chronora",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "build": "ng build",
+    "build:watch": "ng build --watch --configuration development",
+    "test": "ng test --watch=false",
+    "test:watch": "ng test",
+    "test:tz": "node scripts/test-timezones.mjs",
+    "examples:check": "ngc -p examples/tsconfig.json",
+    "verify:package": "node scripts/verify-package.mjs",
+    "check": "npm run test && npm run examples:check && npm run build",
+    "check:contrast": "node scripts/check-contrast.mjs"
+  },
+  "private": true,
+  "packageManager": "npm@11.16.0",
+  "dependencies": {
+    "@angular/cdk": "^22.3.0",
+    "@angular/common": "^22.3.0",
+    "@angular/compiler": "^22.3.0",
+    "@angular/core": "^22.3.0",
+    "@angular/forms": "^22.3.0",
+    "@angular/platform-browser": "^22.3.0",
+    "@angular/router": "^22.3.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.3.0",
+    "@angular/cli": "^22.3.0",
+    "@angular/compiler-cli": "^22.3.0",
+    "@types/luxon": "^3.7.6",
+    "axe-core": "^4.14.1",
+    "date-fns": "^4.4.0",
+    "jsdom": "^31.0.0",
+    "luxon": "^3.7.2",
+    "prettier": "^3.8.1",
+    "typescript": "~6.0.2",
+    "vitest": "^5.0.0"
+  },
+  "description": "Chronora - The Angular Date & Time Toolkit (development workspace for @chronora/angular)"
+}

@@ -1,0 +1,48 @@
+@use '../../theming/tokens' as chr;
+@use '../../theming/field';
+
+@include chr.theme;
+
+:host {
+  display: inline-block;
+  vertical-align: top;
+  width: var(--chr-field-width, 18rem);
+  max-width: 100%;
+}
+
+.chr-input {
+  @include field.input-element;
+}
+
+@include field.validation-message;
+@include field.popup;
+@include field.popup-footer;
+
+.chr-popup {
+  width: max-content;
+}
+
+.chr-popup-body {
+  display: flex;
+  align-items: stretch;
+}
+
+.chr-popup-time {
+  border-left: 1px solid var(--_chr-border);
+}
+
+// Narrow screens: stack the calendar above the time lists and use the full width.
+@media (max-width: 560px) {
+  .chr-popup {
+    width: calc(100vw - 16px);
+  }
+
+  .chr-popup-body {
+    flex-direction: column;
+  }
+
+  .chr-popup-time {
+    border-left: 0;
+    border-top: 1px solid var(--_chr-border);
+  }
+}

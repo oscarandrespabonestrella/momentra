@@ -1,0 +1,73 @@
+@use '../../theming/tokens' as chr;
+
+@include chr.theme;
+
+:host {
+  display: block;
+  background: var(--_chr-surface);
+  color: var(--_chr-text);
+}
+
+.chr-time {
+  display: flex;
+  gap: 4px;
+  padding: var(--_chr-spacing);
+}
+
+.chr-time-col {
+  position: relative;
+  box-sizing: border-box;
+  width: 64px;
+  height: 232px;
+  overflow-y: auto;
+  padding: 2px;
+  border: 1px solid var(--_chr-border);
+  border-radius: var(--_chr-radius-sm);
+  scrollbar-width: thin;
+}
+
+.chr-time-opt {
+  display: grid;
+  place-items: center;
+  height: 34px;
+  border-radius: var(--_chr-radius-sm);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+
+  &:hover:not(.chr-disabled) {
+    background: var(--_chr-surface-hover);
+  }
+
+  &:focus-visible {
+    @include chr.focus-ring;
+    outline-offset: -2px;
+  }
+
+  &.chr-selected {
+    background: var(--_chr-primary);
+    color: var(--_chr-primary-contrast);
+    font-weight: 600;
+  }
+
+  &.chr-disabled {
+    color: var(--_chr-text-disabled);
+    cursor: default;
+    text-decoration: line-through;
+  }
+}
+
+:host(.chr-disabled) {
+  opacity: 0.6;
+}
+
+@media (max-width: 420px) {
+  .chr-time {
+    justify-content: center;
+  }
+
+  .chr-time-col {
+    flex: 1;
+    max-width: 88px;
+  }
+}

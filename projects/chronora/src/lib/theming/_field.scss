@@ -1,0 +1,110 @@
+@use 'tokens' as chr;
+
+// The text <input> projected into <chr-field>. Included by every component that renders one.
+@mixin input-element {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 var(--_chr-spacing) 0 12px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+  text-overflow: ellipsis;
+
+  &::placeholder {
+    color: var(--_chr-text-muted);
+    opacity: 1; // browsers dim placeholders by default; keep the full muted colour for contrast
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--_chr-text-disabled);
+  }
+}
+
+// The floating panel rendered inside the CDK overlay. It lives outside the component host, so it
+// re-declares the theme tokens itself.
+@mixin popup {
+  .chr-popup {
+    @include chr.base-tokens;
+    @include chr.light-tokens;
+    box-sizing: border-box;
+    max-width: calc(100vw - 16px);
+    max-height: calc(100vh - 16px);
+    overflow: auto;
+    background: var(--_chr-surface);
+    color: var(--_chr-text);
+    font-family: var(--_chr-font-family);
+    font-size: var(--_chr-font-size);
+    border: 1px solid var(--_chr-border);
+    border-radius: var(--_chr-radius);
+    box-shadow: var(--_chr-shadow);
+  }
+
+  .chr-popup[data-chr-theme='dark'] {
+    @include chr.dark-tokens;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .chr-popup[data-chr-theme='auto'] {
+      @include chr.dark-tokens;
+    }
+  }
+}
+
+@mixin validation-message {
+  .chr-errors {
+    margin: 4px 0 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--_chr-danger);
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+@mixin popup-footer {
+  .chr-popup-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--_chr-spacing);
+    padding: var(--_chr-spacing);
+    border-top: 1px solid var(--_chr-border);
+  }
+
+  .chr-btn {
+    @include chr.reset-button;
+    padding: 6px 14px;
+    border-radius: var(--_chr-radius-sm);
+    font-weight: 600;
+    color: var(--_chr-primary);
+
+    &:hover:not(:disabled) {
+      background: var(--_chr-primary-soft);
+    }
+
+    &:focus-visible {
+      @include chr.focus-ring;
+    }
+
+    &:disabled {
+      color: var(--_chr-text-disabled);
+      cursor: default;
+    }
+
+    &.chr-btn-primary {
+      background: var(--_chr-primary);
+      color: var(--_chr-primary-contrast);
+
+      &:hover:not(:disabled) {
+        background: var(--_chr-primary);
+        filter: brightness(1.08);
+      }
+    }
+  }
+}

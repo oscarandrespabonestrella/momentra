@@ -1,0 +1,96 @@
+@use '../../theming/tokens' as chr;
+
+@include chr.theme;
+
+:host {
+  display: block;
+}
+
+.chr-box {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 38px;
+  min-width: 0;
+  background: var(--_chr-surface);
+  border: 1px solid var(--_chr-border-strong);
+  border-radius: var(--_chr-radius);
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+
+  &:hover:not(.chr-disabled) {
+    border-color: var(--_chr-primary);
+  }
+
+  &:focus-within {
+    border-color: var(--_chr-primary);
+    box-shadow: 0 0 0 3px var(--_chr-primary-soft);
+    outline: 2px solid transparent; // keeps a visible indicator in forced-colors mode
+  }
+
+  &.chr-invalid {
+    border-color: var(--_chr-danger);
+
+    &:focus-within {
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--_chr-danger) 25%, transparent);
+    }
+  }
+
+  &.chr-disabled {
+    background: var(--_chr-surface-alt);
+    border-color: var(--_chr-border);
+    color: var(--_chr-text-disabled);
+  }
+
+  &.chr-readonly {
+    background: var(--_chr-surface-alt);
+  }
+}
+
+.chr-icon-btn {
+  @include chr.reset-button;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  margin-right: 3px;
+  border-radius: var(--_chr-radius-sm);
+  color: var(--_chr-text-muted);
+
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--_chr-surface-hover);
+    color: var(--_chr-text);
+  }
+
+  &:focus-visible {
+    @include chr.focus-ring;
+    outline-offset: -2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--_chr-text-disabled);
+  }
+}
+
+.chr-clear + .chr-toggle {
+  margin-left: -2px;
+}
+
+@media (forced-colors: active) {
+  .chr-box:focus-within {
+    outline: 2px solid Highlight;
+  }
+}

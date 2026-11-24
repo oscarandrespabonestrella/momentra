@@ -1,0 +1,38 @@
+<chr-field
+  [theme]="effectiveTheme()"
+  [invalid]="invalid()"
+  [disabled]="isDisabled()"
+  [readonly]="readonly()"
+  [showClear]="clearVisible()"
+  [clearLabel]="labels().clear"
+  [inputId]="fieldId()"
+  (clear)="clear()"
+>
+  <input
+    #field
+    class="chr-input"
+    type="text"
+    autocomplete="off"
+    inputmode="numeric"
+    [id]="fieldId()"
+    [value]="text()"
+    [placeholder]="placeholderText()"
+    [disabled]="isDisabled()"
+    [readOnly]="readonly()"
+    [required]="required()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-labelledby]="ariaLabelledby()"
+    [attr.aria-invalid]="invalid() ? 'true' : null"
+    [attr.aria-describedby]="errorMessageList().length ? errorsId : null"
+    (input)="onInput(field.value)"
+    (keydown)="onKeydown($event)"
+    (blur)="onBlur()"
+  />
+</chr-field>
+@if (errorMessageList().length) {
+  <div class="chr-errors" role="alert" [id]="errorsId">
+    @for (message of errorMessageList(); track $index) {
+      <p>{{ message }}</p>
+    }
+  </div>
+}

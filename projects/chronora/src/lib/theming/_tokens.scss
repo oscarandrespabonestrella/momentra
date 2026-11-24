@@ -1,0 +1,100 @@
+// Chronora design tokens.
+//
+// Public API: the `--chr-*` custom properties documented in docs/styling-and-themes.md.
+// Components read the private `--_chr-*` aliases defined here; each alias falls back from the
+// public property to a theme default, so an application can override any `--chr-*` value on
+// :root (or any ancestor) without losing the light/dark defaults.
+
+@mixin light-tokens {
+  --_chr-primary: var(--chr-primary, #3b5bdb);
+  --_chr-primary-contrast: var(--chr-primary-contrast, #ffffff);
+  --_chr-primary-soft: var(--chr-primary-soft, #e7ecff);
+  --_chr-surface: var(--chr-surface, #ffffff);
+  --_chr-surface-alt: var(--chr-surface-alt, #f4f5f8);
+  --_chr-surface-hover: var(--chr-surface-hover, #eceef4);
+  --_chr-text: var(--chr-text, #1c2033);
+  --_chr-text-muted: var(--chr-text-muted, #5f6680);
+  --_chr-text-disabled: var(--chr-text-disabled, #a4a9bd);
+  --_chr-border: var(--chr-border, #cfd3e1);
+  --_chr-border-strong: var(--chr-border-strong, #8189a5);
+  --_chr-danger: var(--chr-danger, #c92a2a);
+  --_chr-focus-ring: var(--chr-focus-ring, #3b5bdb);
+  --_chr-shadow: var(--chr-shadow, 0 10px 30px rgba(20, 24, 48, 0.16), 0 2px 6px rgba(20, 24, 48, 0.08));
+}
+
+@mixin dark-tokens {
+  --_chr-primary: var(--chr-primary, #7c93ff);
+  --_chr-primary-contrast: var(--chr-primary-contrast, #0f1226);
+  --_chr-primary-soft: var(--chr-primary-soft, #252c58);
+  --_chr-surface: var(--chr-surface, #1b1e2e);
+  --_chr-surface-alt: var(--chr-surface-alt, #242840);
+  --_chr-surface-hover: var(--chr-surface-hover, #2d3250);
+  --_chr-text: var(--chr-text, #eceef8);
+  --_chr-text-muted: var(--chr-text-muted, #a6abc6);
+  --_chr-text-disabled: var(--chr-text-disabled, #646a88);
+  --_chr-border: var(--chr-border, #3a4064);
+  --_chr-border-strong: var(--chr-border-strong, #6b74a6);
+  --_chr-danger: var(--chr-danger, #ff8787);
+  --_chr-focus-ring: var(--chr-focus-ring, #9db0ff);
+  --_chr-shadow: var(--chr-shadow, 0 12px 32px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4));
+}
+
+// Structural tokens (theme independent).
+@mixin base-tokens {
+  --_chr-radius: var(--chr-radius, 8px);
+  --_chr-radius-sm: var(--chr-radius-sm, 6px);
+  --_chr-font-family: var(--chr-font-family, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif);
+  --_chr-font-size: var(--chr-font-size, 14px);
+  --_chr-cell-size: var(--chr-cell-size, 36px);
+  --_chr-spacing: var(--chr-spacing, 8px);
+}
+
+// Include once in each component's `:host` rule set.
+@mixin theme {
+  :host {
+    @include base-tokens;
+    @include light-tokens;
+    font-family: var(--_chr-font-family);
+    font-size: var(--_chr-font-size);
+    color: var(--_chr-text);
+  }
+
+  :host([data-chr-theme='dark']) {
+    @include dark-tokens;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :host([data-chr-theme='auto']) {
+      @include dark-tokens;
+    }
+  }
+}
+
+@mixin focus-ring {
+  outline: 2px solid var(--_chr-focus-ring);
+  outline-offset: 2px;
+}
+
+// Visually hidden but available to assistive technology.
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@mixin reset-button {
+  appearance: none;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}

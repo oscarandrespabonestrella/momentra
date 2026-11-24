@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "..",
+    "outDir": "../out-tsc/examples",
+    "paths": {
+      "@chronora/angular": ["../projects/chronora/src/public-api.ts"],
+      "@chronora/angular/date-fns": ["../projects/chronora/date-fns/public-api.ts"],
+      "@chronora/angular/luxon": ["../projects/chronora/luxon/public-api.ts"]
+    }
+  },
+  "files": [],
+  "include": ["./*.ts"]
+}
