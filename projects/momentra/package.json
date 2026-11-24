@@ -1,6 +1,6 @@
 {
   "name": "@momentra/angular",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "Momentra is a modern, extensible Angular date and time component library providing beautiful, accessible, and highly configurable date pickers, calendars, time pickers, date-time pickers, and date range components.",
   "keywords": [
     "angular",

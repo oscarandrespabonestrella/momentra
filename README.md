@@ -13,7 +13,7 @@ Momentra is a modern, extensible Angular date and time component library providi
 - **No UI framework dependency.** Momentra owns its components and styling. It needs only Angular and the Angular CDK (overlay and a11y utilities).
 - **Bring your own date library.** The core talks to a `DateAdapter<TDate>`; native `Date` is the default, with optional date-fns and Luxon adapters in separate entry points.
 
-> **Status: 0.1.0-alpha.0, pre-release** (published to the `next` dist-tag: `npm i @momentra/angular@next`). The library is feature-complete for the scope listed below, is covered by an automated test suite, and builds and installs from the packed tarball. It has been tested in jsdom, not yet in real browsers or with real screen readers — see [Known limitations](#known-limitations) before using it in production.
+> **Status: 0.1.0-alpha.1, pre-release** (published to the `next` dist-tag: `npm i @momentra/angular@next`). The library is feature-complete for the scope listed below, is covered by an automated test suite, and builds and installs from the packed tarball. It has been tested in jsdom, not yet in real browsers or with real screen readers — see [Known limitations](#known-limitations) before using it in production.
 
 ## Features
 
