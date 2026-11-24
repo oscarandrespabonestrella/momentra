@@ -22,27 +22,38 @@ Override any of these on `:root` (or `body`):
 
 | Property | Light default | Dark default | Used for |
 | --- | --- | --- | --- |
-| `--chr-primary` | `#3b5bdb` | `#7c93ff` | Selection, today ring, focus accents, primary buttons |
-| `--chr-primary-contrast` | `#ffffff` | `#0f1226` | Text on `--chr-primary` |
-| `--chr-primary-soft` | `#e7ecff` | `#252c58` | Range fill, focus halo, active preset |
-| `--chr-surface` | `#ffffff` | `#1b1e2e` | Input and popup background |
-| `--chr-surface-alt` | `#f4f5f8` | `#242840` | Disabled / read-only background |
-| `--chr-surface-hover` | `#eceef4` | `#2d3250` | Hover background |
-| `--chr-text` | `#1c2033` | `#eceef8` | Text |
-| `--chr-text-muted` | `#5f6680` | `#a6abc6` | Weekdays, placeholders, adjacent-month days |
-| `--chr-text-disabled` | `#a4a9bd` | `#646a88` | Disabled text |
-| `--chr-border` | `#cfd3e1` | `#3a4064` | Dividers |
-| `--chr-border-strong` | `#8189a5` | `#6b74a6` | Input border |
-| `--chr-danger` | `#c92a2a` | `#ff8787` | Invalid state and error messages |
-| `--chr-focus-ring` | `#3b5bdb` | `#9db0ff` | Keyboard focus outline |
+| `--chr-primary` | `#4c5bd4` | `#7f8cff` | Selected day, primary buttons, accents |
+| `--chr-primary-contrast` | `#ffffff` | `#0b0d12` | Text on `--chr-primary` |
+| `--chr-primary-soft` | `#eceefd` | `#252a4a` | Active preset, selected time, soft fills |
+| `--chr-primary-text` | `#3542ae` | `#c3c9ff` | Text on `--chr-primary-soft` |
+| `--chr-surface` | `#ffffff` | `#151821` | Field and popup background |
+| `--chr-surface-alt` | `#f7f8fa` | `#1b1f2a` | Disabled / read-only fields, side rails |
+| `--chr-surface-hover` | `#eef0f5` | `#232836` | Hover background |
+| `--chr-text` | `#151922` | `#e9ebf1` | Text |
+| `--chr-text-muted` | `#555d6e` | `#a1a8b8` | Placeholders, secondary text |
+| `--chr-text-subtle` | `#6f7685` | `#8e95a6` | Weekday headers, captions |
+| `--chr-text-disabled` | `#a6acb8` | `#565d6e` | Disabled text |
+| `--chr-border` | `#d5d9e1` | `#2c3242` | Dividers |
+| `--chr-border-strong` | `#b4bac7` | `#454d62` | Field border |
+| `--chr-danger` | `#c2342b` | `#f2766b` | Invalid state and error messages |
+| `--chr-today` | `#b45309` | `#f2b544` | Today marker |
+| `--chr-range` | `#e6e9fc` | `#21264a` | Days inside a selected range |
+| `--chr-range-text` | `#232a6b` | `#d6daff` | Text on `--chr-range` |
+| `--chr-ring` | `rgba(76,91,212,.32)` | `rgba(127,140,255,.4)` | Focus halo |
+| `--chr-focus-ring` | `#4c5bd4` | `#7f8cff` | Keyboard focus outline |
 | `--chr-shadow` | soft two-layer shadow | stronger | Popup elevation |
-| `--chr-radius` | `8px` | | Inputs and popups |
+| `--chr-shadow-sm` | `0 1px 2px …` | stronger | Field elevation |
+| `--chr-radius` | `8px` | | Fields and popups |
 | `--chr-radius-sm` | `6px` | | Cells and buttons |
-| `--chr-font-family` | system UI stack | | |
+| `--chr-font-family` | `Inter, system-ui, …` | | |
 | `--chr-font-size` | `14px` | | |
-| `--chr-cell-size` | `36px` (`40px` ≤ 420px wide) | | Calendar cell height |
-| `--chr-spacing` | `8px` | | Padding unit |
+| `--chr-spacing` | `12px` | | Calendar padding unit |
+| `--chr-cell-size` | `38px` | | Calendar column width |
+| `--chr-cell-height` | `34px` | | Calendar cell height |
 | `--chr-field-width` | `14rem` (time `12rem`, date-time `18rem`, range `22rem`) | | Width of the input fields (all are `inline-block`, capped at 100% of the container). Set `width: 100%` on a field's host element to make it fill its container. |
+| `--chr-spinner-width` | `26px` | | Up/down spinner buttons |
+| `--chr-infinite-width` / `--chr-infinite-height` / `--chr-infinite-rail-width` | `auto` / `300px` / `76px` | | `chr-infinite-calendar` sizing |
+| `--chr-multiview-gap` | `34px` | | Gap between months in `chr-multiview-calendar` |
 
 A value you set applies to **both** light and dark; scope it yourself if you want different values:
 
