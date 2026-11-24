@@ -1,0 +1,42 @@
+# Chronora (@chronora/angular)
+
+> Angular 22+ date and time component library: date input, date picker, time picker, date-time picker, date-time input, date range picker and inline calendars. Standalone components, signals, OnPush, Reactive and template-driven forms, pluggable date adapters (native Date, date-fns, Luxon), Intl-based localization, and theming through CSS custom properties (`--chr-*`) with light, dark and auto themes.
+
+Key facts for code generation:
+
+- Install: `npm i @chronora/angular @angular/cdk`. No global stylesheet to import; component styles are encapsulated.
+- Configure once: `provideChronora({ theme: 'auto', locale: 'en-US' })` in `bootstrapApplication` providers.
+- Components are standalone; import the class (e.g. `DatePickerComponent`) into your component's `imports`.
+- Selectors use the `chr-` prefix: `chr-date-input`, `chr-date-picker`, `chr-time-picker`, `chr-datetime-picker`, `chr-datetime-input`, `chr-date-range-picker`, `chr-calendar`, `chr-infinite-calendar`, `chr-multiview-calendar`, `chr-month-picker`, `chr-year-picker`, `chr-decade-picker`.
+- Values are two-way via `[(value)]` (signal model) or `formControl` / `ngModel`. With the default adapter the value type is `Date`.
+- Always pass `ariaLabel` (or associate a `<label>`) so the field has an accessible name.
+- Theme: `theme` input per component (`'light' | 'dark' | 'auto'`), or set the global `ChronoraSettings.theme` signal at runtime.
+- Styling: override `--chr-*` custom properties on `:root` (popups render in the CDK overlay, so ancestors other than `:root`/`body` do not reach them). Never target internal `.chr-*` classes or use `::ng-deep`; use `cellTemplate` for custom day content.
+- Date adapters: `@chronora/angular/date-fns` (`provideChronoraDateFns(config)`) and `@chronora/angular/luxon` (`provideChronoraLuxon(config)`) are optional secondary entry points that replace `provideChronora`.
+
+## Docs
+
+- [Full documentation in one file](llms-full.txt): README plus every guide below, concatenated
+- [Component APIs](https://github.com/oscarandrespabonestrella/chronora/blob/main/docs/components.md): inputs, outputs and methods of every component, plus global configuration
+- [Styling and themes](https://github.com/oscarandrespabonestrella/chronora/blob/main/docs/styling-and-themes.md): themes, every `--chr-*` custom property with light/dark defaults
+- [Localization](https://github.com/oscarandrespabonestrella/chronora/blob/main/docs/localization.md): locales, formats, first day of week, labels
+- [Dates and time zones](https://github.com/oscarandrespabonestrella/chronora/blob/main/docs/dates-and-time-zones.md): how values are represented and compared
+- [Date adapters](https://github.com/oscarandrespabonestrella/chronora/blob/main/docs/date-adapters.md): native, date-fns, Luxon, writing your own
+- [Validation](https://github.com/oscarandrespabonestrella/chronora/blob/main/docs/validation.md): `ChronoraValidators`, min/max, disabled dates, error messages
+- [Accessibility](https://github.com/oscarandrespabonestrella/chronora/blob/main/docs/accessibility.md): keyboard map, ARIA, focus behaviour
+
+## Examples
+
+- [Basic date picker](https://github.com/oscarandrespabonestrella/chronora/blob/main/examples/basic-date-picker.ts)
+- [Reactive form](https://github.com/oscarandrespabonestrella/chronora/blob/main/examples/reactive-form.ts)
+- [Date range with presets](https://github.com/oscarandrespabonestrella/chronora/blob/main/examples/date-range-with-presets.ts)
+- [Custom cell template](https://github.com/oscarandrespabonestrella/chronora/blob/main/examples/custom-cell-template.ts)
+- [Global config](https://github.com/oscarandrespabonestrella/chronora/blob/main/examples/global-config.ts)
+- [date-fns adapter](https://github.com/oscarandrespabonestrella/chronora/blob/main/examples/date-fns-adapter.ts)
+- [Luxon adapter](https://github.com/oscarandrespabonestrella/chronora/blob/main/examples/luxon-adapter.ts)
+
+## Optional
+
+- [Architecture](https://github.com/oscarandrespabonestrella/chronora/blob/main/docs/architecture.md): layers, calendar engine, forms integration, extension points
+- [Contributing](https://github.com/oscarandrespabonestrella/chronora/blob/main/CONTRIBUTING.md): engineering rules for changes to the library itself
+- [Changelog](https://github.com/oscarandrespabonestrella/chronora/blob/main/CHANGELOG.md)

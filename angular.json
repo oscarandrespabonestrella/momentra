@@ -46,6 +46,7 @@
             "browser": "projects/docs/src/main.ts",
             "tsConfig": "projects/docs/tsconfig.app.json",
             "index": "projects/docs/src/index.html",
+            "assets": [{ "glob": "**/*", "input": "projects/docs/public" }],
             "styles": [
               "@angular/cdk/overlay-prebuilt.css",
               "projects/docs/src/styles.css"
