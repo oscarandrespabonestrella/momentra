@@ -4,22 +4,31 @@ All notable changes to `@momentra/angular` are documented here. The format follo
 
 ## [Unreleased]
 
+## [0.1.0-alpha.1] — 2026-11-24
+
+First release published by the Release workflow (trusted publishing, provenance). No library code changes.
+
 ### Added
 
-- Docs app: Styling & theming section (Themes, CSS custom properties), AI & LLMs page, version badge and GitHub link in the header.
-- `llms.txt`, `llms-full.txt` (also shipped in the npm package) and `AGENTS.md` for coding agents.
-- CI and Release GitHub workflows; npm publishing via trusted publishing with provenance.
-- Docs site on GitHub Pages (https://oscarandrespabonestrella.github.io/momentra/), linked from the README, the npm README, `llms.txt` and the package `homepage`; the header version badge links to npm.
+- Docs site on GitHub Pages (https://oscarandrespabonestrella.github.io/momentra/), deployed from `main`; linked from the README, `llms.txt` and the docs header (the version badge links to npm).
+
+### Changed
+
+- Package `homepage` is now the docs site; the npm README is titled `@momentra/angular` and links to the docs site and GitHub.
+
+## [0.1.0-alpha.0] — 2026-11-24
+
+First feature set, first npm release (`next` dist-tag) as `@momentra/angular`.
 
 ### Changed
 
 - **Renamed from Chronora to Momentra** before the first publish: package `@momentra/angular` (`/date-fns`, `/luxon`), `provideMomentra`, `MomentraSettings`, `MOMENTRA_*` tokens, `MomentraValidators`, `mtr-*` selectors, `--mtr-*` custom properties, `mtr*` validation error keys and the `mtrTheme` directive.
 
-## [0.1.0-alpha.0] — pre-release
-
-First feature set, first npm release (`next` dist-tag) as `@momentra/angular`.
-
 ### Added
+
+- Docs app: Styling & theming section (Themes, CSS custom properties), AI & LLMs page, version badge and GitHub link in the header.
+- `llms.txt`, `llms-full.txt` (also shipped in the npm package) and `AGENTS.md` for coding agents.
+- CI and Release GitHub workflows; npm publishing via trusted publishing with provenance.
 
 - **Core**: generic `DateAdapter<TDate>` with `NativeDateAdapter` (default); optional `DateFnsDateAdapter` (`@momentra/angular/date-fns`) and `LuxonDateAdapter` with zone support (`@momentra/angular/luxon`); shared adapter contract tests.
 - **Date/time model**: calendar-date vs date-time vs instant semantics, `CalendarDate`, ISO date helpers, `DateRange`.
