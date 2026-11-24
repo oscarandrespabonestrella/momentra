@@ -96,6 +96,11 @@ export class TimePickerComponent<TDate = Date> extends ChronoraPopupControl<TDat
     };
   }
 
+  protected override unitStep(kind: string): number {
+    const steps = this.steps();
+    return kind === 'hour24' || kind === 'hour12' ? steps.hour : kind === 'minute' ? steps.minute : kind === 'second' ? steps.second : 1;
+  }
+
   /** `ArrowUp`/`ArrowDown` step minutes (`Shift`: hours, `Ctrl`: seconds), wrapping within the day's bounds. */
   protected override stepValue(direction: 1 | -1, event: KeyboardEvent): TDate {
     const base = this.value() ?? this.baseDate() ?? this.adapter.today();

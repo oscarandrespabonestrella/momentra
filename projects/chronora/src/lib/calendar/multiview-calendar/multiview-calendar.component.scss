@@ -1,0 +1,75 @@
+@use '../../theming/tokens' as chr;
+@use '../../theming/calendar-grid';
+
+@include chr.theme;
+@include calendar-grid.calendar-grid;
+
+:host {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 100%;
+  background: var(--_chr-surface);
+  color: var(--_chr-text);
+  border-radius: calc(var(--_chr-radius) + 4px);
+}
+
+.chr-cal {
+  padding: var(--_chr-spacing) 16px 14px;
+  box-sizing: border-box;
+}
+
+.chr-cal-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.chr-spacer {
+  flex: 1;
+}
+
+.chr-mv-title {
+  padding: 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.chr-mv-panels {
+  display: flex;
+  gap: var(--chr-multiview-gap, 34px);
+}
+
+.chr-mv-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: calc(var(--_chr-cell-size) * 7);
+  min-width: 0;
+}
+
+.chr-mv-panel-title {
+  padding-left: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--_chr-text-muted);
+}
+
+// Narrow screens: stack the months vertically.
+@media (max-width: 600px) {
+  :host {
+    display: block;
+  }
+
+  .chr-mv-panels {
+    flex-direction: column;
+  }
+
+  .chr-mv-panel {
+    width: 100%;
+  }
+}
+
+:host(.chr-disabled) {
+  opacity: 0.6;
+}

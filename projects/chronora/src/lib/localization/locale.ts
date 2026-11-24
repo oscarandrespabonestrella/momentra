@@ -24,6 +24,7 @@ export interface ChronoraLabels {
   readonly seconds: string;
   readonly meridiem: string;
   readonly calendar: string;
+  readonly months: string;
   readonly timeSelector: string;
   readonly presets: string;
   readonly startDate: string;
@@ -32,6 +33,15 @@ export interface ChronoraLabels {
   readonly rangeSeparator: string;
   readonly selectedRange: string;
   readonly selectingEnd: string;
+  /** Length of a picked range in the range popup footer; `{n}` is the day count. */
+  readonly rangeDays: string;
+  readonly cancel: string;
+  readonly set: string;
+  readonly date: string;
+  readonly time: string;
+  readonly dateAndTime: string;
+  readonly increase: string;
+  readonly decrease: string;
 }
 
 /**
@@ -102,6 +112,7 @@ export const EN_LABELS: ChronoraLabels = {
   seconds: 'Seconds',
   meridiem: 'AM/PM',
   calendar: 'Calendar',
+  months: 'Months',
   timeSelector: 'Time selector',
   presets: 'Presets',
   startDate: 'Start date',
@@ -110,6 +121,14 @@ export const EN_LABELS: ChronoraLabels = {
   rangeSeparator: 'to',
   selectedRange: 'Selected range',
   selectingEnd: 'Select the end date',
+  rangeDays: '{n} days',
+  cancel: 'Cancel',
+  set: 'Set',
+  date: 'Date',
+  time: 'Time',
+  dateAndTime: 'Date and time',
+  increase: 'Increase',
+  decrease: 'Decrease',
 };
 
 export const EN_VALIDATION_MESSAGES: ChronoraValidationMessages = {
@@ -150,6 +169,7 @@ export const ES_LABELS: ChronoraLabels = {
   seconds: 'Segundos',
   meridiem: 'AM/PM',
   calendar: 'Calendario',
+  months: 'Meses',
   timeSelector: 'Selector de hora',
   presets: 'Atajos',
   startDate: 'Fecha de inicio',
@@ -158,6 +178,14 @@ export const ES_LABELS: ChronoraLabels = {
   rangeSeparator: 'a',
   selectedRange: 'Rango seleccionado',
   selectingEnd: 'Selecciona la fecha de fin',
+  rangeDays: '{n} días',
+  cancel: 'Cancelar',
+  set: 'Aplicar',
+  date: 'Fecha',
+  time: 'Hora',
+  dateAndTime: 'Fecha y hora',
+  increase: 'Aumentar',
+  decrease: 'Disminuir',
 };
 
 export const ES_VALIDATION_MESSAGES: ChronoraValidationMessages = {

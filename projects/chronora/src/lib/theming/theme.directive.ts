@@ -17,6 +17,6 @@ export class ChrThemeDirective {
   /** Overrides the globally configured theme for this component. */
   readonly theme = input<ChronoraTheme | null | undefined>(undefined);
 
-  /** The theme in effect: the input if set, otherwise the global configuration. */
-  readonly resolved = computed<ChronoraTheme>(() => this.theme() ?? this.settings.config.theme);
+  /** The theme in effect: the input if set, otherwise the global theme. */
+  readonly resolved = computed<ChronoraTheme>(() => this.theme() ?? this.settings.theme());
 }

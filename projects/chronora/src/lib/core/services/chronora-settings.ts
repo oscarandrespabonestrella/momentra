@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import type { DateAdapter } from '../adapters/date-adapter';
-import { DEFAULT_CHRONORA_CONFIG, type ChronoraConfig } from '../config/chronora-config';
+import { DEFAULT_CHRONORA_CONFIG, type ChronoraConfig, type ChronoraTheme } from '../config/chronora-config';
 import { CHRONORA_CONFIG, CHRONORA_DATE_ADAPTER, CHRONORA_LOCALES } from '../tokens/tokens';
 import {
   EN_US_LOCALE,
@@ -25,6 +25,11 @@ export interface LocaleOverrides {
 @Injectable({ providedIn: 'root' })
 export class ChronoraSettings {
   readonly config: Readonly<ChronoraConfig> = inject(CHRONORA_CONFIG, { optional: true }) ?? DEFAULT_CHRONORA_CONFIG;
+  /**
+   * The global theme, seeded from `config.theme`. Set it to re-theme every component that has no
+   * `theme` input of its own, e.g. from an app-level dark mode toggle.
+   */
+  readonly theme = signal<ChronoraTheme>(this.config.theme);
   private readonly registered = inject(CHRONORA_LOCALES);
   private readonly adapterToken = inject(CHRONORA_DATE_ADAPTER);
   private readonly cache = new Map<string, ChronoraLocale>();

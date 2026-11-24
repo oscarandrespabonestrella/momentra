@@ -67,6 +67,55 @@
     [attr.aria-label]="labels().calendar"
     [attr.data-chr-theme]="effectiveTheme()"
   >
+    @if (layout() === 'tabs') {
+      <div class="chr-popup-tabs" role="tablist" [attr.aria-label]="labels().dateAndTime">
+        <button type="button" role="tab" class="chr-tab" id="{{ popupId }}-tab-date" [attr.aria-selected]="tab() === 'date'" [attr.aria-controls]="popupId + '-panel'" [attr.tabindex]="tab() === 'date' ? 0 : -1" (click)="tab.set('date')">
+          {{ labels().date }}
+        </button>
+        <button type="button" role="tab" class="chr-tab" id="{{ popupId }}-tab-time" [attr.aria-selected]="tab() === 'time'" [attr.aria-controls]="popupId + '-panel'" [attr.tabindex]="tab() === 'time' ? 0 : -1" (click)="tab.set('time')">
+          {{ labels().time }}
+        </button>
+      </div>
+      <div class="chr-popup-body chr-popup-body-tabs" role="tabpanel" [id]="popupId + '-panel'" [attr.aria-labelledby]="popupId + '-tab-' + tab()">
+        @if (tab() === 'date') {
+          <chr-infinite-calendar
+            [monthRail]="false"
+            [value]="value()"
+            [initialDate]="calendarStart()"
+            [min]="min()"
+            [max]="max()"
+            [disabledDates]="disabledDates()"
+            [locale]="effectiveLocale()"
+            [theme]="effectiveTheme()"
+            [cellTemplate]="cellTemplate()"
+            [showToday]="showToday()"
+            [readonly]="readonly()"
+            (dateSelect)="onCalendarSelect($event)"
+          />
+        } @else {
+          <chr-time-selector
+          class="chr-popup-time-tab"
+          [value]="value()"
+          [baseDate]="value() ?? calendarStart()"
+          [locale]="effectiveLocale()"
+          [use12Hours]="use12Hours()"
+          [showSeconds]="secondsVisible()"
+          [hourStep]="hourStep()"
+          [minuteStep]="minuteStep()"
+          [secondStep]="secondStep()"
+          [min]="timeMin()"
+          [max]="timeMax()"
+          [readonly]="readonly()"
+          [theme]="effectiveTheme()"
+          (valueChange)="onTimeChange($event)"
+      />
+        }
+      </div>
+      <div class="chr-popup-footer">
+        <button type="button" class="chr-btn" (click)="cancel()">{{ labels().cancel }}</button>
+        <button type="button" class="chr-btn chr-btn-primary" [disabled]="!canSet()" (click)="done()">{{ labels().set }}</button>
+      </div>
+    } @else {
     <div class="chr-popup-body">
       <chr-calendar
         [value]="value()"
@@ -99,8 +148,9 @@
       />
     </div>
     <div class="chr-popup-footer">
-      <button type="button" class="chr-btn" (click)="selectNow()">{{ labels().now }}</button>
+      <button type="button" class="chr-btn chr-btn-ghost" (click)="selectNow()">{{ labels().now }}</button>
       <button type="button" class="chr-btn chr-btn-primary" (click)="done()">{{ labels().done }}</button>
     </div>
+    }
   </div>
 </ng-template>

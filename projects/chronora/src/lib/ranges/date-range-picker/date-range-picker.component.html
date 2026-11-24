@@ -100,6 +100,7 @@
     <div class="chr-popup-body">
       @if (presetList().length) {
         <div class="chr-presets" role="group" [attr.aria-label]="labels().presets">
+          <span class="chr-presets-head" aria-hidden="true">{{ labels().presets }}</span>
           @for (item of presetList(); track item.label) {
             <button
               type="button"
@@ -115,21 +116,43 @@
         </div>
       }
       <div class="chr-popup-main">
-        <chr-calendar
-          [initialDate]="popupAnchor()"
-          [range]="highlight()"
-          [min]="min()"
-          [max]="max()"
-          [disabledDates]="calendarDisabled()"
-          [locale]="effectiveLocale()"
-          [theme]="effectiveTheme()"
-          [cellTemplate]="cellTemplate()"
-          [showToday]="showToday()"
-          [readonly]="readonly()"
-          (dateSelect)="onCalendarSelect($event)"
-          (dateHover)="onHover($event)"
-        />
-        <p class="chr-hint" aria-live="polite">{{ hint() }}</p>
+        <div class="chr-months">
+          <chr-calendar
+            class="chr-hide-outside chr-hide-next"
+            [initialDate]="leftMonth()"
+            [range]="highlight()"
+            [min]="min()"
+            [max]="max()"
+            [disabledDates]="calendarDisabled()"
+            [locale]="effectiveLocale()"
+            [theme]="effectiveTheme()"
+            [cellTemplate]="cellTemplate()"
+            [showToday]="showToday()"
+            [readonly]="readonly()"
+            (dateSelect)="onCalendarSelect($event)"
+            (dateHover)="onHover($event)"
+            (activeDateChange)="onMonthChange($event, 0)"
+          />
+          <chr-calendar
+            class="chr-cal-second chr-hide-outside chr-hide-prev"
+            [initialDate]="rightMonth()"
+            [range]="highlight()"
+            [min]="min()"
+            [max]="max()"
+            [disabledDates]="calendarDisabled()"
+            [locale]="effectiveLocale()"
+            [theme]="effectiveTheme()"
+            [cellTemplate]="cellTemplate()"
+            [showToday]="false"
+            [readonly]="readonly()"
+            (dateSelect)="onCalendarSelect($event)"
+            (dateHover)="onHover($event)"
+            (activeDateChange)="onMonthChange($event, 1)"
+          />
+        </div>
+        <div class="chr-range-footer">
+          <p class="chr-hint" aria-live="polite">{{ hint() || summary() }}</p>
+        </div>
       </div>
     </div>
   </div>

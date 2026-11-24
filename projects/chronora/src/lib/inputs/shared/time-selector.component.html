@@ -1,5 +1,7 @@
 <div class="chr-time" role="group" [attr.aria-label]="labels().timeSelector">
   @for (column of columns(); track column.id) {
+    <div class="chr-time-wrap">
+    <span class="chr-time-head" aria-hidden="true">{{ column.label }}</span>
     <div
       class="chr-time-col"
       role="listbox"
@@ -25,6 +27,7 @@
           {{ option.label }}
         </div>
       }
+    </div>
     </div>
   }
 </div>

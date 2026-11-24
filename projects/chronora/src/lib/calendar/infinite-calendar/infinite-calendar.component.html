@@ -1,0 +1,79 @@
+<div
+  class="chr-cal chr-inf"
+  role="group"
+  [attr.aria-label]="ariaLabelledby() ? null : ariaLabel() || labels().calendar"
+  [attr.aria-labelledby]="ariaLabelledby()"
+>
+  @if (monthRail()) {
+    <nav class="chr-inf-rail" [attr.aria-label]="labels().months">
+      @for (item of rail(); track item.index) {
+        <button
+          type="button"
+          class="chr-inf-rail-item"
+          [class.chr-current]="item.current"
+          [class.chr-year]="item.year"
+          [attr.aria-current]="item.current ? 'true' : null"
+          [attr.aria-label]="item.aria"
+          [disabled]="isDisabled()"
+          (click)="goToMonth(item.index)"
+        >
+          {{ item.label }}
+        </button>
+      }
+    </nav>
+  }
+  <div class="chr-inf-main">
+    <div class="chr-inf-header">
+      <span class="chr-inf-title" aria-live="polite">{{ headerTitle() }}</span>
+      @if (showTodayButton()) {
+        <button type="button" class="chr-today-btn" [disabled]="todayDisabled()" (click)="goToday()">
+          {{ labels().today }}
+        </button>
+      }
+    </div>
+    <div class="chr-inf-weekdays" aria-hidden="true">
+      @for (weekday of weekdays(); track weekday.long) {
+        <span class="chr-weekday">{{ weekday.short }}</span>
+      }
+    </div>
+    <div #scroller class="chr-inf-scroll" (scroll)="onScroll()" (keydown)="onKeydown($event)">
+      @for (month of months(); track month.index) {
+        <section class="chr-inf-month" [attr.data-i]="month.index">
+          <h3 class="chr-inf-month-title">{{ month.title }}</h3>
+          <table class="chr-grid chr-grid-day" role="grid" [attr.aria-label]="month.title">
+            <tbody>
+              @for (row of month.rows; track $index) {
+                <tr>
+                  @for (cell of row; track cell.key) {
+                    <td role="gridcell" [attr.aria-selected]="cell.outside ? null : cell.selected">
+                      @if (!cell.outside) {
+                        <button
+                          type="button"
+                          class="chr-cell"
+                          [class.chr-selected]="cell.selected"
+                          [class.chr-today]="cell.today"
+                          [class.chr-disabled]="cell.disabled"
+                          [attr.tabindex]="cell.active ? 0 : -1"
+                          [attr.aria-label]="cell.ariaLabel"
+                          [attr.aria-current]="cell.today ? 'date' : null"
+                          [attr.aria-disabled]="cell.disabled || isDisabled() ? true : null"
+                          (click)="pick(cell)"
+                        >
+                          @if (cellTemplate(); as tpl) {
+                            <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="cellContext(cell)" />
+                          } @else {
+                            {{ cell.label }}
+                          }
+                        </button>
+                      }
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </section>
+      }
+    </div>
+  </div>
+</div>
