@@ -1,0 +1,70 @@
+<div
+  class="chr-cal"
+  role="group"
+  [attr.aria-label]="ariaLabelledby() ? null : ariaLabel() || labels().calendar"
+  [attr.aria-labelledby]="ariaLabelledby()"
+>
+  <div class="chr-cal-header">
+    <span class="chr-mv-title" aria-live="polite">{{ headerTitle() }}</span>
+    <span class="chr-spacer"></span>
+    <button type="button" class="chr-nav" [attr.aria-label]="labels().previousMonth" [disabled]="isDisabled()" (click)="shift(-1)">
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M10 3.5 5.5 8l4.5 4.5" /></svg>
+    </button>
+    <button type="button" class="chr-today-btn" [disabled]="isDisabled()" (click)="goToday()">{{ labels().today }}</button>
+    <button type="button" class="chr-nav" [attr.aria-label]="labels().nextMonth" [disabled]="isDisabled()" (click)="shift(1)">
+      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m6 3.5 4.5 4.5L6 12.5" /></svg>
+    </button>
+  </div>
+  <div class="chr-mv-panels" (keydown)="onKeydown($event)" (mouseleave)="onHover(null)">
+    @for (panel of panels(); track panel.key) {
+      <div class="chr-mv-panel">
+        <span class="chr-mv-panel-title" aria-hidden="true">{{ panel.title }}</span>
+        <table class="chr-grid chr-grid-day" role="grid" [attr.aria-label]="panel.title">
+          <thead>
+            <tr>
+              @for (weekday of panel.weekdays; track weekday.long) {
+                <th scope="col" class="chr-weekday" [attr.abbr]="weekday.long" [attr.aria-label]="weekday.long">
+                  {{ weekday.short }}
+                </th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of panel.rows; track $index) {
+              <tr>
+                @for (cell of row; track cell.key) {
+                  <td role="gridcell" [attr.aria-selected]="cell.outside ? null : cell.selected">
+                    @if (!cell.outside) {
+                      <button
+                        type="button"
+                        class="chr-cell"
+                        [class.chr-selected]="cell.selected"
+                        [class.chr-today]="cell.today"
+                        [class.chr-disabled]="cell.disabled"
+                        [class.chr-in-range]="cell.inRange"
+                        [class.chr-range-start]="cell.rangeStart"
+                        [class.chr-range-end]="cell.rangeEnd"
+                        [attr.tabindex]="cell.active ? 0 : -1"
+                        [attr.aria-label]="cell.ariaLabel"
+                        [attr.aria-current]="cell.today ? 'date' : null"
+                        [attr.aria-disabled]="cell.disabled || isDisabled() ? true : null"
+                        (click)="pick(cell)"
+                        (mouseenter)="onHover(cell)"
+                      >
+                        @if (cellTemplate(); as tpl) {
+                          <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="cellContext(cell)" />
+                        } @else {
+                          {{ cell.label }}
+                        }
+                      </button>
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>

@@ -67,7 +67,7 @@ export interface CalendarContext<TDate> {
 export const decadeStartOf = (year: number): number => Math.floor(year / 10) * 10;
 export const centuryStartOf = (year: number): number => Math.floor(year / 100) * 100;
 
-const GRID_COLUMNS: Record<CalendarView, number> = { day: 7, month: 3, year: 4, decade: 4 };
+const GRID_COLUMNS: Record<CalendarView, number> = { day: 7, month: 4, year: 4, decade: 4 };
 
 export function columnsOf(view: CalendarView): number {
   return GRID_COLUMNS[view];
@@ -135,7 +135,7 @@ export function buildDayView<TDate>(ctx: CalendarContext<TDate>, viewDate: TDate
   const weeks = adapter.getCalendarWeeks(viewDate, firstDayOfWeek, ctx.fixedWeeks ?? false);
   const weekdays: CalendarWeekday[] = Array.from({ length: 7 }, (_, i) => {
     const index = (firstDayOfWeek + i) % 7;
-    return { short: locale.weekdayNamesNarrow[index], long: locale.weekdayNames[index] };
+    return { short: locale.weekdayNamesShort[index].slice(0, 2), long: locale.weekdayNames[index] };
   });
   return {
     view: 'day',
@@ -168,7 +168,7 @@ export function buildMonthView<TDate>(ctx: CalendarContext<TDate>, viewDate: TDa
       key: `m-${year}-${month}`,
     };
   });
-  return { view: 'month', title: String(year), columns: 3, weekdays: [], rows: chunk(cells, 3) };
+  return { view: 'month', title: String(year), columns: 4, weekdays: [], rows: chunk(cells, 4) };
 }
 
 export function buildYearView<TDate>(ctx: CalendarContext<TDate>, viewDate: TDate): CalendarViewModel<TDate> {
@@ -317,7 +317,7 @@ export function moveFocus<TDate>(
           return adapter.addMonths(date, sign);
         case 'ArrowUp':
         case 'ArrowDown':
-          return adapter.addMonths(date, sign * 3);
+          return adapter.addMonths(date, sign * columnsOf('month'));
         case 'PageUp':
         case 'PageDown':
           return adapter.addYears(date, sign);

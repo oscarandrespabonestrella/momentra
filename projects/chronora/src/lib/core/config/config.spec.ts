@@ -39,7 +39,9 @@ describe('global configuration', () => {
   });
 
   it('supports a custom adapter class', () => {
-    class CustomAdapter extends NativeDateAdapter {}
+    // A class expression on purpose: Vite 8.3's SSR transform leaves the imported name in a nested
+    // `class X extends Import {}` declaration un-rewritten, so it is undefined in the full test run.
+    const CustomAdapter = class CustomAdapter extends NativeDateAdapter {};
     TestBed.configureTestingModule({ providers: [provideChronora({ dateAdapter: CustomAdapter })] });
     expect(TestBed.inject(CHRONORA_DATE_ADAPTER)).toBeInstanceOf(CustomAdapter);
     expect(TestBed.inject(CHRONORA_DATE_ADAPTER)).toBeInstanceOf(DateAdapter);
@@ -97,6 +99,21 @@ describe('configuration reaching components', () => {
     const el = fixture.nativeElement as HTMLElement;
     expect(el.querySelector('.a')!.getAttribute('data-chr-theme')).toBe('dark');
     expect(el.querySelector('.b')!.getAttribute('data-chr-theme')).toBe('auto');
+  });
+
+  it('switches the global theme at runtime without touching component overrides', async () => {
+    @Component({
+      imports: [CalendarComponent],
+      template: `<chr-calendar class="a" /><chr-calendar class="b" theme="light" />`,
+    })
+    class Host {}
+    const fixture = await createHost(Host);
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('.a')!.getAttribute('data-chr-theme')).toBe('light');
+    TestBed.inject(ChronoraSettings).theme.set('dark');
+    await settle(fixture);
+    expect(el.querySelector('.a')!.getAttribute('data-chr-theme')).toBe('dark');
+    expect(el.querySelector('.b')!.getAttribute('data-chr-theme')).toBe('light');
   });
 
   it('applies global locale, formats and placeholder to inputs, with component overrides winning', async () => {

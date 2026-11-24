@@ -1,0 +1,55 @@
+/* Docs look from the "Documentation" page of the Chronora design artifact. */
+:root {
+  color-scheme:light;
+  --doc-canvas:#ffffff; --doc-surface:#ffffff; --doc-surface2:#f7f8fa; --doc-panel:#f4f5f8; --doc-hover:#eef0f5;
+  --doc-line:#d5d9e1; --doc-fg:#151922; --doc-muted:#555d6e; --doc-subtle:#6f7685;
+  --doc-primary:#4c5bd4; --doc-on-primary:#ffffff; --doc-soft:#eceefd; --doc-soft-fg:#3542ae; --doc-link:#3542ae;
+  --doc-warn-soft:#fdf3e7; --doc-warn-fg:#8a3f06;
+  --doc-code:#0f1219; --doc-code-fg:#e9ebf1; --doc-code-muted:#8e95a6;
+  --doc-shadow-sm:0 1px 2px rgba(16,24,40,.06);
+  --doc-mono:'JetBrains Mono',ui-monospace,monospace;
+}
+/* Set by the header toggle (app.ts), which also switches ChronoraSettings.theme for the components. */
+:root[data-theme=dark] {
+  color-scheme:dark;
+  --doc-canvas:#0b0d12; --doc-surface:#11141b; --doc-surface2:#1b1f2a; --doc-panel:#151821; --doc-hover:#232836;
+  --doc-line:#2c3242; --doc-fg:#e9ebf1; --doc-muted:#a1a8b8; --doc-subtle:#8e95a6;
+  --doc-primary:#7f8cff; --doc-on-primary:#0b0d12; --doc-soft:#252a4a; --doc-soft-fg:#c3c9ff; --doc-link:#a9b2ff;
+  --doc-warn-soft:#2a2012; --doc-warn-fg:#f2b544;
+  --doc-code:#070910;
+  --doc-shadow-sm:0 1px 2px rgba(0,0,0,.5);
+}
+* { box-sizing:border-box; }
+body { margin:0; font:15px/1.6 Inter,system-ui,sans-serif; color:var(--doc-fg); background:var(--doc-canvas); }
+
+h1 { margin:0 0 16px; font:700 clamp(32px,5vw,44px)/1.1 'Inter Tight',Inter,sans-serif; letter-spacing:-.02em; text-wrap:balance; }
+h1 + p { font-size:18px; color:var(--doc-muted); max-width:680px; text-wrap:pretty; }
+h2 { margin:48px 0 16px; font-size:24px; font-weight:600; letter-spacing:-.01em; }
+h3 { margin:32px 0 12px; font-size:18px; font-weight:600; }
+p { margin:0 0 12px; color:var(--doc-muted); }
+a { color:var(--doc-link); }
+strong { color:var(--doc-fg); }
+
+code { font:500 .9em var(--doc-mono); color:var(--doc-fg); }
+kbd { font:12px var(--doc-mono); padding:2px 7px; border:1px solid var(--doc-line); border-bottom-width:2px; border-radius:5px; background:var(--doc-surface2); white-space:nowrap; }
+pre { margin:0 0 16px; padding:14px 16px; overflow-x:auto; border-radius:10px; background:var(--doc-code); color:var(--doc-code-fg); font:13px/1.65 var(--doc-mono); }
+pre code { color:inherit; font:inherit; }
+
+/* Tables: rounded bordered card, muted header row, row dividers only. */
+table { width:100%; margin:0 0 24px; border:1px solid var(--doc-line); border-radius:12px; border-collapse:separate; border-spacing:0; overflow:hidden; font-size:14px; line-height:1.5; background:var(--doc-surface); }
+th,td { padding:10px 16px; text-align:left; vertical-align:top; border-bottom:1px solid var(--doc-line); }
+tr:last-child > th, tr:last-child > td { border-bottom:0; }
+thead th { background:var(--doc-surface2); font-size:12px; font-weight:600; color:var(--doc-muted); }
+tbody th { font-weight:500; }
+
+label.opt { display:inline-flex; align-items:center; gap:6px; margin-right:16px; font-size:13px; color:var(--doc-fg); }
+label.opt select, label.opt input:not([type=checkbox]) { height:30px; padding:0 8px; border:1px solid var(--doc-line); border-radius:6px; background:var(--doc-surface); font:inherit; }
+input[type=checkbox] { accent-color:var(--doc-primary); }
+
+a:focus-visible, button:focus-visible, summary:focus-visible, pre:focus-visible, label.opt :focus-visible { outline:2px solid #7f8cff; outline-offset:2px; border-radius:6px; }
+@media (prefers-reduced-motion:reduce) { * { transition:none !important; animation:none !important; } }
+
+/* Inline calendars sit on a card like in the design artifact. */
+doc-demo chr-calendar, doc-demo chr-infinite-calendar, doc-demo chr-multiview-calendar {
+  border:1px solid var(--doc-line); box-shadow:var(--doc-shadow-sm);
+}

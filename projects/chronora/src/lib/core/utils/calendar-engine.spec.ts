@@ -25,7 +25,7 @@ describe('calendar engine', () => {
     it('lays out November 2026 with leading and trailing days', () => {
       const vm = buildDayView(ctx(), d(2026, 10, 15));
       expect(vm.title).toBe('November 2026');
-      expect(vm.weekdays.map((w) => w.short).join('')).toBe('SMTWTFS');
+      expect(vm.weekdays.map((w) => w.short).join('')).toBe('SuMoTuWeThFrSa');
       expect(vm.rows.length).toBe(5);
       expect(vm.rows[0][0].label).toBe('1');
       expect(vm.rows[0][0].outside).toBe(false);
@@ -145,7 +145,7 @@ describe('calendar engine', () => {
 
     it('navigates the month, year and decade grids by their own units', () => {
       expect(move('month', d(2026, 10, 1), 'ArrowRight')).toEqual(d(2026, 11, 1));
-      expect(move('month', d(2026, 10, 1), 'ArrowUp')).toEqual(d(2026, 7, 1));
+      expect(move('month', d(2026, 10, 1), 'ArrowUp')).toEqual(d(2026, 6, 1));
       expect(move('month', d(2026, 10, 1), 'PageDown')).toEqual(d(2027, 10, 1));
       expect(move('year', d(2026, 0, 1), 'ArrowDown')).toEqual(d(2030, 0, 1));
       expect(move('year', d(2026, 0, 1), 'Home')).toEqual(d(2020, 0, 1));

@@ -165,8 +165,22 @@ export class DateRangePickerComponent<TDate = Date> extends ChronoraFormControl<
     };
   });
 
-  /** The month the calendar shows when the popup opens (fixed while open, so picking an end date never jumps the view). */
+  /** The month the left calendar shows; set when the popup opens, so picking an end date never jumps the view. */
   protected readonly popupAnchor = signal<TDate | null>(null);
+  protected readonly leftMonth = computed(() => this.popupAnchor() ?? this.adapter.today());
+  protected readonly rightMonth = computed(() => this.adapter.addMonths(this.leftMonth(), 1));
+
+  /** "Nov 18 – Dec 3, 2026 · 16 days" once both ends are picked. */
+  protected readonly summary = computed(() => {
+    const { start, end } = this.value();
+    if (!start || !end) {
+      return '';
+    }
+    const a = this.adapter;
+    const l = this.effectiveLocale();
+    const days = a.differenceInDays(end, start) + 1;
+    return `${a.formatDate(start, l)} – ${a.formatDate(end, l)} · ${this.labels().rangeDays.replace('{n}', String(days))}`;
+  });
 
   protected readonly presetList = computed(() =>
     (this.presets() ?? []).map((preset) => {
@@ -398,6 +412,16 @@ export class DateRangePickerComponent<TDate = Date> extends ChronoraFormControl<
         this.closePopup(true);
       }
     }
+  }
+
+  /**
+   * Keeps the two calendars consecutive: when either one pages or keyboard focus leaves its month,
+   * the other follows.
+   * ponytail: crossing from the left month into the right one pages both by a month instead of
+   * handing focus over; teach chr-calendar an external focus API if that matters.
+   */
+  protected onMonthChange(date: TDate, panel: 0 | 1): void {
+    this.popupAnchor.set(panel === 0 ? date : this.adapter.addMonths(date, -1));
   }
 
   protected onHover(date: TDate | null): void {

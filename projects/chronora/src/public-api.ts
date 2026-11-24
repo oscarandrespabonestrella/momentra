@@ -64,12 +64,18 @@ export { ChronoraFormControl, provideChronoraControl } from './lib/core/forms/ch
 // Calendar
 export { CalendarComponent, type ChrCellContext } from './lib/calendar/calendar/calendar.component';
 export { createDisabledPredicate, type DisabledDates } from './lib/core/utils/disabled-dates';
+export { InfiniteCalendarComponent } from './lib/calendar/infinite-calendar/infinite-calendar.component';
+export {
+  MultiviewCalendarComponent,
+  type ChrMultiviewMode,
+} from './lib/calendar/multiview-calendar/multiview-calendar.component';
 export { MonthPickerComponent } from './lib/calendar/month-picker/month-picker.component';
 export { YearPickerComponent } from './lib/calendar/year-picker/year-picker.component';
 export { DecadePickerComponent } from './lib/calendar/decade-picker/decade-picker.component';
 
 // Inputs
 export { DateInputComponent } from './lib/inputs/date-input/date-input.component';
+export { DateTimeInputComponent } from './lib/inputs/datetime-input/datetime-input.component';
 export { DatePickerComponent } from './lib/inputs/date-picker/date-picker.component';
 export { TimePickerComponent } from './lib/inputs/time-picker/time-picker.component';
 export { DateTimePickerComponent } from './lib/inputs/datetime-picker/datetime-picker.component';

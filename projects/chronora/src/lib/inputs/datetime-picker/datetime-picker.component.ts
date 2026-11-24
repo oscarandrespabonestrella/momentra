@@ -10,9 +10,11 @@ import {
   computed,
   inject,
   input,
+  signal,
   viewChild,
 } from '@angular/core';
 import type { ValidationErrors } from '@angular/forms';
+import { InfiniteCalendarComponent } from '../../calendar/infinite-calendar/infinite-calendar.component';
 import { CalendarComponent, type ChrCellContext } from '../../calendar/calendar/calendar.component';
 import { provideChronoraControl } from '../../core/forms/chronora-form-control';
 import type { LocaleOverrides } from '../../core/services/chronora-settings';
@@ -42,7 +44,7 @@ import { ChrTimeSelector } from '../shared/time-selector.component';
   templateUrl: './datetime-picker.component.html',
   styleUrl: './datetime-picker.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ChrFieldShell, CalendarComponent, ChrTimeSelector, CdkConnectedOverlay, CdkTrapFocus],
+  imports: [ChrFieldShell, CalendarComponent, InfiniteCalendarComponent, ChrTimeSelector, CdkConnectedOverlay, CdkTrapFocus],
   hostDirectives: [{ directive: ChrThemeDirective, inputs: ['theme'] }],
   providers: [provideChronoraControl(() => DateTimePickerComponent)],
   host: { class: 'chr-datetime-picker', '[class.chr-invalid]': 'invalid()', '[class.chr-open]': 'open()' },
@@ -73,6 +75,18 @@ export class DateTimePickerComponent<TDate = Date> extends ChronoraPopupControl<
   });
   /** Month to show when the popup opens with no value. Defaults to today. */
   readonly initialDate = input<TDate | null | undefined>(null);
+
+  /**
+   * `'split'`: calendar and time lists side by side. `'tabs'`: a Date tab and a Time tab with Cancel / Set
+   * buttons (narrow popup; picking a date switches to the Time tab).
+   */
+  readonly layout = input<'split' | 'tabs'>('split');
+
+  protected readonly tab = signal<'date' | 'time'>('date');
+  /** Tabs layout: the value to restore on Cancel, and whether a time was chosen since opening. */
+  private previous: TDate | null = null;
+  protected readonly timeChosen = signal(false);
+  protected readonly canSet = computed(() => this.value() != null && this.timeChosen());
 
   private readonly calendar = viewChild(CalendarComponent);
 
@@ -135,6 +149,11 @@ export class DateTimePickerComponent<TDate = Date> extends ChronoraPopupControl<
     );
   }
 
+  protected override unitStep(kind: string): number {
+    const steps = this.steps();
+    return kind === 'hour24' || kind === 'hour12' ? steps.hour : kind === 'minute' ? steps.minute : kind === 'second' ? steps.second : 1;
+  }
+
   /** `ArrowUp`/`ArrowDown` step minutes; `Shift` steps days, `Ctrl` steps hours. */
   protected override stepValue(direction: 1 | -1, event: KeyboardEvent): TDate {
     const base = this.value() ?? this.adapter.now();
@@ -161,6 +180,9 @@ export class DateTimePickerComponent<TDate = Date> extends ChronoraPopupControl<
   }
 
   protected onAttach(): void {
+    this.previous = this.value();
+    this.timeChosen.set(this.previous != null);
+    this.tab.set('date');
     afterNextRender(() => this.calendar()?.focusActiveCell(), { injector: this.injector });
   }
 
@@ -169,9 +191,18 @@ export class DateTimePickerComponent<TDate = Date> extends ChronoraPopupControl<
     const next = current && this.adapter.isValid(current) ? this.adapter.combine(day, current) : day;
     this.setFromUi(this.clampToBounds(next));
     this.markTouched();
+    if (this.layout() === 'tabs') {
+      this.tab.set('time');
+    }
+  }
+
+  protected cancel(): void {
+    this.setFromUi(this.previous);
+    this.closePopup(true);
   }
 
   protected onTimeChange(date: TDate): void {
+    this.timeChosen.set(true);
     this.setFromUi(this.clampToBounds(date));
   }
 

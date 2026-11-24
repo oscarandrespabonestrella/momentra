@@ -45,15 +45,28 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  min-width: 140px;
-  padding: var(--_chr-spacing);
+  width: 156px;
+  box-sizing: border-box;
+  padding: 10px 8px;
+  background: var(--_chr-surface-alt);
   border-right: 1px solid var(--_chr-border);
+}
+
+.chr-presets-head {
+  padding: 4px 10px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--_chr-text-subtle);
 }
 
 .chr-preset {
   @include chr.reset-button;
-  padding: 8px 10px;
+  height: 32px;
+  padding: 0 10px;
   border-radius: var(--_chr-radius-sm);
+  font-size: 13px;
   text-align: left;
 
   &:hover:not(:disabled) {
@@ -67,7 +80,7 @@
 
   &.chr-active {
     background: var(--_chr-primary-soft);
-    color: var(--_chr-primary);
+    color: var(--_chr-primary-text);
     font-weight: 600;
   }
 
@@ -82,13 +95,36 @@
   flex-direction: column;
 }
 
+.chr-months {
+  display: flex;
+  gap: 12px;
+  padding: 0 4px;
+
+  chr-calendar {
+    background: transparent;
+  }
+}
+
+.chr-range-footer {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 10px 16px;
+  border-top: 1px solid var(--_chr-border);
+  background: var(--_chr-surface-alt);
+}
+
 .chr-hint {
-  min-height: 20px;
   margin: 0;
-  padding: 0 var(--_chr-spacing) var(--_chr-spacing);
-  font-size: 12px;
+  font-size: 13px;
   color: var(--_chr-text-muted);
-  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .chr-cal-second {
+    display: none;
+  }
 }
 
 @media (max-width: 560px) {
@@ -103,7 +139,7 @@
   .chr-presets {
     flex-direction: row;
     flex-wrap: wrap;
-    min-width: 0;
+    width: auto;
     border-right: 0;
     border-bottom: 1px solid var(--_chr-border);
   }

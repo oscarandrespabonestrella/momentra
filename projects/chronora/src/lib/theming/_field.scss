@@ -40,7 +40,7 @@
     font-family: var(--_chr-font-family);
     font-size: var(--_chr-font-size);
     border: 1px solid var(--_chr-border);
-    border-radius: var(--_chr-radius);
+    border-radius: calc(var(--_chr-radius) + 4px);
     box-shadow: var(--_chr-shadow);
   }
 
@@ -71,40 +71,117 @@
 @mixin popup-footer {
   .chr-popup-footer {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
-    gap: var(--_chr-spacing);
-    padding: var(--_chr-spacing);
+    gap: 8px;
+    padding: 10px 12px;
     border-top: 1px solid var(--_chr-border);
+    background: var(--_chr-surface-alt);
   }
 
   .chr-btn {
     @include chr.reset-button;
-    padding: 6px 14px;
-    border-radius: var(--_chr-radius-sm);
-    font-weight: 600;
-    color: var(--_chr-primary);
+    height: 30px;
+    padding: 0 12px;
+    border: 1px solid var(--_chr-border);
+    border-radius: var(--_chr-radius);
+    background: var(--_chr-surface);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--_chr-text);
 
     &:hover:not(:disabled) {
-      background: var(--_chr-primary-soft);
+      background: var(--_chr-surface-hover);
     }
 
     &:focus-visible {
-      @include chr.focus-ring;
+      outline: 0;
+      box-shadow: 0 0 0 3px var(--_chr-ring);
     }
 
     &:disabled {
+      background: var(--_chr-surface-alt);
+      border-color: var(--_chr-surface-alt);
       color: var(--_chr-text-disabled);
-      cursor: default;
+      cursor: not-allowed;
+    }
+
+    // Ghost text action pinned left (Now / Today).
+    &.chr-btn-ghost {
+      margin-right: auto;
+      padding: 0 10px;
+      border-color: transparent;
+      border-radius: var(--_chr-radius-sm);
+      background: transparent;
+      color: var(--_chr-primary-text);
+      font-weight: 600;
+
+      &:hover:not(:disabled) {
+        background: var(--_chr-primary-soft);
+      }
     }
 
     &.chr-btn-primary {
       background: var(--_chr-primary);
+      border-color: var(--_chr-primary);
       color: var(--_chr-primary-contrast);
 
       &:hover:not(:disabled) {
         background: var(--_chr-primary);
         filter: brightness(1.08);
       }
+
+      &:disabled {
+        background: var(--_chr-surface-alt);
+        border-color: var(--_chr-surface-alt);
+        color: var(--_chr-text-disabled);
+      }
+    }
+  }
+}
+
+// Up / down buttons rendered after the input when `spinners` is set.
+@mixin spinners {
+  .chr-spinners {
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    align-self: stretch;
+    width: var(--chr-spinner-width, 26px);
+    border-left: 1px solid var(--_chr-border);
+  }
+
+  .chr-spin {
+    @include chr.reset-button;
+    flex: 1;
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    color: var(--_chr-text-muted);
+
+    svg {
+      width: 10px;
+      height: 10px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    &:hover:not(:disabled) {
+      background: var(--_chr-surface-hover);
+      color: var(--_chr-text);
+    }
+
+    &:focus-visible {
+      @include chr.focus-ring;
+      outline-offset: -2px;
+    }
+
+    &:disabled {
+      color: var(--_chr-text-disabled);
+      cursor: not-allowed;
     }
   }
 }
