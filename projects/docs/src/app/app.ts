@@ -20,7 +20,8 @@ const THEME_KEY = 'momentra-docs-theme';
     .spacer { flex:1; }
     .icon { width:40px; height:40px; padding:0; border:1px solid var(--doc-line); border-radius:8px; background:var(--doc-surface); color:var(--doc-fg); display:flex; align-items:center; justify-content:center; cursor:pointer; }
     .icon:hover { background:var(--doc-hover); }
-    .version { font:500 12px var(--doc-mono); color:var(--doc-muted); padding:2px 8px; border:1px solid var(--doc-line); border-radius:999px; }
+    .version { font:500 12px var(--doc-mono); color:var(--doc-muted); padding:2px 8px; border:1px solid var(--doc-line); border-radius:999px; text-decoration:none; }
+    .version:hover { color:var(--doc-fg); background:var(--doc-hover); }
     .pill { font:600 12px Inter,sans-serif; padding:2px 8px; border-radius:999px; background:var(--doc-soft); color:var(--doc-soft-fg); }
     .body { display:flex; flex-wrap:wrap; align-items:flex-start; width:100%; max-width:1440px; margin:0 auto; flex:1; }
     nav { flex:0 0 248px; padding:28px 12px 40px 24px; position:sticky; top:60px; max-height:calc(100vh - 60px); overflow-y:auto; }
@@ -42,7 +43,7 @@ const THEME_KEY = 'momentra-docs-theme';
         <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="8" fill="#4C5BD4"></rect><path d="M22.5 11.2A8 8 0 1 0 24 16" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M16 11v5l3 2" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="24.2" cy="9.8" r="2.2" fill="#F2B544"></circle></svg>
         Momentra <span class="pill">Docs</span>
       </a>
-      <span class="version" title="momentra version">v{{ version }}</span>
+      <a class="version" href="https://www.npmjs.com/package/@momentra/angular" target="_blank" rel="noopener" title="@momentra/angular on npm (opens in a new tab)">v{{ version }}</a>
       <span class="spacer"></span>
       <a class="icon" [href]="repo" target="_blank" rel="noopener" aria-label="GitHub repository (opens in a new tab)" title="GitHub repository">
         <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"></path></svg>

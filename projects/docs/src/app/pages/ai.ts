@@ -25,7 +25,7 @@ export class AiPage {
   readonly repo = 'https://github.com/oscarandrespabonestrella/momentra';
   readonly appRule = `## Date and time UI
 Use momentra for every date/time field.
-Docs for LLMs: <docs-site>/llms.txt (full text: <docs-site>/llms-full.txt).
+Docs for LLMs: https://oscarandrespabonestrella.github.io/momentra/llms.txt (full text: https://oscarandrespabonestrella.github.io/momentra/llms-full.txt).
 - Theme with --mtr-* custom properties on :root, never .mtr-* classes or ::ng-deep.
 - Always set ariaLabel on Momentra fields.`;
 }
