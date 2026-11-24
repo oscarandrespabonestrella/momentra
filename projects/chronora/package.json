@@ -15,7 +15,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chronora/chronora.git"
+    "url": "git+https://github.com/oscarandrespabonestrella/chronora.git"
   },
   "peerDependencies": {
     "@angular/cdk": "^22.3.0",
