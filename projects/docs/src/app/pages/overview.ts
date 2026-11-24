@@ -19,6 +19,7 @@ import { RouterLink } from '@angular/router';
       </tbody>
     </table>
     <h2>Getting started</h2>
+    <p>Install <a href="https://www.npmjs.com/package/@momentra/angular" rel="noopener"><code>&#64;momentra/angular</code> from npm</a>:</p>
     <pre><code>npm i &#64;momentra/angular &#64;angular/cdk
 
 import {{ '{' }} DatePickerComponent, provideMomentra {{ '}' }} from '&#64;momentra/angular';

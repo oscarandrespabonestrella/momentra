@@ -16,7 +16,9 @@ Key facts for code generation:
 
 ## Docs
 
-- [Full documentation in one file](llms-full.txt): README plus every guide below, concatenated
+- [Documentation site](https://oscarandrespabonestrella.github.io/momentra/): live demos and API tables for every component
+- [npm package](https://www.npmjs.com/package/@momentra/angular): `@momentra/angular`
+- [Full documentation in one file](https://oscarandrespabonestrella.github.io/momentra/llms-full.txt): README plus every guide below, concatenated (also at `node_modules/@momentra/angular/llms-full.txt`)
 - [Component APIs](https://github.com/oscarandrespabonestrella/momentra/blob/main/docs/components.md): inputs, outputs and methods of every component, plus global configuration
 - [Styling and themes](https://github.com/oscarandrespabonestrella/momentra/blob/main/docs/styling-and-themes.md): themes, every `--mtr-*` custom property with light/dark defaults
 - [Localization](https://github.com/oscarandrespabonestrella/momentra/blob/main/docs/localization.md): locales, formats, first day of week, labels

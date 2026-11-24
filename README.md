@@ -3,6 +3,9 @@
 [![CI](https://github.com/oscarandrespabonestrella/momentra/actions/workflows/ci.yml/badge.svg)](https://github.com/oscarandrespabonestrella/momentra/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/@momentra/angular?label=npm&color=cb3837)](https://www.npmjs.com/package/@momentra/angular)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Docs](https://img.shields.io/badge/docs-live%20demos-4C5BD4)](https://oscarandrespabonestrella.github.io/momentra/)
+
+**[Documentation and live demos](https://oscarandrespabonestrella.github.io/momentra/)** · **[npm package](https://www.npmjs.com/package/@momentra/angular)**
 
 Momentra is a modern, extensible Angular date and time component library providing beautiful, accessible, and highly configurable date pickers, calendars, time pickers, date-time pickers, and date range components.
 
@@ -135,6 +138,8 @@ providers: [provideMomentraLuxon({ locale: 'es-ES' }, { zone: 'Europe/Madrid' })
 See [Date adapters](docs/date-adapters.md) for the native, date-fns and Luxon adapters and for writing your own.
 
 ## Documentation
+
+The [docs site](https://oscarandrespabonestrella.github.io/momentra/) has a live demo and API table for every component. The guides below are the same material as Markdown:
 
 - [Architecture](docs/architecture.md)
 - [Date adapters](docs/date-adapters.md)

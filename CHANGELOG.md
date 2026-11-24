@@ -9,6 +9,7 @@ All notable changes to `@momentra/angular` are documented here. The format follo
 - Docs app: Styling & theming section (Themes, CSS custom properties), AI & LLMs page, version badge and GitHub link in the header.
 - `llms.txt`, `llms-full.txt` (also shipped in the npm package) and `AGENTS.md` for coding agents.
 - CI and Release GitHub workflows; npm publishing via trusted publishing with provenance.
+- Docs site on GitHub Pages (https://oscarandrespabonestrella.github.io/momentra/), linked from the README, the npm README, `llms.txt` and the package `homepage`; the header version badge links to npm.
 
 ### Changed
 

@@ -1,6 +1,8 @@
-# momentra
+# @momentra/angular
 
 **Momentra — The Angular Date & Time Toolkit.** Accessible, themeable date pickers, calendars, time pickers, date-time pickers and date range components for Angular, with Angular Forms integration and pluggable date adapters (native `Date`, date-fns, Luxon).
+
+**[Documentation and live demos](https://oscarandrespabonestrella.github.io/momentra/)** · [GitHub](https://github.com/oscarandrespabonestrella/momentra)
 
 ```bash
 npm install @momentra/angular @angular/cdk
@@ -29,6 +31,7 @@ Peer dependencies: `@angular/core`, `@angular/common`, `@angular/forms`, `@angul
 
 Status: pre-release, published to the `next` dist-tag (`npm i @momentra/angular@next`). Tested in jsdom, not yet in real browsers or with screen readers.
 
+- [Documentation site](https://oscarandrespabonestrella.github.io/momentra/) with live demos of every component
 - [Repository and full README](https://github.com/oscarandrespabonestrella/momentra#readme), including known limitations
 - [Component APIs](https://github.com/oscarandrespabonestrella/momentra/blob/main/docs/components.md) · [Styling and themes](https://github.com/oscarandrespabonestrella/momentra/blob/main/docs/styling-and-themes.md) · [Examples](https://github.com/oscarandrespabonestrella/momentra/tree/main/examples)
 - [Changelog](https://github.com/oscarandrespabonestrella/momentra/blob/main/CHANGELOG.md) · [Issues](https://github.com/oscarandrespabonestrella/momentra/issues)

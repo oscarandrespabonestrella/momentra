@@ -14,7 +14,7 @@ The build uses `@angular/build:library` in `partial` compilation mode (the defau
 
 `projects/momentra/package.json` is the source of the published manifest:
 
-- `name: momentra`, `version`, `description`, `keywords`, `license: MIT`, `repository`, `bugs`, `homepage`, `publishConfig.access: public`.
+- `name: @momentra/angular`, `version`, `description`, `keywords`, `license: MIT`, `repository`, `bugs`, `homepage` (the [docs site](https://oscarandrespabonestrella.github.io/momentra/)), `publishConfig.access: public`.
 - `peerDependencies`: `@angular/core`, `@angular/common`, `@angular/forms`, `@angular/cdk` (all `^22.3.0`); `date-fns` and `luxon` with `peerDependenciesMeta.optional: true`.
 - `dependencies`: only `tslib`.
 - `sideEffects: false`.
@@ -58,3 +58,5 @@ Trusted publishing is configured in the package's settings on npmjs.com, so the 
 ## Continuous integration
 
 `.github/workflows/ci.yml` runs on every push to `main` and every pull request: `npm run check` (tests, examples, library build), `test:tz`, `check:contrast`, packs the library (uploaded as the `momentra-package` artifact) and builds the docs app.
+
+`.github/workflows/docs.yml` deploys the docs app to GitHub Pages on every push to `main`: <https://oscarandrespabonestrella.github.io/momentra/>. The published package is <https://www.npmjs.com/package/@momentra/angular>.
