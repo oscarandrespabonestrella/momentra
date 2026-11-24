@@ -23,6 +23,6 @@ export const PAGES: DocPage[] = [
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'overview' },
-  ...PAGES.map((x) => ({ path: x.path, title: `${x.title} · Chronora`, loadComponent: x.load as never })),
+  ...PAGES.map((x) => ({ path: x.path, title: `${x.title} · Momentra`, loadComponent: x.load as never })),
   { path: '**', redirectTo: 'overview' },
 ];

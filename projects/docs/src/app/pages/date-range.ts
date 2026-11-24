@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import {
   DateRangePickerComponent, NativeDateAdapter, createPreset, lastDaysRange, thisMonthRange, lastMonthRange,
   type DateRange, type DateRangePreset,
-} from '@chronora/angular';
+} from '@momentra/angular';
 import { Api, COMMON } from '../api';
 import { Demo } from '../demo';
 
@@ -16,18 +16,18 @@ const adapter = new NativeDateAdapter();
 
     <h2>Basic</h2>
     <doc-demo [code]="basic">
-      <chr-date-range-picker ariaLabel="Range" [(value)]="range" />
+      <mtr-date-range-picker ariaLabel="Range" [(value)]="range" />
       <span output>{{ range().start?.toDateString() ?? '—' }} → {{ range().end?.toDateString() ?? '—' }}</span>
     </doc-demo>
 
     <h2>Presets and length limits (2–30 days)</h2>
     <doc-demo [code]="presetsCode">
-      <chr-date-range-picker ariaLabel="Stay" [presets]="presets" [minRangeLength]="2" [maxRangeLength]="30" />
+      <mtr-date-range-picker ariaLabel="Stay" [presets]="presets" [minRangeLength]="2" [maxRangeLength]="30" />
     </doc-demo>
 
     <h2>Bounds</h2>
     <doc-demo [code]="bounds">
-      <chr-date-range-picker ariaLabel="Future only" [min]="today" [closeOnSelect]="false" />
+      <mtr-date-range-picker ariaLabel="Future only" [min]="today" [closeOnSelect]="false" />
     </doc-demo>
 
     <h2>API</h2>
@@ -43,12 +43,12 @@ export class DateRangePage {
     createPreset('This month', () => thisMonthRange(adapter)),
     createPreset('Last month', () => lastMonthRange(adapter)),
   ];
-  readonly basic = `<chr-date-range-picker [(value)]="range" />`;
+  readonly basic = `<mtr-date-range-picker [(value)]="range" />`;
   readonly presetsCode = `presets = [createPreset('Last 7 days', () => lastDaysRange(adapter, 7))];
-<chr-date-range-picker [presets]="presets" [minRangeLength]="2" [maxRangeLength]="30" />`;
-  readonly bounds = `<chr-date-range-picker [min]="today" [closeOnSelect]="false" />`;
+<mtr-date-range-picker [presets]="presets" [minRangeLength]="2" [maxRangeLength]="30" />`;
+  readonly bounds = `<mtr-date-range-picker [min]="today" [closeOnSelect]="false" />`;
   readonly api = [
-    ['value (model)', 'DateRange<TDate>', '{ start, end }; may be incomplete (chrRangeIncomplete).'],
+    ['value (model)', 'DateRange<TDate>', '{ start, end }; may be incomplete (mtrRangeIncomplete).'],
     ['min / max', 'TDate', 'Bounds for both ends.'],
     ['minRangeLength / maxRangeLength', 'number', 'Days spanned, inclusive.'],
     ['disabledDates', '(d) => boolean | TDate[]', 'Days that cannot be in a range.'],

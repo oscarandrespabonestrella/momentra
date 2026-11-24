@@ -5,9 +5,9 @@
     "rootDir": "..",
     "outDir": "../out-tsc/examples",
     "paths": {
-      "@chronora/angular": ["../projects/chronora/src/public-api.ts"],
-      "@chronora/angular/date-fns": ["../projects/chronora/date-fns/public-api.ts"],
-      "@chronora/angular/luxon": ["../projects/chronora/luxon/public-api.ts"]
+      "@momentra/angular": ["../projects/momentra/src/public-api.ts"],
+      "@momentra/angular/date-fns": ["../projects/momentra/date-fns/public-api.ts"],
+      "@momentra/angular/luxon": ["../projects/momentra/luxon/public-api.ts"]
     }
   },
   "files": [],

@@ -1,0 +1,74 @@
+@use '../../theming/tokens' as mtr;
+@use '../../theming/calendar-grid';
+
+@include mtr.theme;
+@include calendar-grid.calendar-grid;
+
+// Fixed width: a table with `width: 100%` would otherwise stretch to its container.
+:host {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(var(--_mtr-cell-size) * 7 + var(--_mtr-spacing) * 2);
+  max-width: 100%;
+  background: var(--_mtr-surface);
+  color: var(--_mtr-text);
+  border-radius: calc(var(--_mtr-radius) + 4px);
+}
+
+.mtr-cal {
+  padding: var(--_mtr-spacing);
+  box-sizing: border-box;
+}
+
+.mtr-cal-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.mtr-spacer {
+  flex: 1;
+}
+
+.mtr-cal-footer {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--_mtr-border);
+}
+
+// Hooks for side-by-side calendars (date range popup): blank out neighbouring-month days and
+// hide the arrow that points at the other panel.
+:host(.mtr-hide-outside) .mtr-cell.mtr-outside {
+  visibility: hidden;
+}
+
+// Same breakpoint as the range popup, which drops the second month below 641px.
+@media (min-width: 641px) {
+  :host(.mtr-hide-next) .mtr-nav + .mtr-nav,
+  :host(.mtr-hide-prev) .mtr-nav:has(+ .mtr-nav) {
+    visibility: hidden;
+  }
+}
+
+:host(.mtr-disabled) {
+  opacity: 0.6;
+}
+
+@media (max-width: 420px) {
+  :host {
+    --_mtr-cell-size: 40px;
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (forced-colors: active) {
+  .mtr-cell.mtr-selected,
+  .mtr-cell.mtr-range-start,
+  .mtr-cell.mtr-range-end {
+    outline: 2px solid Highlight;
+  }
+}

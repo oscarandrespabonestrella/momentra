@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TimePickerComponent } from '@chronora/angular';
+import { TimePickerComponent } from '@momentra/angular';
 import { Api, COMMON } from '../api';
 import { Demo } from '../demo';
 
@@ -12,13 +12,13 @@ import { Demo } from '../demo';
 
     <h2>Basic</h2>
     <doc-demo [code]="basic">
-      <chr-time-picker ariaLabel="Time" [(value)]="value" />
+      <mtr-time-picker ariaLabel="Time" [(value)]="value" />
       <span output>Value: {{ value()?.toLocaleTimeString() ?? 'null' }}</span>
     </doc-demo>
 
     <h2>Options</h2>
     <doc-demo [code]="options">
-      <chr-time-picker ariaLabel="Configurable" [hourFormat]="hourFormat" [showSeconds]="seconds" [minuteStep]="minuteStep" />
+      <mtr-time-picker ariaLabel="Configurable" [hourFormat]="hourFormat" [showSeconds]="seconds" [minuteStep]="minuteStep" />
       <div options>
         <label class="opt">hourFormat
           <select [(ngModel)]="hourFormat"><option [ngValue]="12">12</option><option [ngValue]="24">24</option></select></label>
@@ -30,7 +30,7 @@ import { Demo } from '../demo';
 
     <h2>Explicit format and limits (09:00–17:00)</h2>
     <doc-demo [code]="limits">
-      <chr-time-picker ariaLabel="Office hours" format="HH:mm" [min]="from" [max]="to" [minuteStep]="15" />
+      <mtr-time-picker ariaLabel="Office hours" format="HH:mm" [min]="from" [max]="to" [minuteStep]="15" />
     </doc-demo>
 
     <h2>API</h2>
@@ -42,9 +42,9 @@ export class TimePickerPage {
   hourFormat: 12 | 24 = 12; seconds = false; minuteStep = 5;
   readonly from = new Date(2000, 0, 1, 9);
   readonly to = new Date(2000, 0, 1, 17);
-  readonly basic = `<chr-time-picker ariaLabel="Time" [(value)]="value" />`;
-  readonly options = `<chr-time-picker [hourFormat]="24" [showSeconds]="true" [minuteStep]="5" />`;
-  readonly limits = `<chr-time-picker format="HH:mm" [min]="from" [max]="to" [minuteStep]="15" />`;
+  readonly basic = `<mtr-time-picker ariaLabel="Time" [(value)]="value" />`;
+  readonly options = `<mtr-time-picker [hourFormat]="24" [showSeconds]="true" [minuteStep]="5" />`;
+  readonly limits = `<mtr-time-picker format="HH:mm" [min]="from" [max]="to" [minuteStep]="15" />`;
   readonly api = [
     ['value (model)', 'TDate | null', 'Time of day lives in the Date.'],
     ['format', 'string', 'e.g. HH:mm, h:mm a; wins over hourFormat/showSeconds.'],

@@ -1,0 +1,33 @@
+<div class="mtr-time" role="group" [attr.aria-label]="labels().timeSelector">
+  @for (column of columns(); track column.id) {
+    <div class="mtr-time-wrap">
+    <span class="mtr-time-head" aria-hidden="true">{{ column.label }}</span>
+    <div
+      class="mtr-time-col"
+      role="listbox"
+      [attr.aria-label]="column.label"
+      [attr.aria-disabled]="disabled() ? 'true' : null"
+      [attr.aria-readonly]="readonly() ? 'true' : null"
+      [attr.data-col]="column.id"
+      (keydown)="onKeydown($event, column)"
+    >
+      @for (option of column.options; track option.value) {
+        <div
+          class="mtr-time-opt"
+          role="option"
+          [id]="optionId(column, option)"
+          [class.mtr-selected]="option.selected"
+          [class.mtr-disabled]="option.disabled"
+          [attr.aria-selected]="option.selected"
+          [attr.aria-disabled]="option.disabled || disabled() ? 'true' : null"
+          [attr.tabindex]="disabled() ? null : option.value === column.tabValue ? 0 : -1"
+          [attr.data-value]="option.value"
+          (click)="choose(column, option)"
+        >
+          {{ option.label }}
+        </div>
+      }
+    </div>
+    </div>
+  }
+</div>

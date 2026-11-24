@@ -1,0 +1,115 @@
+// Momentra design tokens.
+//
+// Public API: the `--mtr-*` custom properties documented in docs/styling-and-themes.md.
+// Components read the private `--_mtr-*` aliases defined here; each alias falls back from the
+// public property to a theme default, so an application can override any `--mtr-*` value on
+// :root (or any ancestor) without losing the light/dark defaults.
+
+@mixin light-tokens {
+  --_mtr-primary: var(--mtr-primary, #4c5bd4);
+  --_mtr-primary-contrast: var(--mtr-primary-contrast, #ffffff);
+  --_mtr-primary-soft: var(--mtr-primary-soft, #eceefd);
+  --_mtr-primary-text: var(--mtr-primary-text, #3542ae);
+  --_mtr-surface: var(--mtr-surface, #ffffff);
+  --_mtr-surface-alt: var(--mtr-surface-alt, #f7f8fa);
+  --_mtr-surface-hover: var(--mtr-surface-hover, #eef0f5);
+  --_mtr-text: var(--mtr-text, #151922);
+  --_mtr-text-muted: var(--mtr-text-muted, #555d6e);
+  --_mtr-text-subtle: var(--mtr-text-subtle, #6f7685);
+  --_mtr-text-disabled: var(--mtr-text-disabled, #a6acb8);
+  --_mtr-border: var(--mtr-border, #d5d9e1);
+  --_mtr-border-strong: var(--mtr-border-strong, #b4bac7);
+  --_mtr-danger: var(--mtr-danger, #c2342b);
+  --_mtr-today: var(--mtr-today, #b45309);
+  --_mtr-range: var(--mtr-range, #e6e9fc);
+  --_mtr-range-text: var(--mtr-range-text, #232a6b);
+  --_mtr-ring: var(--mtr-ring, rgba(76, 91, 212, 0.32));
+  --_mtr-focus-ring: var(--mtr-focus-ring, #4c5bd4);
+  --_mtr-shadow: var(--mtr-shadow, 0 12px 32px rgba(16, 24, 40, 0.12), 0 2px 6px rgba(16, 24, 40, 0.06));
+  --_mtr-shadow-sm: var(--mtr-shadow-sm, 0 1px 2px rgba(16, 24, 40, 0.06));
+}
+
+@mixin dark-tokens {
+  --_mtr-primary: var(--mtr-primary, #7f8cff);
+  --_mtr-primary-contrast: var(--mtr-primary-contrast, #0b0d12);
+  --_mtr-primary-soft: var(--mtr-primary-soft, #252a4a);
+  --_mtr-primary-text: var(--mtr-primary-text, #c3c9ff);
+  --_mtr-surface: var(--mtr-surface, #151821);
+  --_mtr-surface-alt: var(--mtr-surface-alt, #1b1f2a);
+  --_mtr-surface-hover: var(--mtr-surface-hover, #232836);
+  --_mtr-text: var(--mtr-text, #e9ebf1);
+  --_mtr-text-muted: var(--mtr-text-muted, #a1a8b8);
+  --_mtr-text-subtle: var(--mtr-text-subtle, #8e95a6);
+  --_mtr-text-disabled: var(--mtr-text-disabled, #565d6e);
+  --_mtr-border: var(--mtr-border, #2c3242);
+  --_mtr-border-strong: var(--mtr-border-strong, #454d62);
+  --_mtr-danger: var(--mtr-danger, #f2766b);
+  --_mtr-today: var(--mtr-today, #f2b544);
+  --_mtr-range: var(--mtr-range, #21264a);
+  --_mtr-range-text: var(--mtr-range-text, #d6daff);
+  --_mtr-ring: var(--mtr-ring, rgba(127, 140, 255, 0.4));
+  --_mtr-focus-ring: var(--mtr-focus-ring, #7f8cff);
+  --_mtr-shadow: var(--mtr-shadow, 0 16px 40px rgba(0, 0, 0, 0.55));
+  --_mtr-shadow-sm: var(--mtr-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.5));
+}
+
+// Structural tokens (theme independent).
+@mixin base-tokens {
+  --_mtr-radius: var(--mtr-radius, 8px);
+  --_mtr-radius-sm: var(--mtr-radius-sm, 6px);
+  --_mtr-font-family: var(--mtr-font-family, Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif);
+  --_mtr-font-size: var(--mtr-font-size, 14px);
+  --_mtr-cell-size: var(--mtr-cell-size, 38px);
+  --_mtr-spacing: var(--mtr-spacing, 12px);
+  --_mtr-cell-height: var(--mtr-cell-height, 34px);
+}
+
+// Include once in each component's `:host` rule set.
+@mixin theme {
+  :host {
+    @include base-tokens;
+    @include light-tokens;
+    font-family: var(--_mtr-font-family);
+    font-size: var(--_mtr-font-size);
+    color: var(--_mtr-text);
+  }
+
+  :host([data-mtr-theme='dark']) {
+    @include dark-tokens;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :host([data-mtr-theme='auto']) {
+      @include dark-tokens;
+    }
+  }
+}
+
+@mixin focus-ring {
+  outline: 2px solid var(--_mtr-focus-ring);
+  outline-offset: 2px;
+}
+
+// Visually hidden but available to assistive technology.
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@mixin reset-button {
+  appearance: none;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}

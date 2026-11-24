@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   template: `
     <h1>AI &amp; LLMs</h1>
-    <p>Machine-readable docs so coding assistants generate correct Chronora code instead of guessing selectors, inputs and theming.</p>
+    <p>Machine-readable docs so coding assistants generate correct Momentra code instead of guessing selectors, inputs and theming.</p>
 
     <table>
       <thead><tr><th scope="col">File</th><th scope="col">For</th><th scope="col">What it holds</th></tr></thead>
@@ -22,10 +22,10 @@ import { Component } from '@angular/core';
   `,
 })
 export class AiPage {
-  readonly repo = 'https://github.com/oscarandrespabonestrella/chronora';
+  readonly repo = 'https://github.com/oscarandrespabonestrella/momentra';
   readonly appRule = `## Date and time UI
-Use @chronora/angular for every date/time field.
+Use momentra for every date/time field.
 Docs for LLMs: <docs-site>/llms.txt (full text: <docs-site>/llms-full.txt).
-- Theme with --chr-* custom properties on :root, never .chr-* classes or ::ng-deep.
-- Always set ariaLabel on Chronora fields.`;
+- Theme with --mtr-* custom properties on :root, never .mtr-* classes or ::ng-deep.
+- Always set ariaLabel on Momentra fields.`;
 }

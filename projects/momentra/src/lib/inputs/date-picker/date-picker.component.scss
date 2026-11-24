@@ -1,0 +1,28 @@
+@use '../../theming/tokens' as mtr;
+@use '../../theming/field';
+
+@include mtr.theme;
+
+:host {
+  display: inline-block;
+  vertical-align: top;
+  width: var(--mtr-field-width, 14rem);
+  max-width: 100%;
+}
+
+.mtr-input {
+  @include field.input-element;
+}
+
+@include field.validation-message;
+@include field.popup;
+
+.mtr-popup {
+  width: max-content;
+}
+
+@media (max-width: 420px) {
+  .mtr-popup {
+    width: calc(100vw - 16px);
+  }
+}

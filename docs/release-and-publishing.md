@@ -1,58 +1,60 @@
 # Release and publishing
 
-The published artifact is the output of `ng build` in `dist/chronora`: an Angular Package Format package named **`@chronora/angular`** with three entry points.
+The published artifact is the output of `npm run build` in `dist/momentra`: an Angular Package Format package named **`@momentra/angular`** with three entry points.
 
 | Import | Entry |
 | --- | --- |
-| `@chronora/angular` | primary |
-| `@chronora/angular/date-fns` | optional (needs `date-fns@^4`) |
-| `@chronora/angular/luxon` | optional (needs `luxon@^3`) |
+| `@momentra/angular` | primary |
+| `@momentra/angular/date-fns` | optional (needs `date-fns@^4`) |
+| `@momentra/angular/luxon` | optional (needs `luxon@^3`) |
 
-The build uses `@angular/build:library` in `partial` compilation mode (the default for the production configuration), so consumers' Angular compiler links the components. Secondary entry points are declared in `projects/chronora/package.json` → `exports`.
+The build uses `@angular/build:library` in `partial` compilation mode (the default for the production configuration), so consumers' Angular compiler links the components. Secondary entry points are declared in `projects/momentra/package.json` → `exports`. After the build, `scripts/build-llms.mjs --copy` adds `LICENSE`, `llms.txt` and `llms-full.txt` to the package, so coding agents in consumer projects find the docs in `node_modules/@momentra/angular/`.
 
 ## Package metadata checklist
 
-`projects/chronora/package.json` is the source of the published manifest:
+`projects/momentra/package.json` is the source of the published manifest:
 
-- `name: @chronora/angular`, `version`, `description`, `keywords`, `license: MIT`, `repository`.
+- `name: momentra`, `version`, `description`, `keywords`, `license: MIT`, `repository`, `bugs`, `homepage`, `publishConfig.access: public`.
 - `peerDependencies`: `@angular/core`, `@angular/common`, `@angular/forms`, `@angular/cdk` (all `^22.3.0`); `date-fns` and `luxon` with `peerDependenciesMeta.optional: true`.
 - `dependencies`: only `tslib`.
 - `sideEffects: false`.
-- `LICENSE` and `README.md` are copied into the package.
 
-Before the first publish replace the placeholder `repository.url` with the real repository URL, and create the `@chronora` npm scope/organisation (or choose another scope and rename everywhere — `grep -r "@chronora/angular"`).
+`npm run pack:lib` builds and writes the tarball to `dist/`. `npm pack ./dist/momentra --dry-run` should list only `package.json`, `README.md`, `LICENSE`, `llms.txt`, `llms-full.txt`, `fesm2022/` and `types/` (14 files, ≈170 kB packed for 0.1.0-alpha.0). There must be no `src`, spec files or `examples`.
 
-## Release procedure
+## Releasing (GitHub Actions, trusted publishing)
 
-1. **Update the version** in `projects/chronora/package.json` (semver: breaking public API → major; features → minor; fixes → patch; while `0.x`, breaking changes bump the minor).
+Releases run from the **Release** workflow (`.github/workflows/release.yml`). It publishes with npm [trusted publishing](https://docs.npmjs.com/trusted-publishers) (OIDC) and provenance, so no npm token is stored in the repository. Versions with a pre-release suffix (`-alpha.1`, `-rc.0`) go to the `next` dist-tag; the rest go to `latest`.
+
+1. **Bump the version** in `projects/momentra/package.json` (semver: breaking public API → major; features → minor; fixes → patch; while `0.x`, breaking changes bump the minor).
 2. **Update `CHANGELOG.md`**: move *Unreleased* entries under the new version and date.
-3. **Verify everything:**
+3. **Merge to `main`**, then tag that commit: `git tag vX.Y.Z && git push origin vX.Y.Z`.
+4. **Run the workflow from the tag**: `gh workflow run release.yml --ref vX.Y.Z`. It refuses to publish if the tag does not match the package version, then runs `npm run check`, `test:tz` and `check:contrast` before `npm publish`.
+5. **Create the GitHub release** from the tag with the changelog entry, and smoke test: `npm i @momentra/angular@<version>` in a fresh app (what `npm run verify:package` does with the local tarball).
+
+Before a release that changes public API, packaging or styles, also run `npm run verify:package` locally (pack → fresh Angular app → install → build).
+
+## First publish (one time)
+
+Trusted publishing is configured in the package's settings on npmjs.com, so the package has to exist first. The first version is published by hand:
+
+1. On npmjs.com, create the free organization **momentra** (avatar → **Add an Organization**, public packages only). The GitHub repository stays under your personal account; npm organizations are independent of GitHub.
+2. `npm login` (with 2FA) as a member of the `momentra` organization.
+3. Build and publish from the build output — never from the workspace root, which is `private`:
    ```bash
    npm ci
-   npm run check          # tests, examples, build
-   npm run test:tz        # time zones
-   npm run check:contrast
-   npm run verify:package # pack → fresh Angular app → install → build
+   npm run check
+   cd dist/momentra
+   npm publish --access public --tag next
    ```
-4. **Inspect the tarball** — `npm pack ./dist/chronora --dry-run` should list only `package.json`, `README.md`, `LICENSE`, `fesm2022/` and `types/` (12 files, ≈120 kB packed for 0.1.0). There must be no `src`, spec files, or `examples`.
-5. **Publish** from the build output (never from the workspace root, which is `private`):
-   ```bash
-   cd dist/chronora
-   npm publish --access public            # add --tag next for pre-releases
-   ```
-   Enable npm provenance (`--provenance`) when publishing from CI.
-6. **Tag and push:** `git tag v0.1.0 && git push --tags`; create release notes from the changelog.
-7. **Smoke test the published package** by installing it into a fresh app (`npm i @chronora/angular@<version>`), as `verify:package` does with the tarball.
+4. On npmjs.com → **@momentra/angular** → **Settings** → **Trusted publishing**, add GitHub Actions with organization/user `oscarandrespabonestrella` (your personal GitHub account), repository `momentra`, workflow `release.yml`, and allow **npm publish** (configurations created after 3 Sep 2026 only allow `npm stage publish` unless you tick it).
+5. A new trusted publisher configuration expires if it is not used for a successful publish within **2 days**. Add it right before the next release, or delete and recreate it if it expired.
+6. Optionally, in **Settings** → **Publishing access**, require 2FA and disallow tokens, so only the workflow can publish.
 
 ## Compatibility policy
 
-- Chronora `0.x` supports Angular `^22.3.0`. When a new Angular major ships, widen the peer range only after running the test suite and `verify:package` against it.
-- Public API = everything exported from `public-api.ts` of each entry point, the `chr-*` selectors, their inputs/outputs, the `--chr-*` CSS custom properties and the error keys (`chr*`). Internal class names in styles and DOM structure are not public.
+- Momentra `0.x` supports Angular `^22.3.0`. When a new Angular major ships, widen the peer range only after running the test suite and `verify:package` against it.
+- Public API = everything exported from `public-api.ts` of each entry point, the `mtr-*` selectors, their inputs/outputs, the `--mtr-*` CSS custom properties and the error keys (`mtr*`). Internal class names in styles and DOM structure are not public.
 
-## Suggested CI
+## Continuous integration
 
-Run on every push/PR: `npm ci && npm run check && npm run test:tz && npm run check:contrast`. Run `npm run verify:package` on release branches. Publish from a tag build with provenance.
-
-## Status of this repository
-
-At the time of writing nothing has been published to npm, no git history exists in this workspace, and no CI configuration is included. The steps above are the intended process, not a record of a past release.
+`.github/workflows/ci.yml` runs on every push to `main` and every pull request: `npm run check` (tests, examples, library build), `test:tz`, `check:contrast`, packs the library (uploaded as the `momentra-package` artifact) and builds the docs app.

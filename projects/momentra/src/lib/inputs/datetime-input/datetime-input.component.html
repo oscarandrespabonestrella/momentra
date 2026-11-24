@@ -1,0 +1,48 @@
+<mtr-field
+  [theme]="effectiveTheme()"
+  [invalid]="invalid()"
+  [disabled]="isDisabled()"
+  [readonly]="readonly()"
+  [showClear]="clearVisible()"
+  [clearLabel]="labels().clear"
+  [inputId]="fieldId()"
+  (clear)="clear()"
+>
+  <input
+    #field
+    class="mtr-input"
+    type="text"
+    autocomplete="off"
+    inputmode="numeric"
+    [id]="fieldId()"
+    [value]="text()"
+    [placeholder]="placeholderText()"
+    [disabled]="isDisabled()"
+    [readOnly]="readonly()"
+    [required]="required()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-labelledby]="ariaLabelledby()"
+    [attr.aria-invalid]="invalid() ? 'true' : null"
+    [attr.aria-describedby]="errorMessageList().length ? errorsId : null"
+    (input)="onInput(field.value)"
+    (keydown)="onKeydown($event)"
+    (blur)="onBlur()"
+  />
+  @if (spinners()) {
+    <div class="mtr-spinners">
+      <button type="button" class="mtr-spin" tabindex="-1" (mousedown)="$event.preventDefault()" [attr.aria-label]="labels().increase" [disabled]="!isInteractive()" (click)="spin(1)">
+        <svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="m2 6.5 3-3 3 3" /></svg>
+      </button>
+      <button type="button" class="mtr-spin" tabindex="-1" (mousedown)="$event.preventDefault()" [attr.aria-label]="labels().decrease" [disabled]="!isInteractive()" (click)="spin(-1)">
+        <svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="m2 3.5 3 3 3-3" /></svg>
+      </button>
+    </div>
+  }
+</mtr-field>
+@if (errorMessageList().length) {
+  <div class="mtr-errors" role="alert" [id]="errorsId">
+    @for (message of errorMessageList(); track $index) {
+      <p>{{ message }}</p>
+    }
+  </div>
+}

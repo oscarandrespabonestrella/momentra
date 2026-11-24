@@ -1,0 +1,89 @@
+@use '../../theming/tokens' as mtr;
+@use '../../theming/field';
+
+@include mtr.theme;
+
+:host {
+  display: inline-block;
+  vertical-align: top;
+  width: var(--mtr-field-width, 18rem);
+  max-width: 100%;
+}
+
+.mtr-input {
+  @include field.input-element;
+}
+
+@include field.validation-message;
+@include field.popup;
+@include field.popup-footer;
+
+.mtr-popup {
+  width: max-content;
+}
+
+.mtr-popup-body {
+  display: flex;
+  align-items: stretch;
+}
+
+.mtr-popup-time {
+  border-left: 1px solid var(--_mtr-border);
+}
+
+// layout="tabs": segmented Date / Time control.
+.mtr-popup-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  margin: 12px 12px 0;
+  padding: 3px;
+  background: var(--_mtr-surface-alt);
+  border: 1px solid var(--_mtr-border);
+  border-radius: 10px;
+}
+
+.mtr-tab {
+  @include mtr.reset-button;
+  height: 32px;
+  border-radius: var(--_mtr-radius);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--_mtr-text-muted);
+
+  &[aria-selected='true'] {
+    background: var(--_mtr-surface);
+    box-shadow: var(--_mtr-shadow-sm);
+    font-weight: 600;
+    color: var(--_mtr-text);
+  }
+
+  &:hover:not([aria-selected='true']) {
+    background: var(--_mtr-surface-hover);
+  }
+
+  &:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 3px var(--_mtr-ring);
+  }
+}
+
+.mtr-popup-body-tabs {
+  justify-content: center;
+}
+
+// Narrow screens: stack the calendar above the time lists and use the full width.
+@media (max-width: 560px) {
+  .mtr-popup {
+    width: calc(100vw - 16px);
+  }
+
+  .mtr-popup-body {
+    flex-direction: column;
+  }
+
+  .mtr-popup-time {
+    border-left: 0;
+    border-top: 1px solid var(--_mtr-border);
+  }
+}

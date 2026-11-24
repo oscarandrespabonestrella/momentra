@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Computes WCAG 2.x contrast ratios for the default light and dark palettes
- * (projects/chronora/src/lib/theming/_tokens.scss). Run: `npm run check:contrast`.
+ * (projects/momentra/src/lib/theming/_tokens.scss). Run: `npm run check:contrast`.
  * Text needs >= 4.5:1 (AA); UI components and focus indicators need >= 3:1.
  */
 const light = {

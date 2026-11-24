@@ -1,19 +1,19 @@
 # Localization
 
-Nothing user-visible is hard-coded in components: month and weekday names, default formats, the first day of the week, the AM/PM labels, every button label and ARIA label, and validation messages all come from a `ChronoraLocale`.
+Nothing user-visible is hard-coded in components: month and weekday names, default formats, the first day of the week, the AM/PM labels, every button label and ARIA label, and validation messages all come from a `MomentraLocale`.
 
 ## Choosing a locale
 
 ```ts
-provideChronora({ locale: 'es-ES' });                 // global
+provideMomentra({ locale: 'es-ES' });                 // global
 ```
 
 ```html
-<chr-date-picker locale="de-DE" />                    <!-- per component -->
-<chr-date-picker [locale]="myLocale" />               <!-- or a locale object -->
+<mtr-date-picker locale="de-DE" />                    <!-- per component -->
+<mtr-date-picker [locale]="myLocale" />               <!-- or a locale object -->
 ```
 
-A locale code is resolved in this order: locales registered with `provideChronora({ locales })` → built-in `en-US` and `es-ES` → derived from `Intl` for any other tag.
+A locale code is resolved in this order: locales registered with `provideMomentra({ locales })` → built-in `en-US` and `es-ES` → derived from `Intl` for any other tag.
 
 ### What `Intl`-derived locales provide
 
@@ -22,17 +22,17 @@ A locale code is resolved in this order: locales registered with `provideChronor
 ## Defining a locale
 
 ```ts
-import { EN_LABELS, createLocale, provideChronora } from '@chronora/angular';
+import { EN_LABELS, createLocale, provideMomentra } from '@momentra/angular';
 
 export const PORTUGUESE = createLocale('pt-BR', {
   firstDayOfWeek: 0,
   labels: { ...EN_LABELS, today: 'Hoje', clear: 'Limpar', done: 'Concluir' },
 });
 
-provideChronora({ locale: 'pt-BR', locales: [PORTUGUESE] });
+provideMomentra({ locale: 'pt-BR', locales: [PORTUGUESE] });
 ```
 
-`createLocale(code, overrides)` returns a complete `ChronoraLocale`; you can also write the object by hand. Fields:
+`createLocale(code, overrides)` returns a complete `MomentraLocale`; you can also write the object by hand. Fields:
 
 | Field | Description |
 | --- | --- |
@@ -44,18 +44,18 @@ provideChronora({ locale: 'pt-BR', locales: [PORTUGUESE] });
 | `dateFormat`, `timeFormat`, `dateTimeFormat` | default [patterns](date-adapters.md#format-patterns) |
 | `monthYearFormat` | calendar header, default `MMMM yyyy` |
 | `longDateFormat` | text announced for each day cell, e.g. `EEEE, MMMM d, yyyy` |
-| `labels` | `ChronoraLabels`: `today`, `clear`, `done`, `now`, `openCalendar`, `previousMonth`, `hours`, … |
-| `validationMessages` | `ChronoraValidationMessages` templates |
+| `labels` | `MomentraLabels`: `today`, `clear`, `done`, `now`, `openCalendar`, `previousMonth`, `hours`, … |
+| `validationMessages` | `MomentraValidationMessages` templates |
 
-`ES_ES_LOCALE` (with Spanish labels and messages, Monday-first) is exported as a complete reference. With date-fns, `chronoraLocaleFromDateFns(code, dateFnsLocale)` builds names and formats from a date-fns locale.
+`ES_ES_LOCALE` (with Spanish labels and messages, Monday-first) is exported as a complete reference. With date-fns, `momentraLocaleFromDateFns(code, dateFnsLocale)` builds names and formats from a date-fns locale.
 
 ## Overriding formats and week start
 
-Precedence (highest first): component input (`format`, `dateFormat`, `timeFormat`, `firstDayOfWeek`, `locale`) → global `provideChronora` option → locale. A global or component `dateFormat` also feeds the date-time pattern (`<dateFormat> <timeFormat>`) unless `dateTimeFormat`/`format` is set explicitly.
+Precedence (highest first): component input (`format`, `dateFormat`, `timeFormat`, `firstDayOfWeek`, `locale`) → global `provideMomentra` option → locale. A global or component `dateFormat` also feeds the date-time pattern (`<dateFormat> <timeFormat>`) unless `dateTimeFormat`/`format` is set explicitly.
 
 ```html
-<chr-date-picker format="dd 'de' MMMM 'de' yyyy" locale="es-ES" />
-<chr-datetime-picker dateFormat="yyyy-MM-dd" hourFormat="24" />
+<mtr-date-picker format="dd 'de' MMMM 'de' yyyy" locale="es-ES" />
+<mtr-datetime-picker dateFormat="yyyy-MM-dd" hourFormat="24" />
 ```
 
 ## Parsing

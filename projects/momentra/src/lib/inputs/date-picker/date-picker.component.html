@@ -1,0 +1,83 @@
+<mtr-field
+  [theme]="effectiveTheme()"
+  [invalid]="invalid()"
+  [disabled]="isDisabled()"
+  [readonly]="readonly()"
+  [showClear]="clearVisible()"
+  [clearLabel]="labels().clear"
+  [inputId]="fieldId()"
+  toggleIcon="calendar"
+  [toggleLabel]="open() ? labels().closeCalendar : labels().openCalendar"
+  [expanded]="open()"
+  [popupId]="popupId"
+  (clear)="clear()"
+  (toggle)="togglePopup()"
+>
+  <input
+    #field
+    class="mtr-input"
+    type="text"
+    role="combobox"
+    autocomplete="off"
+    aria-haspopup="dialog"
+    aria-autocomplete="none"
+    [id]="fieldId()"
+    [value]="text()"
+    [placeholder]="placeholderText()"
+    [disabled]="isDisabled()"
+    [readOnly]="readonly()"
+    [required]="required()"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="open() ? popupId : null"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-labelledby]="ariaLabelledby()"
+    [attr.aria-invalid]="invalid() ? 'true' : null"
+    [attr.aria-describedby]="errorMessageList().length ? errorsId : null"
+    (input)="onInput(field.value)"
+    (keydown)="onKeydown($event)"
+    (blur)="onBlur()"
+  />
+</mtr-field>
+@if (errorMessageList().length) {
+  <div class="mtr-errors" role="alert" [id]="errorsId">
+    @for (message of errorMessageList(); track $index) {
+      <p>{{ message }}</p>
+    }
+  </div>
+}
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="shell().element"
+  [cdkConnectedOverlayOpen]="open()"
+  [cdkConnectedOverlayPositions]="positions"
+  [cdkConnectedOverlayPush]="true"
+  [cdkConnectedOverlayViewportMargin]="8"
+  (overlayOutsideClick)="onOutsideClick($event)"
+  (overlayKeydown)="onOverlayKeydown($event)"
+  (attach)="onAttach()"
+  (detach)="onDetach()"
+>
+  <div
+    class="mtr-popup"
+    role="dialog"
+    aria-modal="true"
+    cdkTrapFocus
+    [id]="popupId"
+    [attr.aria-label]="labels().calendar"
+    [attr.data-mtr-theme]="effectiveTheme()"
+  >
+    <mtr-calendar
+      [value]="value()"
+      [initialDate]="calendarStart()"
+      [min]="min()"
+      [max]="max()"
+      [disabledDates]="disabledDates()"
+      [locale]="effectiveLocale()"
+      [theme]="effectiveTheme()"
+      [cellTemplate]="cellTemplate()"
+      [showToday]="showToday()"
+      (dateSelect)="onCalendarSelect($event)"
+    />
+  </div>
+</ng-template>

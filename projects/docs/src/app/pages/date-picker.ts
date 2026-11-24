@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DatePickerComponent } from '@chronora/angular';
+import { DatePickerComponent } from '@momentra/angular';
 import { Api, COMMON } from '../api';
 import { Demo } from '../demo';
 
@@ -12,13 +12,13 @@ import { Demo } from '../demo';
 
     <h2>Basic</h2>
     <doc-demo [code]="basic">
-      <chr-date-picker ariaLabel="Date" [(value)]="value" />
+      <mtr-date-picker ariaLabel="Date" [(value)]="value" />
       <span output>Value: {{ value() ?? 'null' }}</span>
     </doc-demo>
 
     <h2>Options</h2>
     <doc-demo [code]="options">
-      <chr-date-picker ariaLabel="Configurable" [(value)]="value" [showToday]="today" [closeOnSelect]="close" [disabled]="disabled" [readonly]="readonly" [showClear]="clear" />
+      <mtr-date-picker ariaLabel="Configurable" [(value)]="value" [showToday]="today" [closeOnSelect]="close" [disabled]="disabled" [readonly]="readonly" [showClear]="clear" />
       <div options>
         <label class="opt"><input type="checkbox" [(ngModel)]="today" /> showToday</label>
         <label class="opt"><input type="checkbox" [(ngModel)]="close" /> closeOnSelect</label>
@@ -30,12 +30,12 @@ import { Demo } from '../demo';
 
     <h2>Disabled dates (weekends) and bounds</h2>
     <doc-demo [code]="disabledCode">
-      <chr-date-picker ariaLabel="Weekdays this month" [min]="monthStart" [max]="monthEnd" [disabledDates]="weekends" />
+      <mtr-date-picker ariaLabel="Weekdays this month" [min]="monthStart" [max]="monthEnd" [disabledDates]="weekends" />
     </doc-demo>
 
     <h2>Custom cell template</h2>
     <doc-demo [code]="cellCode">
-      <chr-date-picker ariaLabel="With markers" [cellTemplate]="cell" />
+      <mtr-date-picker ariaLabel="With markers" [cellTemplate]="cell" />
       <ng-template #cell let-ctx>
         <span [title]="ctx.$implicit.ariaLabel">{{ ctx.$implicit.label }}{{ ctx.$implicit.date.getDate() === 15 ? '★' : '' }}</span>
       </ng-template>
@@ -43,7 +43,7 @@ import { Demo } from '../demo';
 
     <h2>Open state and events</h2>
     <doc-demo [code]="eventsCode">
-      <chr-date-picker ariaLabel="Events" [(open)]="open" (opened)="log('opened')" (closed)="log('closed')" />
+      <mtr-date-picker ariaLabel="Events" [(open)]="open" (opened)="log('opened')" (closed)="log('closed')" />
       <div output>open = {{ open() }} · last event: {{ last() }}</div>
     </doc-demo>
 
@@ -61,12 +61,12 @@ export class DatePickerPage {
   readonly weekends = (d: Date) => d.getDay() === 0 || d.getDay() === 6;
   log(e: string): void { this.last.set(e); }
 
-  readonly basic = `<chr-date-picker ariaLabel="Date" [(value)]="value" />`;
-  readonly options = `<chr-date-picker [showToday]="..." [closeOnSelect]="..." [showClear]="..." [disabled]="..." [readonly]="..." />`;
-  readonly disabledCode = `<chr-date-picker [min]="start" [max]="end" [disabledDates]="d => d.getDay() % 6 === 0" />`;
-  readonly cellCode = `<chr-date-picker [cellTemplate]="cell" />
+  readonly basic = `<mtr-date-picker ariaLabel="Date" [(value)]="value" />`;
+  readonly options = `<mtr-date-picker [showToday]="..." [closeOnSelect]="..." [showClear]="..." [disabled]="..." [readonly]="..." />`;
+  readonly disabledCode = `<mtr-date-picker [min]="start" [max]="end" [disabledDates]="d => d.getDay() % 6 === 0" />`;
+  readonly cellCode = `<mtr-date-picker [cellTemplate]="cell" />
 <ng-template #cell let-ctx>{{ ctx.$implicit.label }}</ng-template>`;
-  readonly eventsCode = `<chr-date-picker [(open)]="open" (opened)="..." (closed)="..." />`;
+  readonly eventsCode = `<mtr-date-picker [(open)]="open" (opened)="..." (closed)="..." />`;
   readonly api = [
     ['value (model)', 'TDate | null', 'Selected date.'],
     ['open (model)', 'boolean', 'Popup state.'],
@@ -75,7 +75,7 @@ export class DatePickerPage {
     ['disabledDates', '(d) => boolean | TDate[]', 'Unselectable days.'],
     ['showToday / closeOnSelect / showClear', 'boolean', 'Behaviour toggles (default true).'],
     ['initialDate', 'TDate', 'Month shown when empty.'],
-    ['cellTemplate', 'TemplateRef<ChrCellContext>', 'Custom day content.'],
+    ['cellTemplate', 'TemplateRef<MtrCellContext>', 'Custom day content.'],
     ['opened / closed', 'output', 'Popup events.'],
     ['openPopup() / closePopup(restoreFocus?) / focusInput()', 'methods', 'Programmatic control.'],
     ...COMMON,

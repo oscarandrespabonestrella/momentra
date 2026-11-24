@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { DateTimePickerComponent } from '@chronora/angular';
+import { DateTimePickerComponent } from '@momentra/angular';
 import { Api, COMMON } from '../api';
 import { Demo } from '../demo';
 
@@ -11,24 +11,24 @@ import { Demo } from '../demo';
 
     <h2>Basic</h2>
     <doc-demo [code]="basic">
-      <chr-datetime-picker ariaLabel="Appointment" [(value)]="value" />
+      <mtr-datetime-picker ariaLabel="Appointment" [(value)]="value" />
       <span output>Value: {{ value()?.toLocaleString() ?? 'null' }}</span>
     </doc-demo>
 
     <h2>Custom format and steps</h2>
     <doc-demo [code]="fmt">
-      <chr-datetime-picker ariaLabel="24h" format="yyyy-MM-dd HH:mm" [hourFormat]="24" [minuteStep]="30" />
+      <mtr-datetime-picker ariaLabel="24h" format="yyyy-MM-dd HH:mm" [hourFormat]="24" [minuteStep]="30" />
     </doc-demo>
 
     <h2>Tabbed layout</h2>
-    <p><code>layout="tabs"</code> shows a Date tab (infinite calendar) and a Time tab. Picking a date moves to Time; <em>Set</em> stays disabled until a time is chosen and <em>Cancel</em> restores the previous value. Tab color: <code>--chr-tab-active-color</code>.</p>
+    <p><code>layout="tabs"</code> shows a Date tab (infinite calendar) and a Time tab. Picking a date moves to Time; <em>Set</em> stays disabled until a time is chosen and <em>Cancel</em> restores the previous value. Tab color: <code>--mtr-tab-active-color</code>.</p>
     <doc-demo [code]="tabs">
-      <chr-datetime-picker ariaLabel="Tabbed" layout="tabs" />
+      <mtr-datetime-picker ariaLabel="Tabbed" layout="tabs" />
     </doc-demo>
 
     <h2>Min / max (next 7 days)</h2>
     <doc-demo [code]="bounds">
-      <chr-datetime-picker ariaLabel="Bounded" [min]="now" [max]="week" />
+      <mtr-datetime-picker ariaLabel="Bounded" [min]="now" [max]="week" />
     </doc-demo>
 
     <h2>API</h2>
@@ -39,10 +39,10 @@ export class DateTimePickerPage {
   readonly value = signal<Date | null>(null);
   readonly now = new Date();
   readonly week = new Date(Date.now() + 7 * 864e5);
-  readonly basic = `<chr-datetime-picker ariaLabel="Appointment" [(value)]="value" />`;
-  readonly fmt = `<chr-datetime-picker format="yyyy-MM-dd HH:mm" [hourFormat]="24" [minuteStep]="30" />`;
-  readonly tabs = `<chr-datetime-picker layout="tabs" />`;
-  readonly bounds = `<chr-datetime-picker [min]="now" [max]="week" />`;
+  readonly basic = `<mtr-datetime-picker ariaLabel="Appointment" [(value)]="value" />`;
+  readonly fmt = `<mtr-datetime-picker format="yyyy-MM-dd HH:mm" [hourFormat]="24" [minuteStep]="30" />`;
+  readonly tabs = `<mtr-datetime-picker layout="tabs" />`;
+  readonly bounds = `<mtr-datetime-picker [min]="now" [max]="week" />`;
   readonly api = [
     ['value (model)', 'TDate | null', 'Local date-time.'],
     ['layout', "'split'|'tabs'", 'Side by side (default) or Date / Time tabs.'],

@@ -1,12 +1,12 @@
 # Date adapters
 
-Chronora never touches a concrete date type. Every component injects `CHRONORA_DATE_ADAPTER` (a `DateAdapter<TDate>`) and the value type of the controls is that adapter's `TDate`.
+Momentra never touches a concrete date type. Every component injects `MOMENTRA_DATE_ADAPTER` (a `DateAdapter<TDate>`) and the value type of the controls is that adapter's `TDate`.
 
 | Adapter | Import | `TDate` | Notes |
 | --- | --- | --- | --- |
-| `NativeDateAdapter` | `@chronora/angular` | `Date` | **Default.** Local time zone. |
-| `DateFnsDateAdapter` | `@chronora/angular/date-fns` | `Date` | Arithmetic, boundaries and comparisons via date-fns; strings parsed with `parseISO`. Requires `date-fns@^4`. |
-| `LuxonDateAdapter` | `@chronora/angular/luxon` | `DateTime` | Optional fixed IANA zone. Requires `luxon@^3`. |
+| `NativeDateAdapter` | `@momentra/angular` | `Date` | **Default.** Local time zone. |
+| `DateFnsDateAdapter` | `@momentra/angular/date-fns` | `Date` | Arithmetic, boundaries and comparisons via date-fns; strings parsed with `parseISO`. Requires `date-fns@^4`. |
+| `LuxonDateAdapter` | `@momentra/angular/luxon` | `DateTime` | Optional fixed IANA zone. Requires `luxon@^3`. |
 
 `date-fns` and `luxon` are *optional peer dependencies*: you only need them if you import those entry points.
 
@@ -14,18 +14,18 @@ Chronora never touches a concrete date type. Every component injects `CHRONORA_D
 
 ```ts
 // native Date (default): nothing to configure
-provideChronora({ locale: 'en-US' });
+provideMomentra({ locale: 'en-US' });
 
 // date-fns
-import { provideChronoraDateFns } from '@chronora/angular/date-fns';
-provideChronoraDateFns({ locale: 'en-GB' });
+import { provideMomentraDateFns } from '@momentra/angular/date-fns';
+provideMomentraDateFns({ locale: 'en-GB' });
 
 // Luxon, in a fixed zone
-import { provideChronoraLuxon } from '@chronora/angular/luxon';
-provideChronoraLuxon({ locale: 'es-ES' }, { zone: 'Europe/Madrid' });
+import { provideMomentraLuxon } from '@momentra/angular/luxon';
+provideMomentraLuxon({ locale: 'es-ES' }, { zone: 'Europe/Madrid' });
 
 // any adapter class
-provideChronora({ dateAdapter: MyAdapter });
+provideMomentra({ dateAdapter: MyAdapter });
 ```
 
 Components are generic over the date type (`DatePickerComponent<TDate = Date>`), so with Luxon `FormControl<DateTime | null>` type-checks (see `examples/luxon-adapter.ts`).
@@ -33,14 +33,14 @@ Components are generic over the date type (`DatePickerComponent<TDate = Date>`),
 ### date-fns locales
 
 ```ts
-import { chronoraLocaleFromDateFns, provideChronoraDateFns } from '@chronora/angular/date-fns';
+import { momentraLocaleFromDateFns, provideMomentraDateFns } from '@momentra/angular/date-fns';
 import { fr } from 'date-fns/locale';
 
-const french = chronoraLocaleFromDateFns('fr-FR', fr);
-provideChronoraDateFns({ locale: french, locales: [french] });
+const french = momentraLocaleFromDateFns('fr-FR', fr);
+provideMomentraDateFns({ locale: french, locales: [french] });
 ```
 
-`chronoraLocaleFromDateFns` takes month/weekday names, the first day of the week and the short date/time formats from the date-fns locale; UI strings stay English unless you pass `labels` in the third argument.
+`momentraLocaleFromDateFns` takes month/weekday names, the first day of the week and the short date/time formats from the date-fns locale; UI strings stay English unless you pass `labels` in the third argument.
 
 ### Luxon zones
 
@@ -85,14 +85,14 @@ Patterns are the same for every adapter and use date-fns-style letters:
 | `a` | AM/PM (locale's `meridiem`) | `PM` |
 | `'text'` | literal (`''` is a quote) | `'at'` |
 
-Other letters throw a `ChronoraPatternError`. When parsing, `yyyy` requires four digits, `yy` expands with a 70-year pivot (`70`–`99` → 19xx, `00`–`69` → 20xx), single-letter numeric tokens accept one or two digits, and adjacent numeric tokens (`yyyyMMdd`) use fixed widths.
+Other letters throw a `MomentraPatternError`. When parsing, `yyyy` requires four digits, `yy` expands with a 70-year pivot (`70`–`99` → 19xx, `00`–`69` → 20xx), single-letter numeric tokens accept one or two digits, and adjacent numeric tokens (`yyyyMMdd`) use fixed widths.
 
 ## Writing your own adapter
 
 Extend `DateAdapter<TDate>` and implement the abstract members:
 
 ```ts
-import { DateAdapter } from '@chronora/angular';
+import { DateAdapter } from '@momentra/angular';
 
 export class MyAdapter extends DateAdapter<MyDate> {
   now() { … }
@@ -108,4 +108,4 @@ export class MyAdapter extends DateAdapter<MyDate> {
 }
 ```
 
-Override derived methods only where your library does them better (as `DateFnsDateAdapter` does for boundaries). To prove compatibility, run the shared contract against it in your own tests — it is `describeAdapterContract(name, () => new MyAdapter())` in `projects/chronora/src/lib/testing/adapter-contract.ts` (it is not part of the published package; copy it into your tests).
+Override derived methods only where your library does them better (as `DateFnsDateAdapter` does for boundaries). To prove compatibility, run the shared contract against it in your own tests — it is `describeAdapterContract(name, () => new MyAdapter())` in `projects/momentra/src/lib/testing/adapter-contract.ts` (it is not part of the published package; copy it into your tests).

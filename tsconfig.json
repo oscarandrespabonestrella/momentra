@@ -7,7 +7,7 @@
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@chronora/angular": ["./projects/chronora/src/public-api.ts"]
+      "@momentra/angular": ["./projects/momentra/src/public-api.ts"]
     },
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -29,10 +29,10 @@
   "files": [],
   "references": [
     {
-      "path": "./projects/chronora/tsconfig.lib.json"
+      "path": "./projects/momentra/tsconfig.lib.json"
     },
     {
-      "path": "./projects/chronora/tsconfig.spec.json"
+      "path": "./projects/momentra/tsconfig.spec.json"
     },
     {
       "path": "./projects/docs/tsconfig.app.json"
